@@ -1,0 +1,32 @@
+.maindiv {
+  padding: 10px;
+  background-color: rgb(243, 241, 240);
+  margin-top: 10px;
+}
+.Productcard {
+  display: flex;
+}
+.imageCont {
+  width: 40%;
+  /* margin: auto; */
+}
+.Heading {
+  font-size: 25px;
+  font-weight: 600;
+  text-align: left;
+
+}
+.text{
+    text-align: left;
+
+}
+.info {
+  margin-top: 30px;
+  text-align: left;
+  font-size: 19px;
+}
+.infotext {
+  margin-top: 5px;
+  text-align: left;
+  font-size: 19px;
+}

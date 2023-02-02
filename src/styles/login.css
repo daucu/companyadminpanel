@@ -1,0 +1,13 @@
+/* Mobile size */
+@media (max-width: 768px) {
+  .bg-image {
+    display: none;
+  }
+}
+
+/* Tab size */
+@media (max-width: 800px) {
+  .bg-image {
+    display: none;
+  }
+}

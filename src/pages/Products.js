@@ -408,6 +408,7 @@ export default function Products() {
   const [rows, setProducts] = React.useState([]);
 
   // Set Featured Image
+  // Set Featured Image
   const featuredImageHandleChange = (e) => {
     if (e.target.files) {
       // const FeaturedImage_ = Array.from(e.target.files).map((file) =>

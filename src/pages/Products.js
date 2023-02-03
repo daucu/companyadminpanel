@@ -393,7 +393,7 @@ export default function Products() {
   const [featuredImage, setFeaturedImage] = React.useState("");
   const [featuredImageFront, setFeaturedImageFront] = React.useState("");
   const [regularPrice, setRegularPrice] = React.useState("");
-  const [ Price, setSalePrice] = React.useState("");
+  const [Price, setSalePrice] = React.useState("");
   const [reviews, setReviews] = React.useState(false);
   const [comments, setComments] = React.useState(false);
   const [isprivate, setPrivate] = React.useState(false);

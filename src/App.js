@@ -36,6 +36,7 @@ import ViewMedia from "./pages/ViewMedia";
 import Withdraw from "./pages/Withdraw";
 import ViewProduct from "./pages/ViewProduct";
 import UpdateProduct from "./pages/UpdateProduct";
+import Loading from "./pages/Loading";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -44,20 +45,51 @@ function App() {
   const navigate = useNavigate();
 
   //Check login
-  async function checkLogin() {
+  // async function checkLogin() {
+  //   await axios
+  //     .post(`${process.env.REACT_APP_BACKEND_URL}/login/checktoken`, {
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => {
+  //       console.log(res);
+  //       // if (res.data.islogin !== true) {
+  //       //   console.log("Not logged in");
+  //       //   // navigate("/login");
+  //       // }
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //       // console.log(e.response.data);
+  //       // navigate("/login");
+  //     });
+  // }
+  const [loadingif, setLoadingif] = React.useState(true);
+  const checkLogin = async () => {
+    setLoadingif(true);
     await axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/login/check`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/login/checktoken`, {
+        withCredentials: true,
+      })
       .then((res) => {
-        // console.log(res);
-        if (res.data.islogin !== true) {
-          navigate("/login");
+        setLoadingif(false);
+        console.log(res);
+        console.log(res.data.islogin);
+        if (res.data.islogin === true) {
+          navigate("/admin");
+        } else {
+          // setTimeout(() => {
+          //   navigate("/login");
+          // }, [2000]);
         }
       })
       .catch((e) => {
         console.log(e);
-        navigate("/login");
+        setLoadingif(false);
+        // setTimeout(() => {
+        //   navigate("/login");
+        // }, [2000]);
       });
-  }
+  };
 
   React.useEffect(() => {
     checkLogin();
@@ -65,82 +97,87 @@ function App() {
 
   return (
     <div className="App">
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/" element={<MiniDrawer />}>
-          <Route path="" element={<Dashboard />} />
+      {loadingif != false ? (
+        <Loading />
+      ) : (
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-          <Route path="/account" element={<Account />} />
-          <Route path="/new-account" element={<AddProduct />} />
+          <Route path="/admin" element={<MiniDrawer />}>
+            <Route path="" element={<Dashboard />} />
 
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/new-category" element={<NewCategory />} />
+            <Route path="account" element={<Account />} />
+            <Route path="new-account" element={<AddProduct />} />
 
-          <Route path="/products" element={<Products />} />
-          <Route path="/new-product" element={<AddProduct />} />
-          <Route path="/viewproduct/:slug" element={<ViewProduct />} />
-          <Route path="/update/:slug" element={<UpdateProduct />} />
+            <Route path="categories" element={<Categories />} />
+            <Route path="new-category" element={<NewCategory />} />
 
-          <Route path="/media" element={<Storage />} />
-          <Route path="/viewmedia" element={<ViewMedia />} />
-          <Route path="/withdraw" element={<Withdraw />} />
+            <Route path="products" element={<Products />} />
+            <Route path="new-product" element={<AddProduct />} />
+            <Route path="viewproduct/:slug" element={<ViewProduct />} />
+            <Route path="update/:slug" element={<UpdateProduct />} />
 
-          <Route path="/pages" element={<Pages />} />
-          <Route path="/new-page" element={<AddPage />} />
+            <Route path="media" element={<Storage />} />
+            <Route path="viewmedia" element={<ViewMedia />} />
+            <Route path="withdraw" element={<Withdraw />} />
 
-          <Route path="/tags" element={<Tags />} />
-          <Route path="/new-tag" element={<AddProduct />} />
+            <Route path="pages" element={<Pages />} />
+            <Route path="new-page" element={<AddPage />} />
 
-          <Route path="/users" element={<Users />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/support" element={<Support />} />
+            <Route path="tags" element={<Tags />} />
+            <Route path="new-tag" element={<AddProduct />} />
 
-          <Route path="/posts" element={<Posts />} />
-          <Route path="/new-post" element={<AddPost />} />
+            <Route path="users" element={<Users />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="support" element={<Support />} />
 
-          <Route path="/orders" element={<Posts />} />
+            <Route path="posts" element={<Posts />} />
+            <Route path="new-post" element={<AddPost />} />
 
-          <Route path="/invoice" element={<Invoice />} />
+            <Route path="orders" element={<Posts />} />
 
-          <Route path="/bids" element={<Bids />} />
+            <Route path="invoice" element={<Invoice />} />
 
-          <Route path="/info" element={<Info />} />
-          <Route path="/notifications" element={<Notifications />} />
+            <Route path="bids" element={<Bids />} />
 
-          <Route path="/auctions" element={<Auctions />} />
-          <Route path="/points" element={<Points />} />
+            <Route path="info" element={<Info />} />
+            <Route path="notifications" element={<Notifications />} />
 
-          <Route path="/services" element={<Services />} />
+            <Route path="auctions" element={<Auctions />} />
+            <Route path="points" element={<Points />} />
 
-          <Route path="/offers" element={<Offers />} />
+            <Route path="services" element={<Services />} />
 
-          <Route path="/companies" element={<Companies />} />
+            <Route path="offers" element={<Offers />} />
 
-          <Route path="/commission" element={<Commission />} />
+            <Route path="companies" element={<Companies />} />
 
-          <Route path="/classifications" element={<Classifications />} />
+            <Route path="commission" element={<Commission />} />
 
-          <Route path="/search" element={<Search />} />
+            <Route path="classifications" element={<Classifications />} />
 
-          {/* 404 page */}
-          <Route
-            path="*"
-            element={
-              <div
-                className="text-center"
-                style={{
-                  marginTop: "20%",
-                  color: "white",
-                }}
-              >
-                <h1 className="text-5xl font-bold">404</h1>
-                <p className="text-2xl">Page not found</p>
-              </div>
-            }
-          />
-        </Route>
-      </Routes>
+            <Route path="search" element={<Search />} />
+
+            {/* 404 page */}
+            <Route
+              path="*"
+              element={
+                <div
+                  className="text-center"
+                  style={{
+                    marginTop: "20%",
+                    color: "white",
+                  }}
+                >
+                  <h1 className="text-5xl font-bold">404</h1>
+                  <p className="text-2xl">Page not found</p>
+                </div>
+              }
+            />
+          </Route>
+        </Routes>
+      )}
     </div>
   );
 }

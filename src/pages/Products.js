@@ -250,7 +250,7 @@ const EnhancedTableToolbar = (props) => {
           <IconButton
             // sx={{ color: "#fff" }}
             // to={`./../view-product/${window.selected}`}
-            to={`/viewproduct/${window.selected}`}
+            to={`/admin/viewproduct/${window.selected}`}
             component={RouterLink}
           >
             <RemoveRedEyeTwoToneIcon />
@@ -266,7 +266,10 @@ const EnhancedTableToolbar = (props) => {
           title="Edit"
           // sx={{ color: "#fff" }}
         >
-          <IconButton to={`/update/${window.selected}`} component={RouterLink}>
+          <IconButton
+            to={`/admin/update/${window.selected}`}
+            component={RouterLink}
+          >
             <EditTwoToneIcon />
           </IconButton>
         </Tooltip>

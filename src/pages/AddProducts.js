@@ -46,7 +46,7 @@ export default function AddProduct() {
   const [description, setDescription] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [salePrice, setSalePrice] = React.useState("");
-  const [image, setImage] = React.useState("https://picsum.photos/200/300");
+  const [image, setImage] = React.useState("https://picsum.photos/600/600");
   const [vendor, setVendor] = React.useState("");
   const [status, setStatus] = React.useState("");
   const [category, setCategory] = React.useState("");

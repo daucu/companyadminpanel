@@ -328,14 +328,14 @@ export default function Login() {
         setOpen(true);
         //Redirect to home page if login is successful
         setTimeout(() => {
-          navigate("/");
+          navigate("/admin");
         }, [1000]);
         setIsLoading(false);
       })
       .catch((e) => {
         setErroralert(e.response.data.message);
         setErrorOpen(true);
-
+        
         setIsLoading(false);
         console.log(e);
       });

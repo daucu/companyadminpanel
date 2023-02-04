@@ -31,6 +31,8 @@ import KeyboardDoubleArrowLeftTwoToneIcon from "@mui/icons-material/KeyboardDoub
 import NotificationsTwoToneIcon from "@mui/icons-material/NotificationsTwoTone";
 import menu_items from "./menu_items";
 import axios from "axios";
+import Loading from "../pages/Loading";
+import { useState } from "react";
 
 const drawerWidth = 250;
 
@@ -121,7 +123,31 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+  const navigate = useNavigate();
+  const [loadinggif, setLoadinggif] = useState(false);
+  const checkLogin = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/login/checktoken`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res);
+        console.log(res.data.islogin);
+        if (res.data.islogin === true) {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        navigate("/");
+      });
+  };
 
+  React.useEffect(() => {
+    checkLogin();
+  }, []);
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -290,6 +316,7 @@ export default function MiniDrawer() {
           </div> */}
         </List>
       </Drawer>
+
       <Box component="main" sx={{ flexGrow: 1, p: 1, pt: 5 }}>
         <DrawerHeader />
         <Outlet />

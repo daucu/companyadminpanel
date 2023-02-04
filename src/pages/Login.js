@@ -335,7 +335,7 @@ export default function Login() {
       .catch((e) => {
         setErroralert(e.response.data.message);
         setErrorOpen(true);
-        
+
         setIsLoading(false);
         console.log(e);
       });
@@ -469,6 +469,13 @@ export default function Login() {
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
+                </Link>
+              </Grid>
+            </Grid>
+            <Grid container style={{ marginTop: 10 }}>
+              <Grid item xs>
+                <Link href="/company_reg" variant="body2">
+                  Register Your Company here!
                 </Link>
               </Grid>
             </Grid>

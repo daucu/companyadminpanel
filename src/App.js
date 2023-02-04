@@ -37,6 +37,7 @@ import Withdraw from "./pages/Withdraw";
 import ViewProduct from "./pages/ViewProduct";
 import UpdateProduct from "./pages/UpdateProduct";
 import Loading from "./pages/Loading";
+import Company_reg from "./pages/Company_reg";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -102,6 +103,7 @@ function App() {
       ) : (
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/company_reg" element={<Company_reg />} />
           <Route path="/register" element={<Register />} />
 
           <Route path="/admin" element={<MiniDrawer />}>

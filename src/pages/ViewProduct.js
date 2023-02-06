@@ -42,7 +42,13 @@ function ViewProduct() {
                 <p className="sub">{product.featured}</p>
               </div>
               <div className="image">
-                <img src={product.image} alt="" />
+                <img
+                  src={product.image}
+                  alt=""
+                  style={{
+                    margin: "auto",
+                  }}
+                />
               </div>
             </div>
             <div className="half">

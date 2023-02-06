@@ -137,7 +137,7 @@ export default function AddProduct() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={() => navigate("/products")}
+            onClick={() => navigate("/admin/products")}
           >
             <CloseIcon />
           </IconButton>

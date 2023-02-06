@@ -16,7 +16,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import "./Drawer.css";
-
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
   Link as RouterLink,
   Route,
@@ -124,7 +124,10 @@ export default function MiniDrawer() {
   };
 
   const navigate = useNavigate();
+  // code to check login
   const [loadinggif, setLoadinggif] = useState(false);
+  const [userLoginValue, setUserLoginValue] = useState(false);
+  const [userdata, setUserdata] = useState("username");
   const checkLogin = async () => {
     await axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/login/checktoken`, {
@@ -132,7 +135,8 @@ export default function MiniDrawer() {
       })
       .then((res) => {
         console.log(res);
-        console.log(res.data.islogin);
+        setUserLoginValue(res.data.islogin);
+        setUserdata(res.data.user);
         if (res.data.islogin === true) {
           navigate("/admin");
         } else {
@@ -148,6 +152,14 @@ export default function MiniDrawer() {
   React.useEffect(() => {
     checkLogin();
   }, []);
+
+  // code to get logged in user data if logged in true
+  if (userLoginValue === true) {
+    console.log("user is logged in");
+  } else {
+    console.log("user is not logged in");
+  }
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -271,6 +283,28 @@ export default function MiniDrawer() {
         </AppBar>
         <Divider />
         {/* Menu List */}
+        <div>
+          <div
+            style={{
+              margin: "20px auto",
+            }}
+          >
+            <AccountCircleIcon
+              style={{
+                height: "50px",
+                width: "50px",
+                color: "#fff",
+              }}
+            />
+            <div
+              style={{
+                color: "#fff",
+              }}
+            >
+              {userdata.fullname}
+            </div>
+          </div>
+        </div>
         <List
           sx={{
             background: "#1A2027",

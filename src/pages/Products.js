@@ -452,38 +452,6 @@ export default function Products() {
     setPrivate(!isprivate);
   };
 
-  //Create Product
-  // function createPost() {
-  //   axios
-  //     .post(`${process.env.REACT_APP_BACKEND_URL}/products`, {
-  //       productTitle,
-  //       productDescription,
-  //       productCategory,
-  //       tags,
-  //       productGallery,
-  //       featuredImage,
-  //       regularPrice,
-  //       salePrice,
-  //       reviews,
-  //       comments,
-  //       isprivate,
-  //       stackStatus,
-  //       taxStatus,
-  //       taxClass,
-  //     })
-  //     .then((response) => {
-  //       setAlert("Product successfully added", response);
-  //       setStatus("success");
-  //       console.log(response.data);
-  //       getProducts();
-  //     })
-  //     .catch((e) => {
-  //       setAlert(e.response.data.message);
-  //       setStatus(e.response.data.status);
-  //     });
-  //   setAlertOpen(true);
-  // }
-
   //Get Product
   const getProducts = () => {
     axios
@@ -583,7 +551,7 @@ export default function Products() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={() => navigate("/new-product")}
+            onClick={() => navigate("/admin/new-product")}
           >
             {/* <CloseIcon /> */}
             <AddIcon />

@@ -47,7 +47,7 @@ export default function UpdateProduct() {
   const [description, setDescription] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [saleprice, setSaleprice] = React.useState("");
-  const [image, setImage] = React.useState("https://picsum.photos/200/300");
+  const [image, setImage] = React.useState("");
   const [vendor, setVendor] = React.useState("");
   const [status, setStatus] = React.useState("");
   const [category, setCategory] = React.useState("");
@@ -120,33 +120,43 @@ export default function UpdateProduct() {
     setErrorOpen(false);
   };
 
-  //Generate Slug
-  //   const slug = slugify(title, {
-  //     replacement: "-", // replace spaces with replacement
-  //     remove: null, // regex to remove characters
-  //     lower: true, // result in lower case
-  //     remove: /[*+~.()'"!:@#/]/g,
-  //   });
+  // snack bar for product delete
+  const delprod = () => {
+    setProdDelSnac(true);
+  };
+  const delprodclose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setProdDelSnac(false);
+  };
+
   const P_id = productfetched.productId;
   console.log(P_id);
+
   const handleSubmit = (e) => {
-    console.log("submit");
+    // console.log("submit");
+
     e.preventDefault();
+
+    // form data
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("saleprice", saleprice);
+    formData.append("banner", image);
+    formData.append("vendor", vendor);
+    formData.append("status", status);
+    formData.append("category", category);
+    formData.append("type", type);
+    formData.append("featured", featured);
+    formData.append("language", language);
+    formData.append("bidDate", bidDate);
+    formData.append("company", company);
+
     axios
-      .put(`${process.env.REACT_APP_BACKEND_URL}/products/${P_id}`, {
-        title,
-        description,
-        price,
-        saleprice,
-        image,
-        vendor,
-        status,
-        category,
-        type,
-        featured,
-        language,
-        bidDate,
-      })
+      .put(`${process.env.REACT_APP_BACKEND_URL}/products/${P_id}`, formData)
       .then((res) => {
         console.log(res);
         // setSuccessSnack(res.data.message);
@@ -160,6 +170,23 @@ export default function UpdateProduct() {
       });
   };
 
+  const [prodDelSnac, setProdDelSnac] = React.useState(false);
+  const handleproductdelete = (props) => {
+    console.log("delete" + props);
+    axios
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/products/${props}`)
+      .then((res) => {
+        console.log(res);
+        delprod();
+        setTimeout(() => {
+          navigate("/admin/products");
+        }, [1000]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <Box sx={{ flexGrow: 1, marginTop: 3 }}>
       <AppBar position="static">
@@ -169,7 +196,7 @@ export default function UpdateProduct() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={() => navigate("/products")}
+            onClick={() => navigate("/admin/products")}
           >
             <CloseIcon />
             <Typography sx={{ marginLeft: 2 }}>Update Product</Typography>
@@ -187,220 +214,235 @@ export default function UpdateProduct() {
           >
             Update
           </Button>
+          <Button
+            variant="contained"
+            size="small"
+            color="error"
+            sx={{
+              boxShadow: 0,
+              // backgroundColor:"red",
+              marginLeft: 2,
+            }}
+            onClick={() => handleproductdelete(P_id)}
+          >
+            Delete
+          </Button>
         </Toolbar>
       </AppBar>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <Grid container spacing={1} alignItems="stretch">
+          <Grid item xs={12} alignItems="stretch">
+            <Item
+              onDoubleClick={handleClick}
+              sx={{
+                height: "auto",
+              }}
+            >
+              {/* Product title */}
+              <TextField
+                id="outlined-basic"
+                placeholder="Product title"
+                label="Product Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                focused={true}
+                minRows={6}
+                variant="filled"
+                sx={{
+                  width: "100%",
+                  color: "#fff",
+                  backgroundColor: "#f0f0f0",
+                  outline: "none",
+                  border: "none",
+                  fontSize: "1.2rem",
+                  placeholder: "Enter Page Title",
+                  placeholderColor: "#fff",
+                }}
+              />
+              {/* Product Description */}
+              <TextField
+                id="outlined-basic"
+                placeholder="Product content"
+                label="Product Description"
+                focused={true}
+                multiline={true}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                minRows={6}
+                variant="filled"
+                sx={{
+                  width: "100%",
+                  color: "#fff",
+                  backgroundColor: "#f0f0f0",
+                  outline: "none",
+                  border: "none",
+                  fontSize: "1.2rem",
+                  placeholder: "Enter Page Title",
+                  placeholderColor: "#fff",
+                  marginTop: 1,
+                }}
+              />
 
-      <Grid container spacing={1} alignItems="stretch">
-        <Grid item xs={12} alignItems="stretch">
-          <Item
-            onDoubleClick={handleClick}
-            sx={{
-              height: "auto",
-            }}
-          >
-            {/* Product title */}
-            <TextField
-              id="outlined-basic"
-              placeholder="Product title"
-              label="Product Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              focused={true}
-              minRows={6}
-              variant="filled"
-              sx={{
-                width: "100%",
-                color: "#fff",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-                border: "none",
-                fontSize: "1.2rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "#fff",
-              }}
-            />
-            {/* Product Description */}
-            <TextField
-              id="outlined-basic"
-              placeholder="Product content"
-              label="Product Description"
-              focused={true}
-              multiline={true}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              minRows={6}
-              variant="filled"
-              sx={{
-                width: "100%",
-                color: "#fff",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-                border: "none",
-                fontSize: "1.2rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "#fff",
-                marginTop: 1,
-              }}
-            />
+              {/* Product price */}
+              <TextField
+                type={"number"}
+                id="outlined-basic"
+                placeholder="254"
+                label="Price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                focused={true}
+                variant="filled"
+                size="small"
+                sx={{
+                  width: "100%",
+                  color: "#fff",
+                  backgroundColor: "#f0f0f0",
+                  outline: "none",
+                  border: "none",
+                  fontSize: "1rem",
+                  placeholder: "Enter Page Title",
+                  placeholderColor: "#fff",
+                  marginTop: 1,
+                }}
+              />
+              {/* sale price */}
+              <TextField
+                id="outlined-basic"
+                placeholder="154"
+                label="Sale Price"
+                value={saleprice}
+                onChange={(e) => setSaleprice(e.target.value)}
+                focused={true}
+                variant="filled"
+                size="small"
+                sx={{
+                  width: "100%",
+                  color: "#fff",
+                  backgroundColor: "#f0f0f0",
+                  outline: "none",
+                  border: "none",
+                  fontSize: "1rem",
+                  placeholder: "Enter Page Title",
+                  placeholderColor: "#fff",
+                  marginTop: 1,
+                }}
+              />
+              {/* Vendor */}
+              <TextField
+                id="outlined-basic"
+                placeholder="Vendor name"
+                label="Vendor"
+                value={vendor}
+                onChange={(e) => setVendor(e.target.value)}
+                focused={true}
+                variant="filled"
+                size="small"
+                sx={{
+                  width: "100%",
+                  color: "#fff",
+                  backgroundColor: "#f0f0f0",
+                  outline: "none",
+                  border: "none",
+                  fontSize: "1rem",
+                  placeholder: "Enter Page Title",
+                  placeholderColor: "#fff",
+                  marginTop: 1,
+                }}
+              />
+              {/* type */}
+              <TextField
+                id="outlined-basic"
+                placeholder="Type"
+                label="Type"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                focused={true}
+                variant="filled"
+                size="small"
+                sx={{
+                  width: "100%",
+                  color: "#fff",
+                  backgroundColor: "#f0f0f0",
+                  outline: "none",
+                  border: "none",
+                  fontSize: "1rem",
+                  placeholder: "Enter Page Title",
+                  placeholderColor: "#fff",
+                  marginTop: 1,
+                }}
+              />
+              {/* Featured */}
+              <TextField
+                id="outlined-basic"
+                placeholder="Featured"
+                label="Featured"
+                value={featured}
+                onChange={(e) => setFeatured(e.target.value)}
+                focused={true}
+                variant="filled"
+                size="small"
+                sx={{
+                  width: "100%",
+                  color: "#fff",
+                  backgroundColor: "#f0f0f0",
+                  outline: "none",
+                  border: "none",
+                  fontSize: "1rem",
+                  placeholder: "Enter Page Title",
+                  placeholderColor: "#fff",
+                  marginTop: 1,
+                }}
+              />
+              {/* Language */}
+              <TextField
+                id="outlined-basic"
+                placeholder="Language"
+                label="Language"
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                focused={true}
+                variant="filled"
+                size="small"
+                sx={{
+                  width: "100%",
+                  color: "#fff",
+                  backgroundColor: "#f0f0f0",
+                  outline: "none",
+                  border: "none",
+                  fontSize: "1rem",
+                  placeholder: "Enter Page Title",
+                  placeholderColor: "#fff",
+                  marginTop: 1,
+                }}
+              />
 
-            {/* Product price */}
-            <TextField
-              type={"number"}
-              id="outlined-basic"
-              placeholder="254"
-              label="Price"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              focused={true}
-              variant="filled"
-              size="small"
-              sx={{
-                width: "100%",
-                color: "#fff",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-                border: "none",
-                fontSize: "1rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "#fff",
-                marginTop: 1,
-              }}
-            />
-            {/* sale price */}
-            <TextField
-              id="outlined-basic"
-              placeholder="154"
-              label="Sale Price"
-              value={saleprice}
-              onChange={(e) => setSaleprice(e.target.value)}
-              focused={true}
-              variant="filled"
-              size="small"
-              sx={{
-                width: "100%",
-                color: "#fff",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-                border: "none",
-                fontSize: "1rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "#fff",
-                marginTop: 1,
-              }}
-            />
-            {/* Vendor */}
-            <TextField
-              id="outlined-basic"
-              placeholder="Vendor name"
-              label="Vendor"
-              value={vendor}
-              onChange={(e) => setVendor(e.target.value)}
-              focused={true}
-              variant="filled"
-              size="small"
-              sx={{
-                width: "100%",
-                color: "#fff",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-                border: "none",
-                fontSize: "1rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "#fff",
-                marginTop: 1,
-              }}
-            />
-            {/* type */}
-            <TextField
-              id="outlined-basic"
-              placeholder="Type"
-              label="Type"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              focused={true}
-              variant="filled"
-              size="small"
-              sx={{
-                width: "100%",
-                color: "#fff",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-                border: "none",
-                fontSize: "1rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "#fff",
-                marginTop: 1,
-              }}
-            />
-            {/* Featured */}
-            <TextField
-              id="outlined-basic"
-              placeholder="Featured"
-              label="Featured"
-              value={featured}
-              onChange={(e) => setFeatured(e.target.value)}
-              focused={true}
-              variant="filled"
-              size="small"
-              sx={{
-                width: "100%",
-                color: "#fff",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-                border: "none",
-                fontSize: "1rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "#fff",
-                marginTop: 1,
-              }}
-            />
-            {/* Language */}
-            <TextField
-              id="outlined-basic"
-              placeholder="Language"
-              label="Language"
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              focused={true}
-              variant="filled"
-              size="small"
-              sx={{
-                width: "100%",
-                color: "#fff",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-                border: "none",
-                fontSize: "1rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "#fff",
-                marginTop: 1,
-              }}
-            />
+              {/* Category */}
+              <TextField
+                id="outlined-basic"
+                placeholder="https://google.com/image.png"
+                label="Product Image"
+                focused={true}
+                type={"file"}
+                name="banner"
+                onChange={(e) => setImage(e.target.files[0])}
+                variant="filled"
+                size="small"
+                sx={{
+                  width: "100%",
+                  color: "#fff",
+                  backgroundColor: "#f0f0f0",
+                  outline: "none",
+                  border: "none",
+                  fontSize: "1rem",
+                  placeholder: "Enter Page Title",
+                  placeholderColor: "#fff",
+                  marginTop: 1,
+                }}
+              />
 
-            {/* Category */}
-            <TextField
-              id="outlined-basic"
-              placeholder="https://google.com/image.png"
-              label="Product Image"
-              focused={true}
-              value={image}
-              variant="filled"
-              size="small"
-              sx={{
-                width: "100%",
-                color: "#fff",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-                border: "none",
-                fontSize: "1rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "#fff",
-                marginTop: 1,
-              }}
-            />
-
-            {/* Category */}
-            {/* <TextField
+              {/* Category */}
+              {/* <TextField
               id="outlined-basic"
               placeholder="sale"
               label="Product Category"
@@ -420,65 +462,65 @@ export default function UpdateProduct() {
               }}
             /> */}
 
-            {/* Date */}
-            <TextField
-              type={"date"}
-              id="outlined-basic"
-              placeholder="13/09/2022"
-              label="Ready for bid"
-              focused={true}
-              value={bidDate}
-              onChange={(e) => setBidDate(e.target.value)}
-              variant="filled"
-              size="small"
-              sx={{
-                width: "100%",
-                color: "#fff",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-                border: "none",
-                fontSize: "1rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "#fff",
-                marginTop: 1,
-              }}
-            />
-            {/* Status */}
-            <InputLabel
-              id="demo-select-small"
-              sx={{
-                textAlign: "left",
-                marginTop: 1,
-              }}
-            >
-              Status
-            </InputLabel>
-            <Select
-              labelId="demo-select-small"
-              id="demo-select-small"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              label="Status"
-              sx={{
-                width: "100%",
-                color: "black",
-                backgroundColor: "#f0f0f0",
-                outline: "none",
-                border: "none",
-                fontSize: "1rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "black",
-                marginTop: 1,
-                textAlign: "left",
-              }}
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value="active">Active</MenuItem>
-              <MenuItem value="unactive">Un-Active</MenuItem>
-            </Select>
-            {/* <TextField
+              {/* Date */}
+              <TextField
+                type={"date"}
+                id="outlined-basic"
+                placeholder="13/09/2022"
+                label="Ready for bid"
+                focused={true}
+                value={bidDate}
+                onChange={(e) => setBidDate(e.target.value)}
+                variant="filled"
+                size="small"
+                sx={{
+                  width: "100%",
+                  color: "#fff",
+                  backgroundColor: "#f0f0f0",
+                  outline: "none",
+                  border: "none",
+                  fontSize: "1rem",
+                  placeholder: "Enter Page Title",
+                  placeholderColor: "#fff",
+                  marginTop: 1,
+                }}
+              />
+              {/* Status */}
+              <InputLabel
+                id="demo-select-small"
+                sx={{
+                  textAlign: "left",
+                  marginTop: 1,
+                }}
+              >
+                Status
+              </InputLabel>
+              <Select
+                labelId="demo-select-small"
+                id="demo-select-small"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                label="Status"
+                sx={{
+                  width: "100%",
+                  color: "black",
+                  backgroundColor: "#f0f0f0",
+                  outline: "none",
+                  border: "none",
+                  fontSize: "1rem",
+                  placeholder: "Enter Page Title",
+                  placeholderColor: "black",
+                  marginTop: 1,
+                  textAlign: "left",
+                }}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value="active">Active</MenuItem>
+                <MenuItem value="unactive">Un-Active</MenuItem>
+              </Select>
+              {/* <TextField
               id="outlined-basic"
               placeholder="Active default"
               label="Status"
@@ -500,27 +542,44 @@ export default function UpdateProduct() {
                 marginTop: 1,
               }}
             /> */}
-          </Item>
-        </Grid>
-        {/* success snach */}
-        {successSnack ? (
-          <Snackbar
-            open={handlesuccessOpen}
-            autoHideDuration={3000}
-            onClose={handlesuccessClose}
-          >
-            <Alert
-              onClose={handlesuccessClose}
-              severity="success"
-              sx={{ width: "100%" }}
+            </Item>
+          </Grid>
+          {prodDelSnac ? (
+            <Snackbar
+              open={delprod}
+              variant="filled"
+              autoHideDuration={3000}
+              onClose={delprodclose}
             >
-              {successSnack}
-            </Alert>
-          </Snackbar>
-        ) : null}
+              <Alert
+                onClose={delprodclose}
+                severity="success"
+                variant="filled"
+                sx={{ width: "100%" }}
+              >
+                Product Deleted Successfully
+              </Alert>
+            </Snackbar>
+          ) : null}
+          {/* success snach */}
+          {successSnack ? (
+            <Snackbar
+              open={handlesuccessOpen}
+              autoHideDuration={3000}
+              onClose={handlesuccessClose}
+            >
+              <Alert
+                onClose={handlesuccessClose}
+                severity="success"
+                sx={{ width: "100%" }}
+              >
+                {successSnack}
+              </Alert>
+            </Snackbar>
+          ) : null}
 
-        {/* error snack */}
-        {/* <Snackbar
+          {/* error snack */}
+          {/* <Snackbar
           open={handleerrorOpen}
           autoHideDuration={3000}
           onClose={handleerrorClose}
@@ -533,7 +592,8 @@ export default function UpdateProduct() {
             {errorSnack}
           </Alert>
         </Snackbar> */}
-      </Grid>
+        </Grid>
+      </form>
     </Box>
   );
 }

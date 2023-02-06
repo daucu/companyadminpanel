@@ -230,7 +230,7 @@ export default function Storage() {
                   size="small"
                   sx={{
                     mr: 2,
-                    display: { xs: "none", md: "flex" },
+                    display: { md: "flex" },
                     boxShadow: 0,
                     background: "#333333",
                     justifyContent: "left",

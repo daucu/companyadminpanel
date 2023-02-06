@@ -380,11 +380,11 @@ export default function Products() {
 
   // Get Category
   const [category, setCategory] = React.useState([]);
-  React.useEffect(() => {
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/blog`).then((response) => {
-      setCategory(response.data);
-    });
-  }, []);
+  // React.useEffect(() => {
+  //   axios.get(`${process.env.REACT_APP_BACKEND_URL}/blog`).then((response) => {
+  //     setCategory(response.data);
+  //   });
+  // }, []);
 
   const theme = useTheme();
 
@@ -427,7 +427,7 @@ export default function Products() {
     }
   };
 
-  console.log(featuredImage);
+  // console.log(featuredImage);
 
   // Set Featured Image
   const productGalleryHandleChange = (e) => {

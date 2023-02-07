@@ -38,7 +38,9 @@ export default function Company_reg() {
   const [password, setPassword] = useState(""); // password done
   const [status, setStatus] = useState("");
   const [isVerified, setIsVerified] = useState(""); // isVerified done
-
+  const [digital_signature, setDigital_signature] = useState(
+    "https://picsum.photos/200/300"
+  );
   // code to add company to database
   const addCompany = async (e) => {
     e.preventDefault();
@@ -51,6 +53,7 @@ export default function Company_reg() {
     formData.append("phone", phone);
     formData.append("email", email);
     formData.append("gst", gst);
+    formData.append("tags", tags);
     formData.append("company_owner", company_owner);
     formData.append("category", category);
     formData.append("contact_email", contact_email);
@@ -59,7 +62,7 @@ export default function Company_reg() {
     formData.append("password", password);
     formData.append("status", status);
     formData.append("isVerified", isVerified);
-
+    formData.append("digital_signature", digital_signature);
     const res = axios
       .post(`${API}/companies`, formData)
       .then((res) => {

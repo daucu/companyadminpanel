@@ -122,18 +122,18 @@ export default function Company_reg() {
   };
 
   const handleNext = () => {
-    // if validateStep0() return false then return from here and don't go to next step
-    // if (activeStep === 0 && !validateStep0()) {
-    //   return;
-    // }
+    // // if validateStep0() return false then return from here and don't go to next step
+    if (activeStep === 0 && !validateStep0()) {
+      return;
+    }
     // // if validateStep1() return false then return from here and don't go to next step
-    // if (activeStep === 1 && !validateStep1()) {
-    //   return;
-    // }
+    if (activeStep === 1 && !validateStep1()) {
+      return;
+    }
     // // if validateStep2() return false then return from here and don't go to next step
-    // if (activeStep === 2 && !validateStep2()) {
-    //   return;
-    // }
+    if (activeStep === 2 && !validateStep2()) {
+      return;
+    }
 
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {

@@ -123,17 +123,17 @@ export default function Company_reg() {
 
   const handleNext = () => {
     // if validateStep0() return false then return from here and don't go to next step
-    if (activeStep === 0 && !validateStep0()) {
-      return;
-    }
+    // if (activeStep === 0 && !validateStep0()) {
+    //   return;
+    // }
     // // if validateStep1() return false then return from here and don't go to next step
-    if (activeStep === 1 && !validateStep1()) {
-      return;
-    }
+    // if (activeStep === 1 && !validateStep1()) {
+    //   return;
+    // }
     // // if validateStep2() return false then return from here and don't go to next step
-    if (activeStep === 2 && !validateStep2()) {
-      return;
-    }
+    // if (activeStep === 2 && !validateStep2()) {
+    //   return;
+    // }
 
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
@@ -296,7 +296,8 @@ export default function Company_reg() {
           padding: "20px",
           "@media (max-width: 768px)": {
             width: "90%",
-            height: "90vh",
+            minHeight: "75vh",
+            height: "auto",
           },
         }}
       >
@@ -839,7 +840,7 @@ export default function Company_reg() {
                       }}
                     />
                   </Stack>
-                  <div>
+                  {/* <div>
                     <Button
                       onClick={(e) => addCompany(e)}
                       variant="contained"
@@ -850,7 +851,7 @@ export default function Company_reg() {
                     >
                       Submit
                     </Button>
-                  </div>
+                  </div> */}
                 </div>
               ) : null}
 

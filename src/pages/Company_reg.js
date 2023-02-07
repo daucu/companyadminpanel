@@ -321,6 +321,9 @@ export default function Company_reg() {
             sx={{
               padding: "50px 0px",
               width: "100%",
+              "@media (max-width: 768px)": {
+                display: "block",
+              },
             }}
           >
             {steps.map((label, index) => {

@@ -4,7 +4,11 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
+import MuiAlert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
+import Snackbar from "@mui/material/Snackbar";
+import CircularProgress from "@mui/material/CircularProgress";
+import successgif from "../assets/images/successgif.gif";
 import {
   Autocomplete,
   TextareaAutosize,
@@ -16,14 +20,16 @@ import { Stack } from "@mui/system";
 import axios from "axios";
 import { API } from "../constant/constant";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 const steps = ["Basic information", "Upload Documents", "Verification"];
 
 export default function Company_reg() {
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
   const [name, setName] = useState(""); // name done
   const [title, setTitle] = useState(""); //  title done
-  const [featured_image, setFeatured_image] = useState(
-    "https://picsum.photos/200/300"
-  ); // featured_image done
+  const [featured_image, setFeatured_image] = useState(""); // featured_image done
   const [description, setDescription] = useState(""); // description done
   const [address, setAddress] = useState(""); // address done
   const [phone, setPhone] = useState(""); // phone done
@@ -38,12 +44,18 @@ export default function Company_reg() {
   const [password, setPassword] = useState(""); // password done
   const [status, setStatus] = useState("");
   const [isVerified, setIsVerified] = useState(""); // isVerified done
-  const [digital_signature, setDigital_signature] = useState(
-    "https://picsum.photos/200/300"
-  );
+  const [digital_signature, setDigital_signature] = useState("");
+
+  // finish page state
+  const [loading, setLoading] = useState(false);
+  const [successData, setSuccessData] = useState(false);
+
   // code to add company to database
   const addCompany = async (e) => {
-    e.preventDefault();
+    setLoading(true);
+    // console.log(tags);
+    // return;
+
     const formData = new FormData();
     formData.append("name", name);
     formData.append("title", title);
@@ -53,7 +65,7 @@ export default function Company_reg() {
     formData.append("phone", phone);
     formData.append("email", email);
     formData.append("gst", gst);
-    formData.append("tags", tags);
+    formData.append("tags", JSON.stringify(tags));
     formData.append("company_owner", company_owner);
     formData.append("category", category);
     formData.append("contact_email", contact_email);
@@ -63,141 +75,40 @@ export default function Company_reg() {
     formData.append("status", status);
     formData.append("isVerified", isVerified);
     formData.append("digital_signature", digital_signature);
+
     const res = axios
       .post(`${API}/companies`, formData)
       .then((res) => {
         console.log(res);
+        setSuccessData(res.status);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   };
   const top100Films = [
-    { title: "The Shawshank Redemption", year: 1994 },
-    { title: "The Godfather", year: 1972 },
-    { title: "The Godfather: Part II", year: 1974 },
-    { title: "The Dark Knight", year: 2008 },
-    { title: "12 Angry Men", year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: "Pulp Fiction", year: 1994 },
-    {
-      title: "The Lord of the Rings: The Return of the King",
-      year: 2003,
-    },
-    { title: "The Good, the Bad and the Ugly", year: 1966 },
-    { title: "Fight Club", year: 1999 },
-    {
-      title: "The Lord of the Rings: The Fellowship of the Ring",
-      year: 2001,
-    },
-    {
-      title: "Star Wars: Episode V - The Empire Strikes Back",
-      year: 1980,
-    },
-    { title: "Forrest Gump", year: 1994 },
-    { title: "Inception", year: 2010 },
-    {
-      title: "The Lord of the Rings: The Two Towers",
-      year: 2002,
-    },
-    { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-    { title: "Goodfellas", year: 1990 },
-    { title: "The Matrix", year: 1999 },
-    { title: "Seven Samurai", year: 1954 },
-    {
-      title: "Star Wars: Episode IV - A New Hope",
-      year: 1977,
-    },
-    { title: "City of God", year: 2002 },
-    { title: "Se7en", year: 1995 },
-    { title: "The Silence of the Lambs", year: 1991 },
-    { title: "It's a Wonderful Life", year: 1946 },
-    { title: "Life Is Beautiful", year: 1997 },
-    { title: "The Usual Suspects", year: 1995 },
-    { title: "Léon: The Professional", year: 1994 },
-    { title: "Spirited Away", year: 2001 },
-    { title: "Saving Private Ryan", year: 1998 },
-    { title: "Once Upon a Time in the West", year: 1968 },
-    { title: "American History X", year: 1998 },
-    { title: "Interstellar", year: 2014 },
-    { title: "Casablanca", year: 1942 },
-    { title: "City Lights", year: 1931 },
-    { title: "Psycho", year: 1960 },
-    { title: "The Green Mile", year: 1999 },
-    { title: "The Intouchables", year: 2011 },
-    { title: "Modern Times", year: 1936 },
-    { title: "Raiders of the Lost Ark", year: 1981 },
-    { title: "Rear Window", year: 1954 },
-    { title: "The Pianist", year: 2002 },
-    { title: "The Departed", year: 2006 },
-    { title: "Terminator 2: Judgment Day", year: 1991 },
-    { title: "Back to the Future", year: 1985 },
-    { title: "Whiplash", year: 2014 },
-    { title: "Gladiator", year: 2000 },
-    { title: "Memento", year: 2000 },
-    { title: "The Prestige", year: 2006 },
-    { title: "The Lion King", year: 1994 },
-    { title: "Apocalypse Now", year: 1979 },
-    { title: "Alien", year: 1979 },
-    { title: "Sunset Boulevard", year: 1950 },
-    {
-      title:
-        "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
-      year: 1964,
-    },
-    { title: "The Great Dictator", year: 1940 },
-    { title: "Cinema Paradiso", year: 1988 },
-    { title: "The Lives of Others", year: 2006 },
-    { title: "Grave of the Fireflies", year: 1988 },
-    { title: "Paths of Glory", year: 1957 },
-    { title: "Django Unchained", year: 2012 },
-    { title: "The Shining", year: 1980 },
-    { title: "WALL·E", year: 2008 },
-    { title: "American Beauty", year: 1999 },
-    { title: "The Dark Knight Rises", year: 2012 },
-    { title: "Princess Mononoke", year: 1997 },
-    { title: "Aliens", year: 1986 },
-    { title: "Oldboy", year: 2003 },
-    { title: "Once Upon a Time in America", year: 1984 },
-    { title: "Witness for the Prosecution", year: 1957 },
-    { title: "Das Boot", year: 1981 },
-    { title: "Citizen Kane", year: 1941 },
-    { title: "North by Northwest", year: 1959 },
-    { title: "Vertigo", year: 1958 },
-    {
-      title: "Star Wars: Episode VI - Return of the Jedi",
-      year: 1983,
-    },
-    { title: "Reservoir Dogs", year: 1992 },
-    { title: "Braveheart", year: 1995 },
-    { title: "M", year: 1931 },
-    { title: "Requiem for a Dream", year: 2000 },
-    { title: "Amélie", year: 2001 },
-    { title: "A Clockwork Orange", year: 1971 },
-    { title: "Like Stars on Earth", year: 2007 },
-    { title: "Taxi Driver", year: 1976 },
-    { title: "Lawrence of Arabia", year: 1962 },
-    { title: "Double Indemnity", year: 1944 },
-    {
-      title: "Eternal Sunshine of the Spotless Mind",
-      year: 2004,
-    },
-    { title: "Amadeus", year: 1984 },
-    { title: "To Kill a Mockingbird", year: 1962 },
-    { title: "Toy Story 3", year: 2010 },
-    { title: "Logan", year: 2017 },
-    { title: "Full Metal Jacket", year: 1987 },
-    { title: "Dangal", year: 2016 },
-    { title: "The Sting", year: 1973 },
-    { title: "2001: A Space Odyssey", year: 1968 },
-    { title: "Singin' in the Rain", year: 1952 },
-    { title: "Toy Story", year: 1995 },
-    { title: "Bicycle Thieves", year: 1948 },
-    { title: "The Kid", year: 1921 },
-    { title: "Inglourious Basterds", year: 2009 },
-    { title: "Snatch", year: 2000 },
-    { title: "3 Idiots", year: 2009 },
-    { title: "Monty Python and the Holy Grail", year: 1975 },
+    "Agrochemicals",
+    "Machinery",
+    "Car Services",
+    "Agricultural Supplies",
+    "Agriculture",
+    "Electronics",
+    "Energy",
+    "Environment",
+    "Food",
+    "Health",
+    "Industrial",
+    "Information Technology",
+    "Materials",
+    "Media",
+    "Metals",
+    "Mining",
+    "Oil & Gas",
+    "Pharmaceuticals",
+    "Plastics",
+    "Power",
   ];
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -211,6 +122,19 @@ export default function Company_reg() {
   };
 
   const handleNext = () => {
+    // if validateStep0() return false then return from here and don't go to next step
+    if (activeStep === 0 && !validateStep0()) {
+      return;
+    }
+    // // if validateStep1() return false then return from here and don't go to next step
+    if (activeStep === 1 && !validateStep1()) {
+      return;
+    }
+    // // if validateStep2() return false then return from here and don't go to next step
+    if (activeStep === 2 && !validateStep2()) {
+      return;
+    }
+
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -219,6 +143,16 @@ export default function Company_reg() {
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
     setSkipped(newSkipped);
+
+    // when finish button is clicked then call addCompany function to add company to database
+    if (activeStep === steps.length - 1) {
+      const res = addCompany();
+      console.log(res);
+
+      console.log("last step");
+    } else {
+      console.log("not last step");
+    }
   };
 
   const handleBack = () => {
@@ -245,14 +179,105 @@ export default function Company_reg() {
   };
 
   // img
-  const [imgurl, setImgurl] = useState(null);
+  const [imgurl, setImgurl] = useState("");
+  const [digital_sign, setDigital_sign] = useState("");
+  // code to split selected value from autocomplete and set into array of tags and then set into state
+
+  const [stepzeroErr, setStepzeroErr] = useState(false);
+  // const [setZeroErrSnackOpen, setSetZeroErrSnackOpen] = useState(false);
+  // code to validate spet 0 of stpper form and restrict user to go to next step if any field is empty
+  // stepper zero index validation--------------------------------------------
+  const validateStep0 = () => {
+    if (
+      name === "" ||
+      title === "" ||
+      address === "" ||
+      phone === "" ||
+      tags.length === 0 ||
+      description === ""
+    ) {
+      setStepzeroErr(true);
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const zeroErrOpen = () => {
+    setStepzeroErr(true);
+  };
+
+  const zeroErrClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setStepzeroErr(false);
+  };
+
+  // stepper one index validation--------------------------------------------
+  const [steponeErr, setSteponeErr] = useState(false);
+
+  const validateStep1 = () => {
+    if (imgurl.length === 0 || digital_sign.length === 0) {
+      setSteponeErr(true);
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const oneErrOpen = () => {
+    setSteponeErr(true);
+  };
+  const oneErrClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSteponeErr(false);
+  };
+
+  // stepper two index validation--------------------------------------------
+  const [steptwoErr, setSteptwoErr] = useState(false);
+  const validateStep2 = () => {
+    if (
+      contact_email === "" ||
+      gst === "" ||
+      contact_name === "" ||
+      contact_phone === "" ||
+      password === "" ||
+      company_owner === "" ||
+      status === "" ||
+      category === "" ||
+      isVerified === "" ||
+      status === ""
+    ) {
+      setSteptwoErr(true);
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const twoErrOpen = () => {
+    setSteptwoErr(true);
+  };
+  const twoErrClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSteptwoErr(false);
+  };
 
   return (
     <div
       style={{
         backgroundColor: "#E2EBF0",
-        height: "100vh",
-        padding: "50px 10px",
+        minHeight: "100vh",
+        height: "auto",
+        padding: "30px 10px",
         // media query
         "@media (max-width: 768px)": {
           display: "flex",
@@ -317,13 +342,72 @@ export default function Company_reg() {
           </Stepper>
           {activeStep === steps.length ? (
             <React.Fragment>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                All steps completed - you&apos;re finished
-              </Typography>
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              {loading ? (
+                <>
+                  <Typography
+                    sx={{
+                      mt: 2,
+                      mb: 1,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontSize: "30px",
+                    }}
+                  >
+                    Submitting data.....
+                  </Typography>
+                  <CircularProgress
+                    size={100}
+                    sx={{
+                      marginTop: "20px",
+                    }}
+                  />
+                </>
+              ) : null}
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                  flexDirection: "column",
+                  height: "100%",
+                }}
+              >
+                {successData === 201 ? (
+                  <>
+                    <Typography
+                      sx={{
+                        mt: 6,
+                        mb: 1,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        fontSize: "30px",
+                      }}
+                    >
+                      Thank you for Joining us..
+                    </Typography>
+                    <Typography sx={{ mt: 5, mb: 1 }}>
+                      <Link
+                        to="/admin/login"
+                        style={{
+                          textDecoration: "none",
+                          color: "black",
+                        }}
+                      >
+                        <Button variant="contained">Go To Login</Button>
+                      </Link>
+                    </Typography>
+                  </>
+                ) : null}
+              </div>
+
+              {/* <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Box sx={{ flex: "1 1 auto" }} />
                 <Button onClick={handleReset}>Reset</Button>
-              </Box>
+              </Box> */}
             </React.Fragment>
           ) : (
             <React.Fragment>
@@ -349,6 +433,7 @@ export default function Company_reg() {
                         width: "100%",
                       }}
                     />
+
                     <TextField
                       id="outlined-basic"
                       size="small"
@@ -384,7 +469,7 @@ export default function Company_reg() {
                       size="small"
                       name={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      label="Company Contact"
+                      label="Company phone Number"
                       variant="filled"
                       sx={{
                         width: "100%",
@@ -398,24 +483,30 @@ export default function Company_reg() {
                       padding: "10px",
                     }}
                   >
+                    {/* how to add multiple value in array in database using autocomplete tag*/}
                     <Autocomplete
                       multiple
-                      limitTags={3}
-                      id="multiple-limit-tags"
+                      sx={{
+                        width: "100%",
+                      }}
+                      label="Tags"
+                      id="tags-standard"
                       options={top100Films}
-                      variant="filled"
-                      getOptionLabel={(option) => option.title}
-                      value={tags}
-                      onChange={(e) => setTags(e.target.value)}
+                      //  get optionlabel from array without using map
+                      getOptionLabel={(option) => option}
+                      onChange={(e, value) => {
+                        setTags(value);
+                      }}
                       renderInput={(params) => (
                         <TextField
                           {...params}
                           variant="filled"
                           label="Tags"
-                          placeholder="Favorites"
+                          placeholder="Tags"
+                          value={tags}
+                          name={tags}
                         />
                       )}
-                      sx={{ width: "100%" }}
                     />
                   </Stack>
                   <Stack
@@ -448,12 +539,23 @@ export default function Company_reg() {
                       textAlign: "center",
                       display: "flex",
                       justifyContent: "space-between",
+                      // media query
+                      "@media (max-width: 768px)": {
+                        width: "95%",
+                        display: "block",
+                        alignItems: "center",
+                      },
                     }}
                   >
                     <div
                       style={{
-                        width: "50%",
-                        margin: "auto",
+                        width: "100%",
+                        margin: "15px auto",
+                        // media query
+                        "@media (max-width: 768px)": {
+                          width: "100%",
+                          margin: "10px auto",
+                        },
                       }}
                     >
                       <div
@@ -461,7 +563,7 @@ export default function Company_reg() {
                         style={{
                           width: "90%",
                           margin: "auto",
-                          height: "200px",
+                          height: "270px",
                           border: "1px solid black",
                           borderStyle: "dashed",
                           borderRadius: "10px",
@@ -471,7 +573,21 @@ export default function Company_reg() {
                           justifyContent: "center",
                         }}
                       >
-                        <h2>Image</h2>
+                        {imgurl === "" ? (
+                          <div>IMAGE</div>
+                        ) : (
+                          <>
+                            <img
+                              src={imgurl}
+                              alt
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "fill",
+                              }}
+                            />
+                          </>
+                        )}
                       </div>
                       <div
                         style={{
@@ -486,14 +602,27 @@ export default function Company_reg() {
                           }}
                         >
                           Upload
-                          <input hidden accept="image/*" multiple type="file" />
+                          <input
+                            hidden
+                            accept="image/*"
+                            multiple
+                            type="file"
+                            onChange={(e) => {
+                              setImgurl(URL.createObjectURL(e.target.files[0]));
+                            }}
+                          />
                         </Button>
                       </div>
                     </div>
                     <div
                       style={{
-                        width: "50%",
-                        margin: "auto",
+                        width: "100%",
+                        margin: "15px auto",
+                        // media query
+                        "@media (max-width: 768px)": {
+                          width: "100%",
+                          margin: "20px auto",
+                        },
                       }}
                     >
                       <div
@@ -501,7 +630,7 @@ export default function Company_reg() {
                         style={{
                           width: "90%",
                           margin: "auto",
-                          height: "200px",
+                          height: "270px",
                           border: "1px solid black",
                           borderStyle: "dashed",
                           borderRadius: "10px",
@@ -511,7 +640,22 @@ export default function Company_reg() {
                           justifyContent: "center",
                         }}
                       >
-                        <h2>Digital Signature</h2>
+                        {digital_sign === "" ? (
+                          <div>DIGITAL SIGNATURE</div>
+                        ) : (
+                          <>
+                            <img
+                              src={digital_sign}
+                              alt
+                              style={{
+                                width: "100%",
+                                height: "100%",
+
+                                objectFit: "fill",
+                              }}
+                            />
+                          </>
+                        )}
                       </div>
                       <div
                         style={{
@@ -526,7 +670,17 @@ export default function Company_reg() {
                           }}
                         >
                           Upload
-                          <input hidden accept="image/*" multiple type="file" />
+                          <input
+                            hidden
+                            accept="image/*"
+                            multiple
+                            type="file"
+                            onChange={(e) => {
+                              setDigital_sign(
+                                URL.createObjectURL(e.target.files[0])
+                              );
+                            }}
+                          />
                         </Button>
                       </div>
                     </div>
@@ -727,6 +881,60 @@ export default function Company_reg() {
             </React.Fragment>
           )}
         </form>
+        {stepzeroErr ? (
+          <>
+            {/* Stepper Zero Index Error Snack */}
+            <Snackbar
+              open={zeroErrOpen}
+              autoHideDuration={1000}
+              onClose={zeroErrClose}
+            >
+              <Alert
+                onClose={zeroErrClose}
+                severity="error"
+                sx={{ width: "100%" }}
+              >
+                Please fill all the fields
+              </Alert>
+            </Snackbar>
+          </>
+        ) : null}
+        {
+          // Stepper One Index Error Snack
+          steponeErr ? (
+            <Snackbar
+              open={oneErrOpen}
+              autoHideDuration={1000}
+              onClose={oneErrClose}
+            >
+              <Alert
+                onClose={oneErrClose}
+                severity="error"
+                sx={{ width: "100%" }}
+              >
+                Please Upload both the images
+              </Alert>
+            </Snackbar>
+          ) : null
+        }
+        {
+          // Stepper Two Index Error Snack
+          steptwoErr ? (
+            <Snackbar
+              open={twoErrOpen}
+              autoHideDuration={1000}
+              onClose={twoErrClose}
+            >
+              <Alert
+                onClose={twoErrClose}
+                severity="error"
+                sx={{ width: "100%" }}
+              >
+                Please fill all the fields
+              </Alert>
+            </Snackbar>
+          ) : null
+        }
       </Box>
     </div>
   );

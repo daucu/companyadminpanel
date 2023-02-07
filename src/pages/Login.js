@@ -413,7 +413,7 @@ export default function Login() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+            {/* <LockOutlinedIcon /> */}
           </Avatar>
           <Typography component="h1" variant="h5">
             Login
@@ -476,6 +476,13 @@ export default function Login() {
               <Grid item xs>
                 <Link href="/company_reg" variant="body2">
                   Register Your Company here!
+                </Link>
+              </Grid>
+            </Grid>
+            <Grid container style={{ marginTop: 10 }}>
+              <Grid item xs>
+                <Link href="/company_login" variant="body2">
+                  Login Your Company here!
                 </Link>
               </Grid>
             </Grid>

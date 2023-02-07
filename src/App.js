@@ -38,6 +38,7 @@ import ViewProduct from "./pages/ViewProduct";
 import UpdateProduct from "./pages/UpdateProduct";
 import Loading from "./pages/Loading";
 import Company_reg from "./pages/Company_reg";
+import Company_Login from "./pages/Company_Login";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -105,6 +106,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/company_reg" element={<Company_reg />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/company_login" element={<Company_Login />} />
 
           <Route path="/admin" element={<MiniDrawer />}>
             <Route path="" element={<Dashboard />} />

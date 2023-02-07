@@ -5,7 +5,12 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { TextareaAutosize, TextField, Tooltip } from "@mui/material";
+import {
+  Autocomplete,
+  TextareaAutosize,
+  TextField,
+  Tooltip,
+} from "@mui/material";
 import "../styles/company_reg.css";
 import { Stack } from "@mui/system";
 import axios from "axios";
@@ -24,6 +29,7 @@ export default function Company_reg() {
   const [phone, setPhone] = useState(""); // phone done
   const [email, setEmail] = useState(""); // email done
   const [gst, setGst] = useState(""); // gst done
+  const [tags, setTags] = useState([]);
   const [company_owner, setCompany_owner] = useState(""); // company_owner done
   const [category, setCategory] = useState(""); // category done
   const [contact_email, setContact_email] = useState(""); // contact_email done
@@ -63,7 +69,133 @@ export default function Company_reg() {
         console.log(err);
       });
   };
-
+  const top100Films = [
+    { title: "The Shawshank Redemption", year: 1994 },
+    { title: "The Godfather", year: 1972 },
+    { title: "The Godfather: Part II", year: 1974 },
+    { title: "The Dark Knight", year: 2008 },
+    { title: "12 Angry Men", year: 1957 },
+    { title: "Schindler's List", year: 1993 },
+    { title: "Pulp Fiction", year: 1994 },
+    {
+      title: "The Lord of the Rings: The Return of the King",
+      year: 2003,
+    },
+    { title: "The Good, the Bad and the Ugly", year: 1966 },
+    { title: "Fight Club", year: 1999 },
+    {
+      title: "The Lord of the Rings: The Fellowship of the Ring",
+      year: 2001,
+    },
+    {
+      title: "Star Wars: Episode V - The Empire Strikes Back",
+      year: 1980,
+    },
+    { title: "Forrest Gump", year: 1994 },
+    { title: "Inception", year: 2010 },
+    {
+      title: "The Lord of the Rings: The Two Towers",
+      year: 2002,
+    },
+    { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
+    { title: "Goodfellas", year: 1990 },
+    { title: "The Matrix", year: 1999 },
+    { title: "Seven Samurai", year: 1954 },
+    {
+      title: "Star Wars: Episode IV - A New Hope",
+      year: 1977,
+    },
+    { title: "City of God", year: 2002 },
+    { title: "Se7en", year: 1995 },
+    { title: "The Silence of the Lambs", year: 1991 },
+    { title: "It's a Wonderful Life", year: 1946 },
+    { title: "Life Is Beautiful", year: 1997 },
+    { title: "The Usual Suspects", year: 1995 },
+    { title: "Léon: The Professional", year: 1994 },
+    { title: "Spirited Away", year: 2001 },
+    { title: "Saving Private Ryan", year: 1998 },
+    { title: "Once Upon a Time in the West", year: 1968 },
+    { title: "American History X", year: 1998 },
+    { title: "Interstellar", year: 2014 },
+    { title: "Casablanca", year: 1942 },
+    { title: "City Lights", year: 1931 },
+    { title: "Psycho", year: 1960 },
+    { title: "The Green Mile", year: 1999 },
+    { title: "The Intouchables", year: 2011 },
+    { title: "Modern Times", year: 1936 },
+    { title: "Raiders of the Lost Ark", year: 1981 },
+    { title: "Rear Window", year: 1954 },
+    { title: "The Pianist", year: 2002 },
+    { title: "The Departed", year: 2006 },
+    { title: "Terminator 2: Judgment Day", year: 1991 },
+    { title: "Back to the Future", year: 1985 },
+    { title: "Whiplash", year: 2014 },
+    { title: "Gladiator", year: 2000 },
+    { title: "Memento", year: 2000 },
+    { title: "The Prestige", year: 2006 },
+    { title: "The Lion King", year: 1994 },
+    { title: "Apocalypse Now", year: 1979 },
+    { title: "Alien", year: 1979 },
+    { title: "Sunset Boulevard", year: 1950 },
+    {
+      title:
+        "Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb",
+      year: 1964,
+    },
+    { title: "The Great Dictator", year: 1940 },
+    { title: "Cinema Paradiso", year: 1988 },
+    { title: "The Lives of Others", year: 2006 },
+    { title: "Grave of the Fireflies", year: 1988 },
+    { title: "Paths of Glory", year: 1957 },
+    { title: "Django Unchained", year: 2012 },
+    { title: "The Shining", year: 1980 },
+    { title: "WALL·E", year: 2008 },
+    { title: "American Beauty", year: 1999 },
+    { title: "The Dark Knight Rises", year: 2012 },
+    { title: "Princess Mononoke", year: 1997 },
+    { title: "Aliens", year: 1986 },
+    { title: "Oldboy", year: 2003 },
+    { title: "Once Upon a Time in America", year: 1984 },
+    { title: "Witness for the Prosecution", year: 1957 },
+    { title: "Das Boot", year: 1981 },
+    { title: "Citizen Kane", year: 1941 },
+    { title: "North by Northwest", year: 1959 },
+    { title: "Vertigo", year: 1958 },
+    {
+      title: "Star Wars: Episode VI - Return of the Jedi",
+      year: 1983,
+    },
+    { title: "Reservoir Dogs", year: 1992 },
+    { title: "Braveheart", year: 1995 },
+    { title: "M", year: 1931 },
+    { title: "Requiem for a Dream", year: 2000 },
+    { title: "Amélie", year: 2001 },
+    { title: "A Clockwork Orange", year: 1971 },
+    { title: "Like Stars on Earth", year: 2007 },
+    { title: "Taxi Driver", year: 1976 },
+    { title: "Lawrence of Arabia", year: 1962 },
+    { title: "Double Indemnity", year: 1944 },
+    {
+      title: "Eternal Sunshine of the Spotless Mind",
+      year: 2004,
+    },
+    { title: "Amadeus", year: 1984 },
+    { title: "To Kill a Mockingbird", year: 1962 },
+    { title: "Toy Story 3", year: 2010 },
+    { title: "Logan", year: 2017 },
+    { title: "Full Metal Jacket", year: 1987 },
+    { title: "Dangal", year: 2016 },
+    { title: "The Sting", year: 1973 },
+    { title: "2001: A Space Odyssey", year: 1968 },
+    { title: "Singin' in the Rain", year: 1952 },
+    { title: "Toy Story", year: 1995 },
+    { title: "Bicycle Thieves", year: 1948 },
+    { title: "The Kid", year: 1921 },
+    { title: "Inglourious Basterds", year: 2009 },
+    { title: "Snatch", year: 2000 },
+    { title: "3 Idiots", year: 2009 },
+    { title: "Monty Python and the Holy Grail", year: 1975 },
+  ];
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
@@ -109,12 +241,22 @@ export default function Company_reg() {
     setActiveStep(0);
   };
 
+  // img
+  const [imgurl, setImgurl] = useState(null);
+
   return (
     <div
       style={{
         backgroundColor: "#E2EBF0",
-        padding: "50px",
         height: "100vh",
+        padding: "50px 10px",
+        // media query
+        "@media (max-width: 768px)": {
+          display: "flex",
+          padding: "0px",
+          justifyContent: "center",
+          alignItems: "center",
+        },
       }}
     >
       <Box
@@ -124,6 +266,10 @@ export default function Company_reg() {
           background: "white",
           height: "80vh",
           padding: "20px",
+          "@media (max-width: 768px)": {
+            width: "90%",
+            height: "90vh",
+          },
         }}
       >
         <Tooltip
@@ -144,7 +290,8 @@ export default function Company_reg() {
           <Stepper
             activeStep={activeStep}
             sx={{
-              padding: "50px",
+              padding: "50px 0px",
+              width: "100%",
             }}
           >
             {steps.map((label, index) => {
@@ -160,7 +307,7 @@ export default function Company_reg() {
               }
               return (
                 <Step key={label} {...stepProps}>
-                  <StepLabel {...labelProps}>{label}</StepLabel>
+                  <StepLabel {...labelProps}>{label} </StepLabel>
                 </Step>
               );
             })}
@@ -248,6 +395,33 @@ export default function Company_reg() {
                       padding: "10px",
                     }}
                   >
+                    <Autocomplete
+                      multiple
+                      limitTags={3}
+                      id="multiple-limit-tags"
+                      options={top100Films}
+                      variant="filled"
+                      getOptionLabel={(option) => option.title}
+                      value={tags}
+                      onChange={(e) => setTags(e.target.value)}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          variant="filled"
+                          label="Tags"
+                          placeholder="Favorites"
+                        />
+                      )}
+                      sx={{ width: "100%" }}
+                    />
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{
+                      padding: "10px",
+                    }}
+                  >
                     <TextField
                       multiline
                       rows={6}
@@ -270,19 +444,19 @@ export default function Company_reg() {
                       padding: "10px",
                       textAlign: "center",
                       display: "flex",
-                      flexDirection: "column",
+                      justifyContent: "space-between",
                     }}
                   >
                     <div
                       style={{
-                        width: "90%",
+                        width: "50%",
                         margin: "auto",
                       }}
                     >
                       <div
                         className="imgcont"
                         style={{
-                          width: "100%",
+                          width: "90%",
                           margin: "auto",
                           height: "200px",
                           border: "1px solid black",
@@ -305,7 +479,47 @@ export default function Company_reg() {
                           variant="contained"
                           component="label"
                           sx={{
-                            width: "100%",
+                            width: "90%",
+                          }}
+                        >
+                          Upload
+                          <input hidden accept="image/*" multiple type="file" />
+                        </Button>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        width: "50%",
+                        margin: "auto",
+                      }}
+                    >
+                      <div
+                        className="imgcont"
+                        style={{
+                          width: "90%",
+                          margin: "auto",
+                          height: "200px",
+                          border: "1px solid black",
+                          borderStyle: "dashed",
+                          borderRadius: "10px",
+                          display: "flex",
+                          textAlign: "center",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <h2>Digital Signature</h2>
+                      </div>
+                      <div
+                        style={{
+                          marginTop: "20px",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          component="label"
+                          sx={{
+                            width: "90%",
                           }}
                         >
                           Upload
@@ -489,7 +703,10 @@ export default function Company_reg() {
                   color="inherit"
                   disabled={activeStep === 0}
                   onClick={handleBack}
-                  sx={{ mr: 1 }}
+                  sx={{
+                    mr: 1,
+                    // hover css
+                  }}
                 >
                   Back
                 </Button>

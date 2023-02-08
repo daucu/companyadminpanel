@@ -316,30 +316,22 @@ export default function MiniDrawer() {
           {menu_items.map((item) => (
             <div key={item.id}>
               {item.header && open && (
-                <ListItemButton
-                  key={item.label}
-                  sx={{
-                    py: 0,
-                    minHeight: 32,
+                <ListItemText
+                  primary={item.name}
+                  primaryTypographyProps={{
+                    fontSize: 18,
+                    fontWeight: "semibold",
                   }}
-                >
-                  <ListItemText
-                    primary={item.name}
-                    primaryTypographyProps={{
-                      fontSize: 18,
-                      fontWeight: "semibold",
-                    }}
-                    sx={{
-                      color: "rgb(85,85,85)",
-                      textAlign: "left",
-                      alignItems: "center",
-                      display: "flex",
-                      justifyContent: "left",
-                      marginBottom: 1,
-                      marginTop: 2,
-                    }}
-                  />
-                </ListItemButton>
+                  sx={{
+                    color: "rgb(85,85,85)",
+                    padding: "5px 10px",
+                    textAlign: "left",
+                    alignItems: "center",
+                    display: "flex",
+                    justifyContent: "left",
+                    marginBottom: 1,
+                  }}
+                />
               )}
               {!item.header && (
                 <ListItemButton

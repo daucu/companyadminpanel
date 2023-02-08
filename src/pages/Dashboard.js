@@ -122,7 +122,7 @@ export default function Dashboard() {
             <Item
               className="itemcard"
               sx={{
-                backgroundColor: "#f4f4f4",
+                backgroundColor: "white",
               }}
             >
               <div>
@@ -164,7 +164,7 @@ export default function Dashboard() {
             <Item
               className="itemcard"
               sx={{
-                backgroundColor: "#f4f4f4",
+                backgroundColor: "white",
               }}
             >
               <div>
@@ -206,7 +206,7 @@ export default function Dashboard() {
             <Item
               className="itemcard"
               sx={{
-                backgroundColor: "#f4f4f4",
+                backgroundColor: "white",
               }}
             >
               <div>
@@ -248,7 +248,7 @@ export default function Dashboard() {
             <Item
               className="itemcard"
               sx={{
-                backgroundColor: "#f4f4f4",
+                backgroundColor: "white",
               }}
             >
               <div>
@@ -292,7 +292,7 @@ export default function Dashboard() {
             <Item
               className="itemcard"
               sx={{
-                backgroundColor: "#f4f4f4",
+                backgroundColor: "white",
               }}
             >
               <div>

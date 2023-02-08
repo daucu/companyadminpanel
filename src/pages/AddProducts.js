@@ -192,13 +192,12 @@ export default function AddProduct() {
                 label="Product Title"
                 name={title}
                 onChange={(e) => setTitle(e.target.value)}
-                focused={true}
                 minRows={6}
-                variant="filled"
+                variant="outlined"
                 sx={{
                   width: "100%",
                   color: "#fff",
-                  backgroundColor: "#f0f0f0",
+
                   outline: "none",
                   border: "none",
                   fontSize: "1.2rem",
@@ -211,16 +210,15 @@ export default function AddProduct() {
                 id="outlined-basic"
                 placeholder="Product content"
                 label="Product Description"
-                focused={true}
                 multiline={true}
                 name={description}
                 onChange={(e) => setDescription(e.target.value)}
                 minRows={6}
-                variant="filled"
+                variant="outlined"
                 sx={{
                   width: "100%",
                   color: "#fff",
-                  backgroundColor: "#f0f0f0",
+
                   outline: "none",
                   border: "none",
                   fontSize: "1.2rem",
@@ -238,13 +236,12 @@ export default function AddProduct() {
                 label="Price"
                 name={price}
                 onChange={(e) => setPrice(e.target.value)}
-                focused={true}
-                variant="filled"
+                variant="outlined"
                 size="small"
                 sx={{
                   width: "100%",
                   color: "#fff",
-                  backgroundColor: "#f0f0f0",
+
                   outline: "none",
                   border: "none",
                   fontSize: "1rem",
@@ -260,13 +257,12 @@ export default function AddProduct() {
                 label="Sale Price"
                 name={salePrice}
                 onChange={(e) => setSalePrice(e.target.value)}
-                focused={true}
-                variant="filled"
+                variant="outlined"
                 size="small"
                 sx={{
                   width: "100%",
                   color: "#fff",
-                  backgroundColor: "#f0f0f0",
+
                   outline: "none",
                   border: "none",
                   fontSize: "1rem",
@@ -282,13 +278,12 @@ export default function AddProduct() {
                 label="Vendor"
                 name={vendor}
                 onChange={(e) => setVendor(e.target.value)}
-                focused={true}
-                variant="filled"
+                variant="outlined"
                 size="small"
                 sx={{
                   width: "100%",
                   color: "#fff",
-                  backgroundColor: "#f0f0f0",
+
                   outline: "none",
                   border: "none",
                   fontSize: "1rem",
@@ -304,13 +299,12 @@ export default function AddProduct() {
                 label="Type"
                 name={type}
                 onChange={(e) => setType(e.target.value)}
-                focused={true}
-                variant="filled"
+                variant="outlined"
                 size="small"
                 sx={{
                   width: "100%",
                   color: "#fff",
-                  backgroundColor: "#f0f0f0",
+
                   outline: "none",
                   border: "none",
                   fontSize: "1rem",
@@ -326,13 +320,12 @@ export default function AddProduct() {
                 label="Featured"
                 name={featured}
                 onChange={(e) => setFeatured(e.target.value)}
-                focused={true}
-                variant="filled"
+                variant="outlined"
                 size="small"
                 sx={{
                   width: "100%",
                   color: "#fff",
-                  backgroundColor: "#f0f0f0",
+
                   outline: "none",
                   border: "none",
                   fontSize: "1rem",
@@ -348,13 +341,12 @@ export default function AddProduct() {
                 label="Language"
                 name={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                focused={true}
-                variant="filled"
+                variant="outlined"
                 size="small"
                 sx={{
                   width: "100%",
                   color: "#fff",
-                  backgroundColor: "#f0f0f0",
+
                   outline: "none",
                   border: "none",
                   fontSize: "1rem",
@@ -366,23 +358,20 @@ export default function AddProduct() {
 
               {/* Category */}
               <TextField
-                id="outlined-basic"
                 type={"file"}
-                placeholder="https://google.com/image.png"
-                label="Product Image"
-                focused={true}
+                required
+                id="outlined-required"
                 name="banner"
                 onChange={(e) => setImage(e.target.files[0])}
-                variant="filled"
+                variant="outlined"
                 size="small"
                 sx={{
                   width: "100%",
                   color: "#fff",
-                  backgroundColor: "#f0f0f0",
+
                   outline: "none",
                   border: "none",
                   fontSize: "1rem",
-                  placeholder: "Enter Page Title",
                   placeholderColor: "#fff",
                   marginTop: 1,
                 }}
@@ -393,13 +382,13 @@ export default function AddProduct() {
               id="outlined-basic"
               placeholder="sale"
               label="Product Category"
-              focused={true}
-              variant="filled"
+              
+              variant="outlined"
               size="small"
               sx={{
                 width: "100%",
                 color: "#fff",
-                backgroundColor: "#f0f0f0",
+                
                 outline: "none",
                 border: "none",
                 fontSize: "1rem",
@@ -412,18 +401,18 @@ export default function AddProduct() {
               {/* Date */}
               <TextField
                 type={"date"}
-                id="outlined-basic"
                 placeholder="13/09/2022"
-                label="Ready for bid"
-                focused={true}
+                required
+                id="filled-required"
+                label="Bid Date"
                 name={bidDate}
                 onChange={(e) => setBidDate(e.target.value)}
-                variant="filled"
+                variant="outlined"
                 size="small"
                 sx={{
                   width: "100%",
                   color: "#fff",
-                  backgroundColor: "#f0f0f0",
+
                   outline: "none",
                   border: "none",
                   fontSize: "1rem",
@@ -452,7 +441,7 @@ export default function AddProduct() {
                 sx={{
                   width: "100%",
                   color: "black",
-                  backgroundColor: "#f0f0f0",
+
                   outline: "none",
                   border: "none",
                   fontSize: "1rem",
@@ -472,16 +461,16 @@ export default function AddProduct() {
               id="outlined-basic"
               placeholder="Active default"
               label="Status"
-              focused={true}
+              
               name={status}
               value="active"
               onChange={(e) => setStatus(e.target.value)}
-              variant="filled"
+              variant="outlined"
               size="small"
               sx={{
                 width: "100%",
                 color: "#fff",
-                backgroundColor: "#f0f0f0",
+                
                 outline: "none",
                 border: "none",
                 fontSize: "1rem",

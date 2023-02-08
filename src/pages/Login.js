@@ -309,6 +309,30 @@ export default function Login() {
   const [erroralert, setErroralert] = React.useState(false);
   const [errorOpen, setErrorOpen] = React.useState(false);
 
+  // code to show and hide password with eye icon
+  const [values, setValues] = React.useState({
+    showPassword: false,
+  });
+
+  const handleClickShowPassword = () => {
+    setValues({
+      ...values,
+      showPassword: !values.showPassword,
+    });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleErrorClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const navigate = useNavigate();
 
   // https://ayakart.dauqu.com/api/login
@@ -431,6 +455,7 @@ export default function Login() {
               onChange={(e) => setUserName(e.target.value)}
               value={username}
             />
+            {/* code for textfield with show and hide password with eye icon */}
             <TextField
               margin="normal"
               required

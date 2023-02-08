@@ -1,0 +1,41 @@
+.itemcard {
+  min-width: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.itemcard:hover {
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25), 0 3px 3px rgba(0, 0, 0, 0.22);
+}
+
+.chartcontainer {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 50px;
+}
+.leftchart {
+  width: 65%;
+}
+.rightchart {
+  width: 25%;
+}
+@media (max-width: 1000px) {
+  .chartcontainer {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .leftchart {
+    width: 100%;
+  }
+  .rightchart {
+    width: 40%;
+    margin: 100px auto;
+  }
+}

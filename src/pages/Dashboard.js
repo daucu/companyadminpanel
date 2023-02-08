@@ -68,12 +68,12 @@ export const data = {
         // random number between 0 and 100
         Math.floor(Math.random() * 10000)
       ),
-      backgroundColor: "rgba(255, 99, 132, 0.5)",
+      backgroundColor: "#1A2027",
     },
     {
       label: "Dataset 2",
       data: labels.map(() => Math.floor(Math.random() * 5000)),
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
+      backgroundColor: "#F55D0B",
     },
   ],
 };

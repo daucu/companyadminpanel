@@ -43,7 +43,7 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
-  background: "#1A2027",
+  background: "#fff",
 });
 
 const closedMixin = (theme) => ({
@@ -56,7 +56,7 @@ const closedMixin = (theme) => ({
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(7)} + 1px)`,
   },
-  background: "#1A2027",
+  background: "#fff",
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -168,8 +168,8 @@ export default function MiniDrawer() {
         open={open}
         sx={{
           boxShadow: 0,
-          background: "#1A2027",
-          borderBottom: "1px solid #333",
+          background: "rgb(247,250,252)",
+          borderBottom: ".5px solid #d9d9d9",
         }}
       >
         <Toolbar variant="dense">
@@ -179,6 +179,7 @@ export default function MiniDrawer() {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
+              color: "#000",
               marginRight: "36px",
               ...(open && { display: "none" }),
             }}
@@ -189,7 +190,7 @@ export default function MiniDrawer() {
             {open === true ? (
               <IconButton
                 onClick={handleDrawerClose}
-                sx={{ color: "#ffffff", marginLeft: 0 }}
+                sx={{ color: "#000", marginLeft: 0 }}
               >
                 <KeyboardDoubleArrowLeftTwoToneIcon />
               </IconButton>
@@ -213,7 +214,7 @@ export default function MiniDrawer() {
             aria-haspopup="true"
             onClick={handleDrawerClose}
             sx={{
-              color: "#ffffff",
+              color: "#000",
               marginLeft: "auto",
               marginRight: 5,
             }}
@@ -221,9 +222,9 @@ export default function MiniDrawer() {
             <StyledBadge
               badgeContent={countNotifications}
               color="error"
-              to="/notifications"
+              to="/admin/notifications"
               component={RouterLink}
-              sx={{ color: "#ffffff" }}
+              sx={{ color: "#000" }}
             >
               <NotificationsTwoToneIcon />
             </StyledBadge>
@@ -246,21 +247,20 @@ export default function MiniDrawer() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open} sx={{ background: "#1A2027" }}>
+      <Drawer variant="permanent" open={open} sx={{ background: "#fff" }}>
         <AppBar position="static" color="default" elevation={0}>
           <Toolbar
             variant="dense"
             sx={{
-              background: "#1A2027",
               boxShadow: 0,
               height: 40,
               color: "#ffffff",
-              borderBottom: "1px solid #333",
+              backgroundColor: "#ffffff",
             }}
           >
             <DrawerHeader
               sx={{
-                color: "#ffffff",
+                color: "#000000",
                 justifyContent: "center",
                 display: "flex",
                 textAlign: "center",
@@ -269,11 +269,12 @@ export default function MiniDrawer() {
             >
               <Typography
                 sx={{
-                  color: "#ffffff",
                   justifyContent: "center",
                   display: "flex",
                   textAlign: "center",
                   alignItems: "center",
+                  fontSize: 18,
+                  fontWeight: 600,
                 }}
               >
                 123AUC
@@ -293,56 +294,97 @@ export default function MiniDrawer() {
               style={{
                 height: "50px",
                 width: "50px",
-                color: "#fff",
+                color: "#000",
               }}
             />
-            <div
-              style={{
-                color: "#fff",
-              }}
-            >
-              {userdata.fullname}
-            </div>
+            {open && (
+              <div
+                style={{
+                  color: "#000",
+                }}
+              >
+                {userdata.fullname}
+              </div>
+            )}
           </div>
         </div>
         <List
           sx={{
-            background: "#1A2027",
+            background: "#fff",
           }}
         >
           {menu_items.map((item) => (
             <div key={item.id}>
-              <ListItemButton
-                key={item.label}
-                sx={{
-                  py: 0,
-                  minHeight: 32,
-                  color: "rgba(255,255,255,.8)",
-                  ":hover": { color: "#ffffff", background: "#0070d1" },
-                }}
-                to={item.url}
-                component={RouterLink}
-                className={location.pathname === item.url ? "active" : null}
-              >
-                <ListItemIcon sx={{ color: "inherit" }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.name}
-                  primaryTypographyProps={{
-                    fontSize: 14,
-                    fontWeight: "medium",
-                  }}
+              {item.header && open && (
+                <ListItemButton
+                  key={item.label}
                   sx={{
-                    color: "#ffffff",
-                    textAlign: "left",
-                    alignItems: "center",
-                    display: "flex",
-                    justifyContent: "left",
-                    marginBottom: 1,
+                    py: 0,
+                    minHeight: 32,
                   }}
-                />
-              </ListItemButton>
+                >
+                  <ListItemText
+                    primary={item.name}
+                    primaryTypographyProps={{
+                      fontSize: 18,
+                      fontWeight: "semibold",
+                    }}
+                    sx={{
+                      color: "rgb(85,85,85)",
+                      textAlign: "left",
+                      alignItems: "center",
+                      display: "flex",
+                      justifyContent: "left",
+                      marginBottom: 1,
+                      marginTop: 2,
+                    }}
+                  />
+                </ListItemButton>
+              )}
+              {!item.header && (
+                <ListItemButton
+                  key={item.label}
+                  sx={{
+                    py: 0,
+                    minHeight: 32,
+                    ":hover": {
+                      boxShadow: "1px 2px 3px #d9d9d9",
+                    },
+                  }}
+                  to={item.url}
+                  component={RouterLink}
+                  className={location.pathname === item.url ? "active" : null}
+                >
+                  <ListItemIcon
+                    sx={{
+                      color:
+                        location.pathname === item.url
+                          ? "white"
+                          : "rgb(85,85,85)",
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.name}
+                    primaryTypographyProps={{
+                      fontSize: 14,
+                      fontWeight: "medium",
+                    }}
+                    sx={{
+                      color:
+                        location.pathname === item.url
+                          ? "white"
+                          : "rgb(33,33,33)",
+                      textAlign: "left",
+                      alignItems: "center",
+                      display: "flex",
+                      justifyContent: "left",
+                      marginBottom: 1,
+                    }}
+                  />
+                </ListItemButton>
+              )}
             </div>
           ))}
           {/* <div>

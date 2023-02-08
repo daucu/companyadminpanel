@@ -25,10 +25,20 @@ import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 const menu_items = [
   {
+    id: "header1",
+    name: "Dashboard",
+    header: true,
+  },
+  {
     id: "1",
     name: "Dashboard",
     icon: <AutoAwesomeMosaicTwoToneIcon />,
     url: "/admin",
+  },
+  {
+    id: "category1",
+    name: "Categories",
+    header: true,
   },
   {
     id: "2",
@@ -43,6 +53,11 @@ const menu_items = [
   //   url: "/admin/posts",
   // },
   {
+    id: "products1",
+    name: "Products",
+    header: true,
+  },
+  {
     id: "3",
     name: "Add Products",
     icon: <PostAddTwoToneIcon />,
@@ -55,12 +70,21 @@ const menu_items = [
     url: "/admin/products",
   },
   {
+    id: "auctions1",
+    name: "Auctions",
+    header: true,
+  },
+  {
     id: "5",
     name: "Auctions & Bids",
     icon: <CopyAllTwoToneIcon />,
     url: "/admin/auctions",
   },
-
+  {
+    id: "withdraw1",
+    name: "Withdraw",
+    header: true,
+  },
   {
     id: "6",
     name: "Withdraw",
@@ -115,6 +139,11 @@ const menu_items = [
   //   icon: <ShoppingCartCheckoutTwoToneIcon />,
   //   url: "/admin/orders",
   // },
+  {
+    id: "media1",
+    name: "Media",
+    header: true,
+  },
   {
     id: "15",
     name: "Upload Files & Media",

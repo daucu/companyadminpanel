@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: rgb(247, 250, 252);
 }
 
 .App-logo {
@@ -38,7 +39,6 @@
   background: #000000 !important;
 } */
 
-
 ::-webkit-scrollbar {
   width: 5px;
   cursor: pointer !important;
@@ -46,19 +46,28 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f100; 
+  background: #f1f1f100;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #8888883f; 
+  background: #8888883f;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #ffffff42; 
+  background: #ffffff42;
 }
 
-h1, h2, h3, h4, h5, h6, p, div, span, button{
-  font-family: 'Hahmlet', serif !important;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div,
+span,
+button {
+  font-family: "Hahmlet", serif !important;
 }

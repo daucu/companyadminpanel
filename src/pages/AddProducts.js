@@ -45,7 +45,7 @@ export default function AddProduct() {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [price, setPrice] = React.useState("");
-  const [salePrice, setSalePrice] = React.useState("");
+  const [sale_price, setSale_price] = React.useState("");
   const [image, setImage] = React.useState("");
   const [vendor, setVendor] = React.useState("");
   const [status, setStatus] = React.useState("");
@@ -100,8 +100,8 @@ export default function AddProduct() {
     formdata.append("slug", slug);
     formdata.append("description", description);
     formdata.append("price", price);
-    formdata.append("salePrice", salePrice);
-    formdata.append("banner", image);
+    formdata.append("sale_price", sale_price);
+    formdata.append("image", image);
     formdata.append("vendor", vendor);
     formdata.append("status", status);
     formdata.append("category", category);
@@ -190,6 +190,7 @@ export default function AddProduct() {
                 id="outlined-basic"
                 placeholder="Product title"
                 label="Product Title"
+                size="small"
                 name={title}
                 onChange={(e) => setTitle(e.target.value)}
                 minRows={6}
@@ -255,8 +256,8 @@ export default function AddProduct() {
                 id="outlined-basic"
                 placeholder="154"
                 label="Sale Price"
-                name={salePrice}
-                onChange={(e) => setSalePrice(e.target.value)}
+                name={sale_price}
+                onChange={(e) => setSale_price(e.target.value)}
                 variant="outlined"
                 size="small"
                 sx={{
@@ -361,7 +362,7 @@ export default function AddProduct() {
                 type={"file"}
                 required
                 id="outlined-required"
-                name="banner"
+                name="image"
                 onChange={(e) => setImage(e.target.files[0])}
                 variant="outlined"
                 size="small"
@@ -401,10 +402,8 @@ export default function AddProduct() {
               {/* Date */}
               <TextField
                 type={"date"}
-                placeholder="13/09/2022"
                 required
                 id="filled-required"
-                label="Bid Date"
                 name={bidDate}
                 onChange={(e) => setBidDate(e.target.value)}
                 variant="outlined"
@@ -412,11 +411,9 @@ export default function AddProduct() {
                 sx={{
                   width: "100%",
                   color: "#fff",
-
                   outline: "none",
                   border: "none",
                   fontSize: "1rem",
-                  placeholder: "Enter Page Title",
                   placeholderColor: "#fff",
                   marginTop: 1,
                 }}
@@ -435,6 +432,7 @@ export default function AddProduct() {
                 labelId="demo-select-small"
                 id="demo-select-small"
                 name={status}
+                size="small"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
                 label="Status"

@@ -1,6 +1,13 @@
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
+
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,6 +23,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import "./Drawer.css";
+import LogoutIcon from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
   Link as RouterLink,
@@ -109,6 +117,23 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
+const handleLogout = async () => {
+  var confirmation = window.confirm("Are you sure you want to logout?");
+  if (confirmation) {
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/login/user/logout`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data);
+        window.location.href = "/";
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+};
+
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
@@ -130,7 +155,7 @@ export default function MiniDrawer() {
   const [userdata, setUserdata] = useState("username");
   const checkLogin = async () => {
     await axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/login/checktoken`, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/login/check`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -159,7 +184,10 @@ export default function MiniDrawer() {
   } else {
     console.log("user is not logged in");
   }
-
+  // alert
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -230,20 +258,16 @@ export default function MiniDrawer() {
             </StyledBadge>
           </IconButton>
 
-          <Typography
-            variant="subtitle1"
-            sx={{ paddingRight: 1, cursor: "pointer" }}
+          <IconButton
+            to="account"
+            onClick={handleLogout}
+            sx={{
+              backgroundColor: "white",
+              color: "#000",
+              borderRadius: "50%",
+            }}
           >
-            {/* {profile.fname} */}
-          </Typography>
-          <IconButton to="account">
-            <Avatar
-              alt="Remy Sharp"
-              //   src={profile.dp}
-              sx={{ width: 30, height: 30 }}
-              to="account"
-              component={RouterLink}
-            />
+            <LogoutIcon sx={{ color: "#000" }} />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -290,20 +314,26 @@ export default function MiniDrawer() {
               margin: "20px auto",
             }}
           >
-            <AccountCircleIcon
+            {/* <AccountCircleIcon
               style={{
                 height: "50px",
                 width: "50px",
                 color: "#000",
               }}
+            /> */}
+            <img
+              src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
+              style={{ height: "90px", width: "90px", borderRadius: "50%" }}
             />
+
             {open && (
               <div
                 style={{
                   color: "#000",
                 }}
               >
-                {userdata.fullname}
+                User
+                {/* {userdata.name} */}
               </div>
             )}
           </div>

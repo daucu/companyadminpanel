@@ -379,25 +379,26 @@ export default function AddProduct() {
               />
 
               {/* Category */}
-              {/* <TextField
-              id="outlined-basic"
-              placeholder="sale"
-              label="Product Category"
-              
-              variant="outlined"
-              size="small"
-              sx={{
-                width: "100%",
-                color: "#fff",
-                
-                outline: "none",
-                border: "none",
-                fontSize: "1rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "#fff",
-                marginTop: 1,
-              }}
-            /> */}
+              <TextField
+                id="outlined-basic"
+                placeholder="sale"
+                label="Product Category"
+                name={category}
+                onChange={(e) => setCategory(e.target.value)}
+                variant="outlined"
+                size="small"
+                sx={{
+                  width: "100%",
+                  color: "#fff",
+
+                  outline: "none",
+                  border: "none",
+                  fontSize: "1rem",
+                  placeholder: "Enter Page Title",
+                  placeholderColor: "#fff",
+                  marginTop: 1,
+                }}
+              />
 
               {/* Date */}
               <TextField

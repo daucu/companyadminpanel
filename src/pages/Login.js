@@ -341,7 +341,7 @@ export default function Login() {
     setIsLoading(true);
     e.preventDefault();
     await axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/login`, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/login/company`, {
         email: username,
         password: password,
       })

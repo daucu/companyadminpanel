@@ -22,6 +22,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
+
 import "./Drawer.css";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -41,6 +42,7 @@ import menu_items from "./menu_items";
 import axios from "axios";
 import Loading from "../pages/Loading";
 import { useState } from "react";
+import { Button } from "@mui/material";
 
 const drawerWidth = 250;
 
@@ -116,22 +118,20 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     padding: "0 4px",
   },
 }));
-
+// code to remove token from cookies and redirect to login page on logout
 const handleLogout = async () => {
-  var confirmation = window.confirm("Are you sure you want to logout?");
-  if (confirmation) {
-    await axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/login/user/logout`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log(res.data);
-        window.location.href = "/";
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  await axios
+    .post(`${process.env.REACT_APP_BACKEND_URL}/login/logout`, {
+      withCredentials: true,
+    })
+    .then((res) => {
+      if (res.data.status === "success") {
+        window.location.href = "/login";
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 export default function MiniDrawer() {
@@ -184,10 +184,38 @@ export default function MiniDrawer() {
   } else {
     console.log("user is not logged in");
   }
-  // alert
+
+  // alert popup
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleClickOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setModalOpen(false);
+  };
+
+  // code to get profile data of company
+  const [companyProfileData, setCompanyProfileData] = React.useState([]);
+  const getCompanyProfileData = async () => {
+    await axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/profile/company`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data[0].data);
+        setCompanyProfileData(res.data[0].data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  React.useEffect(() => {
+    getCompanyProfileData();
+  }, []);
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -260,7 +288,7 @@ export default function MiniDrawer() {
 
           <IconButton
             to="account"
-            onClick={handleLogout}
+            onClick={handleClickOpen}
             sx={{
               backgroundColor: "white",
               color: "#000",
@@ -332,7 +360,7 @@ export default function MiniDrawer() {
                   color: "#000",
                 }}
               >
-                User
+                {companyProfileData.contact_name}
                 {/* {userdata.name} */}
               </div>
             )}
@@ -419,6 +447,35 @@ export default function MiniDrawer() {
         <DrawerHeader />
         <Outlet />
       </Box>
+      {modalOpen === true ? (
+        <>
+          <Box>
+            <Dialog
+              open={handleClickOpen}
+              TransitionComponent={Transition}
+              keepMounted
+              onClose={handleClose}
+              aria-describedby="alert-dialog-slide-description"
+            >
+              <DialogContent>
+                <DialogContentText
+                  id="alert-dialog-slide-description"
+                  style={{
+                    fontSize: "25px",
+                    padding: "20px",
+                  }}
+                >
+                  Are you sure you want to logout?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleLogout}>Yes</Button>
+                <Button onClick={handleClose}>No</Button>
+              </DialogActions>
+            </Dialog>
+          </Box>
+        </>
+      ) : null}
     </Box>
   );
 }

@@ -440,7 +440,7 @@ export default function Login() {
             {/* <LockOutlinedIcon /> */}
           </Avatar>
           <Typography component="h1" variant="h5">
-            Login
+            Company Login
           </Typography>
           <Box component="form" onSubmit={createPost} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -501,13 +501,6 @@ export default function Login() {
               <Grid item xs>
                 <Link href="/company_reg" variant="body2">
                   Register Your Company here!
-                </Link>
-              </Grid>
-            </Grid>
-            <Grid container style={{ marginTop: 10 }}>
-              <Grid item xs>
-                <Link href="/company_login" variant="body2">
-                  Login Your Company here!
                 </Link>
               </Grid>
             </Grid>

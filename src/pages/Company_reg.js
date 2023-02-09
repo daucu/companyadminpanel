@@ -25,7 +25,7 @@ const steps = ["Basic information", "Upload Documents", "Verification"];
 
 export default function Company_reg() {
   const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    return <MuiAlert elevation={6} ref={ref} variant="outlined" {...props} />;
   });
   const [name, setName] = useState(""); // name done
   const [title, setTitle] = useState(""); //  title done
@@ -72,8 +72,6 @@ export default function Company_reg() {
     formData.append("contact_phone", contact_phone);
     formData.append("contact_name", contact_name);
     formData.append("password", password);
-    formData.append("status", status);
-    formData.append("isVerified", isVerified);
     formData.append("digital_signature", digital_signature);
 
     const res = axios
@@ -248,10 +246,7 @@ export default function Company_reg() {
       contact_phone === "" ||
       password === "" ||
       company_owner === "" ||
-      status === "" ||
-      category === "" ||
-      isVerified === "" ||
-      status === ""
+      category === ""
     ) {
       setSteptwoErr(true);
       return false;
@@ -432,7 +427,7 @@ export default function Company_reg() {
                       name={name}
                       onChange={(e) => setName(e.target.value)}
                       label="Company Name"
-                      variant="filled"
+                      variant="outlined"
                       sx={{
                         width: "100%",
                       }}
@@ -444,7 +439,7 @@ export default function Company_reg() {
                       name={title}
                       onChange={(e) => setTitle(e.target.value)}
                       label="Company Title"
-                      variant="filled"
+                      variant="outlined"
                       sx={{
                         width: "100%",
                       }}
@@ -463,7 +458,7 @@ export default function Company_reg() {
                       name={address}
                       onChange={(e) => setAddress(e.target.value)}
                       label="Company Location"
-                      variant="filled"
+                      variant="outlined"
                       sx={{
                         width: "100%",
                       }}
@@ -474,7 +469,7 @@ export default function Company_reg() {
                       name={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       label="Company phone Number"
-                      variant="filled"
+                      variant="outlined"
                       sx={{
                         width: "100%",
                       }}
@@ -496,6 +491,7 @@ export default function Company_reg() {
                       label="Tags"
                       id="tags-standard"
                       options={top100Films}
+                      size="small"
                       //  get optionlabel from array without using map
                       getOptionLabel={(option) => option}
                       onChange={(e, value) => {
@@ -504,7 +500,7 @@ export default function Company_reg() {
                       renderInput={(params) => (
                         <TextField
                           {...params}
-                          variant="filled"
+                          variant="outlined"
                           label="Tags"
                           placeholder="Tags"
                           value={tags}
@@ -526,7 +522,7 @@ export default function Company_reg() {
                       name={description}
                       onChange={(e) => setDescription(e.target.value)}
                       placeholder="Company Description"
-                      variant="filled"
+                      variant="outlined"
                       style={{
                         width: "100%",
                       }}
@@ -706,7 +702,7 @@ export default function Company_reg() {
                       name={email}
                       onChange={(e) => setEmail(e.target.value)}
                       label="Company Email"
-                      variant="filled"
+                      variant="outlined"
                       sx={{
                         width: "100%",
                       }}
@@ -717,7 +713,7 @@ export default function Company_reg() {
                       name={gst}
                       onChange={(e) => setGst(e.target.value)}
                       label="Company License"
-                      variant="filled"
+                      variant="outlined"
                       sx={{
                         width: "100%",
                       }}
@@ -736,7 +732,7 @@ export default function Company_reg() {
                       name={company_owner}
                       onChange={(e) => setCompany_owner(e.target.value)}
                       label="Owner Name"
-                      variant="filled"
+                      variant="outlined"
                       sx={{
                         width: "100%",
                       }}
@@ -747,7 +743,7 @@ export default function Company_reg() {
                       name={contact_phone}
                       onChange={(e) => setContact_phone(e.target.value)}
                       label="Owner Phone"
-                      variant="filled"
+                      variant="outlined"
                       sx={{
                         width: "100%",
                       }}
@@ -766,7 +762,7 @@ export default function Company_reg() {
                       name={contact_email}
                       onChange={(e) => setContact_email(e.target.value)}
                       label="Owner Email"
-                      variant="filled"
+                      variant="outlined"
                       sx={{
                         width: "100%",
                       }}
@@ -777,7 +773,7 @@ export default function Company_reg() {
                       name={password}
                       onChange={(e) => setPassword(e.target.value)}
                       label="Password"
-                      variant="filled"
+                      variant="outlined"
                       sx={{
                         width: "100%",
                       }}
@@ -796,18 +792,7 @@ export default function Company_reg() {
                       name={category}
                       onChange={(e) => setCategory(e.target.value)}
                       label="Business Category"
-                      variant="filled"
-                      sx={{
-                        width: "100%",
-                      }}
-                    />
-                    <TextField
-                      id="outlined-basic"
-                      size="small"
-                      name={isVerified}
-                      onChange={(e) => setIsVerified(e.target.value)}
-                      label="Verified"
-                      variant="filled"
+                      variant="outlined"
                       sx={{
                         width: "100%",
                       }}
@@ -826,18 +811,7 @@ export default function Company_reg() {
                       name={contact_name}
                       onChange={(e) => setContact_name(e.target.value)}
                       label="Contact Name"
-                      variant="filled"
-                      sx={{
-                        width: "100%",
-                      }}
-                    />
-                    <TextField
-                      id="outlined-basic"
-                      size="small"
-                      name={status}
-                      onChange={(e) => setStatus(e.target.value)}
-                      label="Status"
-                      variant="filled"
+                      variant="outlined"
                       sx={{
                         width: "100%",
                       }}

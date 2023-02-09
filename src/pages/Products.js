@@ -455,7 +455,7 @@ export default function Products() {
   //Get Product
   const getProducts = () => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/products/company/HarshaWeb`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/products`)
       .then((response) => {
         setProducts(response.data);
       });

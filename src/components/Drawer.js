@@ -159,7 +159,6 @@ export default function MiniDrawer() {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res);
         setUserLoginValue(res.data.islogin);
         setUserdata(res.data.user);
         if (res.data.islogin === true) {
@@ -180,9 +179,9 @@ export default function MiniDrawer() {
 
   // code to get logged in user data if logged in true
   if (userLoginValue === true) {
-    console.log("user is logged in");
+    // console.log("user is logged in");
   } else {
-    console.log("user is not logged in");
+    // console.log("user is not logged in");
   }
 
   // alert popup
@@ -206,7 +205,7 @@ export default function MiniDrawer() {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res.data[0].data);
+        // console.log(res.data[0].data);
         setCompanyProfileData(res.data[0].data);
       })
       .catch((e) => {

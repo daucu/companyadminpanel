@@ -74,8 +74,8 @@ function App() {
       })
       .then((res) => {
         setLoadingif(false);
-        console.log(res);
-        console.log(res.data.islogin);
+        // console.log(res);
+        // console.log(res.data.islogin);
         if (res.data.islogin === true) {
           navigate("/admin");
         } else {

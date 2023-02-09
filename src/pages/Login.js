@@ -346,8 +346,8 @@ export default function Login() {
         password: password,
       })
       .then((res) => {
-        console.log(res);
-        localStorage.setItem("token", res.data.token);
+        // console.log(res);
+        localStorage.setItem("token", res.data.token);  
         setAlert(res.data.message, res);
         setStatus(res.data.status);
         setOpen(true);

@@ -127,9 +127,11 @@ export default function AddProduct() {
         handleerrorOpen(true);
       });
   };
-
+  // loading animation
+  const [loadingGif, setLoadingGif] = React.useState(false);
   // code to get company profile data
   const [companyProfileData, setCompanyProfileData] = React.useState([]);
+
   const getCompanyProfileData = async () => {
     await axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/profile/company`, {
@@ -145,7 +147,7 @@ export default function AddProduct() {
   React.useEffect(() => {
     getCompanyProfileData();
   }, []);
-  return (  
+  return (
     <Box sx={{ flexGrow: 1, marginTop: 3 }}>
       {companyProfileData.isVerified === true ? (
         <>

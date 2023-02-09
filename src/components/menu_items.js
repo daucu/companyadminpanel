@@ -1,185 +1,155 @@
 // icons
-import AutoAwesomeMosaicTwoToneIcon from "@mui/icons-material/AutoAwesomeMosaicTwoTone";
-import ShoppingCartCheckoutTwoToneIcon from "@mui/icons-material/ShoppingCartCheckoutTwoTone";
-import ShoppingBagTwoToneIcon from "@mui/icons-material/ShoppingBagTwoTone";
-import CategoryTwoToneIcon from "@mui/icons-material/CategoryTwoTone";
-import PeopleTwoToneIcon from "@mui/icons-material/PeopleTwoTone";
-import SupportAgentTwoToneIcon from "@mui/icons-material/SupportAgentTwoTone";
-import DescriptionTwoToneIcon from "@mui/icons-material/DescriptionTwoTone";
-import PostAddTwoToneIcon from "@mui/icons-material/PostAddTwoTone";
-import SettingsTwoToneIcon from "@mui/icons-material/SettingsTwoTone";
-import CopyAllTwoToneIcon from "@mui/icons-material/CopyAllTwoTone";
-import SdStorageTwoToneIcon from "@mui/icons-material/SdStorageTwoTone";
-import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-import ApartmentIcon from "@mui/icons-material/Apartment";
-import PaymentsIcon from "@mui/icons-material/Payments";
-import StyleIcon from "@mui/icons-material/Style";
-import ClassIcon from "@mui/icons-material/Class";
-import SearchIcon from "@mui/icons-material/Search";
-import GridOnIcon from "@mui/icons-material/GridOn";
-import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
 
+import SdStorageTwoToneIcon from "@mui/icons-material/SdStorageTwoTone";
+
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import ElectricalServicesTwoToneIcon from "@mui/icons-material/ElectricalServicesTwoTone";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import LoyaltyTwoToneIcon from "@mui/icons-material/LoyaltyTwoTone";
+import AddBusinessTwoToneIcon from "@mui/icons-material/AddBusinessTwoTone";
+import ContactPhoneTwoToneIcon from "@mui/icons-material/ContactPhoneTwoTone";
+import PermMediaTwoToneIcon from "@mui/icons-material/PermMediaTwoTone";
+import GavelTwoToneIcon from "@mui/icons-material/GavelTwoTone";
+import DashboardTwoToneIcon from "@mui/icons-material/DashboardTwoTone";
+import TipsAndUpdatesTwoToneIcon from "@mui/icons-material/TipsAndUpdatesTwoTone";
+import StarBorderPurple500TwoToneIcon from "@mui/icons-material/StarBorderPurple500TwoTone";
+import WalletTwoToneIcon from "@mui/icons-material/WalletTwoTone";
+import AccountBalanceTwoToneIcon from "@mui/icons-material/AccountBalanceTwoTone";
+import HandshakeTwoToneIcon from "@mui/icons-material/HandshakeTwoTone";
+import FeaturedVideoTwoToneIcon from "@mui/icons-material/FeaturedVideoTwoTone";
+import ShowChartTwoToneIcon from "@mui/icons-material/ShowChartTwoTone";
+import PhonelinkSetupTwoToneIcon from "@mui/icons-material/PhonelinkSetupTwoTone";
+import WorkTwoToneIcon from "@mui/icons-material/WorkTwoTone";
+import SettingsSuggestTwoToneIcon from "@mui/icons-material/SettingsSuggestTwoTone";
+import AddCardTwoToneIcon from "@mui/icons-material/AddCardTwoTone";
 const menu_items = [
   {
-    id: "header1",
-    name: "Dashboard",
+    name: "Profile",
+    icon: <AccountBoxIcon />,
+    url: "/",
+  },
+  {
+    name: "Tags",
+    icon: <LoyaltyTwoToneIcon />,
+    url: "/",
+  },
+  {
+    name: "Work",
     header: true,
   },
   {
-    id: "1",
-    name: "Dashboard",
-    icon: <AutoAwesomeMosaicTwoToneIcon />,
-    url: "/admin",
-  },
-  {
-    id: "category1",
-    name: "Categories",
-    header: true,
-  },
-  {
-    id: "2",
-    name: "Categories",
-    icon: <CategoryTwoToneIcon />,
-    url: "/admin/categories",
-  },
-  // {
-  //   id: "3",
-  //   name: "Blogs & Posts",
-  //   icon: <PostAddTwoToneIcon />,
-  //   url: "/admin/posts",
-  // },
-  {
-    id: "products1",
     name: "Products",
-    header: true,
-  },
-  {
-    id: "3",
-    name: "Add Products",
-    icon: <PostAddTwoToneIcon />,
-    url: "/admin/new-product",
-  },
-  {
-    id: "4",
-    name: "View Products",
-    icon: <ShoppingBagTwoToneIcon />,
+    icon: <AddBusinessTwoToneIcon />,
     url: "/admin/products",
   },
   {
-    id: "auctions1",
+    name: "Add Products",
+    icon: <AddCardTwoToneIcon />,
+    url: "/admin/new-product",
+  },
+
+  {
+    name: "Services",
+    icon: <ElectricalServicesTwoToneIcon />,
+    url: "/admin/pservices",
+  },
+  {
+    name: "Contract",
+    icon: <ContactPhoneTwoToneIcon />,
+    url: "/admin/contract",
+  },
+  {
+    name: "Media",
+    icon: <PermMediaTwoToneIcon />,
+    url: "/admin/viewmedia",
+  },
+
+  {
     name: "Auctions",
     header: true,
   },
   {
-    id: "5",
-    name: "Auctions & Bids",
-    icon: <CopyAllTwoToneIcon />,
+    name: "Auction",
+    icon: <GavelTwoToneIcon />,
     url: "/admin/auctions",
   },
   {
-    id: "withdraw1",
-    name: "Withdraw",
+    name: "Report",
     header: true,
   },
   {
-    id: "6",
-    name: "Withdraw",
-    icon: <AccountBalanceIcon />,
-    url: "/admin/withdraw",
+    name: "Dashboard",
+    icon: <DashboardTwoToneIcon />,
+    url: "/admin",
   },
-  // {
-  //   id: "7",
-  //   name: "Services Management",
-  //   icon: <MiscellaneousServicesIcon />,
-  //   url: "/admin/services",
-  // },
-  // {
-  //   id: "8",
-  //   name: "Offers Management",
-  //   icon: <LocalOfferIcon />,
-  //   url: "/admin/offers",
-  // },
-  // {
-  //   id: "9",
-  //   name: "Companies Management",
-  //   icon: <ApartmentIcon />,
-  //   url: "/admin/companies",
-  // },
-  // {
-  //   id: "10",
-  //   name: "Commission Management",
-  //   icon: <PaymentsIcon />,
-  //   url: "/admin/commission",
-  // },
-  // {
-  //   id: "11",
-  //   name: "Tags Management",
-  //   icon: <StyleIcon />,
-  //   url: "/admin/tags",
-  // },
-  // {
-  //   id: "12",
-  //   name: "Classifications Management",
-  //   icon: <ClassIcon />,
-  //   url: "/admin/classifications",
-  // },
-  // {
-  //   id: "13",
-  //   name: "Search Management",
-  //   icon: <SearchIcon />,
-  //   url: "/admin/search",
-  // },
-  // {
-  //   id: "14",
-  //   name: "Bids",
-  //   icon: <ShoppingCartCheckoutTwoToneIcon />,
-  //   url: "/admin/orders",
-  // },
   {
-    id: "media1",
-    name: "Media",
+    name: "Deals",
+    icon: <TipsAndUpdatesTwoToneIcon />,
+    url: "/admin/deals",
+  },
+
+  {
+    name: "Offers",
+    icon: <StarBorderPurple500TwoToneIcon />,
+    url: "/admin/offers",
+  },
+  {
+    name: "Wallet",
     header: true,
   },
   {
-    id: "15",
-    name: "Upload Files & Media",
+    name: "Wallets",
+    icon: <WalletTwoToneIcon />,
+    url: "/admin/wallets",
+  },
+  {
+    name: "Bank Accounts",
+    icon: <AccountBalanceTwoToneIcon />,
+    url: "/admin/bankaccounts",
+  },
+  {
+    name: "Loyality Points",
+    header: true,
+  },
+  {
+    name: "Points",
+    icon: <HandshakeTwoToneIcon />,
+    url: "/admin/loyalitypoints",
+  },
+  {
+    name: "Ads",
+    icon: <FeaturedVideoTwoToneIcon />,
+    url: "/admin/ads",
+  },
+  {
+    name: "Others",
+    header: true,
+  },
+  {
+    name: "Traders",
+    icon: <ShowChartTwoToneIcon />,
+    url: "/",
+  },
+  {
+    name: "Jobs",
+    icon: <WorkTwoToneIcon />,
+    url: "/",
+  },
+  {
+    name: "Compliance",
     icon: <SdStorageTwoToneIcon />,
-    url: "/admin/media",
+    url: "/",
   },
   {
-    id: "16",
-    name: "View Files & Media",
-    icon: <CollectionsBookmarkIcon />,
-    url: "/admin/viewmedia",
+    name: "ChatBot Settings ",
+    icon: <PhonelinkSetupTwoToneIcon />,
+    url: "/admin/chatbotservice",
   },
-  // {
-  //   id: "17",
-  //   name: "Invoice Management",
-  //   icon: <DescriptionTwoToneIcon />,
-  //   url: "/admin/invoice",
-  // },
-  // {
-  //   id: "18",
-  //   name: "Users & Vendors",
-  //   icon: <PeopleTwoToneIcon />,
-  //   url: "/admin/users",
-  // },
-  // {
-  //   id: "19",
-  //   name: "Settings",
-  //   icon: <SettingsTwoToneIcon />,
-  //   url: "/admin/settings",
-  // },
-  // {
-  //   id: "20",
-  //   name: "System Info",
-  //   icon: <InfoTwoToneIcon />,
-  //   url: "/admin/info",
-  // },
+  {
+    name: "Settings ",
+    icon: <SettingsSuggestTwoToneIcon />,
+    url: "/",
+  },
 ];
 
 export default menu_items;

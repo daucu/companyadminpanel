@@ -39,6 +39,14 @@ import UpdateProduct from "./pages/UpdateProduct";
 import Loading from "./pages/Loading";
 import Company_reg from "./pages/Company_reg";
 import Company_Login from "./pages/Company_Login";
+import CharbotServices from "./pages/CharbotServices";
+import PServices from "./pages/PServices";
+import Contract from "./pages/Contract";
+import Deals from "./pages/Deals";
+import Wallets from "./pages/Wallets";
+import Bankaccounts from "./pages/Bankaccounts";
+import Loyality_Points from "./pages/Loyality_Points";
+import Ads from "./pages/Ads";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -125,7 +133,17 @@ function App() {
             <Route path="media" element={<Storage />} />
             <Route path="viewmedia" element={<ViewMedia />} />
             <Route path="withdraw" element={<Withdraw />} />
+            {/*  */}
+            <Route path="chatbotservice" element={<CharbotServices />} />
+            <Route path="pservices" element={<PServices />} />
+            <Route path="contract" element={<Contract />} />
+            <Route path="deals" element={<Deals />} />
+            <Route path="wallets" element={<Wallets />} />
+            <Route path="bankaccounts" element={<Bankaccounts />} />
+            <Route path="loyalitypoints" element={<Loyality_Points />} />
+            <Route path="ads" element={<Ads />} />
 
+            {/*  */}
             <Route path="pages" element={<Pages />} />
             <Route path="new-page" element={<AddPage />} />
 

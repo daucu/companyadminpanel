@@ -370,8 +370,8 @@ export default function MiniDrawer() {
             background: "#fff",
           }}
         >
-          {menu_items.map((item) => (
-            <div key={item.id}>
+          {menu_items.map((item, idx) => (
+            <div key={idx}>
               {item.header && open && (
                 <ListItemText
                   primary={item.name}

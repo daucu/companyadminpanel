@@ -47,6 +47,10 @@ import Wallets from "./pages/Wallets";
 import Bankaccounts from "./pages/Bankaccounts";
 import Loyality_Points from "./pages/Loyality_Points";
 import Ads from "./pages/Ads";
+import Traders from "./pages/Traders";
+import Jobs from "./pages/Jobs";
+import Compilance from "./pages/Compilance";
+import Profile from "./pages/Profile";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -142,6 +146,10 @@ function App() {
             <Route path="bankaccounts" element={<Bankaccounts />} />
             <Route path="loyalitypoints" element={<Loyality_Points />} />
             <Route path="ads" element={<Ads />} />
+            <Route path="traders" element={<Traders />} />
+            <Route path="jobs" element={<Jobs />} />
+            <Route path="compilance" element={<Compilance />} />
+            <Route path="profile" element={<Profile />} />
 
             {/*  */}
             <Route path="pages" element={<Pages />} />

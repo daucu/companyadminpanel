@@ -26,12 +26,12 @@ const menu_items = [
   {
     name: "Profile",
     icon: <AccountBoxIcon />,
-    url: "/",
+    url: "/admin/profile",
   },
   {
     name: "Tags",
     icon: <LoyaltyTwoToneIcon />,
-    url: "/",
+    url: "/admin/tags",
   },
   {
     name: "Work",
@@ -128,17 +128,17 @@ const menu_items = [
   {
     name: "Traders",
     icon: <ShowChartTwoToneIcon />,
-    url: "/",
+    url: "/admin/traders",
   },
   {
     name: "Jobs",
     icon: <WorkTwoToneIcon />,
-    url: "/",
+    url: "/admin/jobs",
   },
   {
     name: "Compliance",
     icon: <SdStorageTwoToneIcon />,
-    url: "/",
+    url: "/admin/compliance",
   },
   {
     name: "ChatBot Settings ",
@@ -148,7 +148,7 @@ const menu_items = [
   {
     name: "Settings ",
     icon: <SettingsSuggestTwoToneIcon />,
-    url: "/",
+    url: "/admin/settings",
   },
 ];
 

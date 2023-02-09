@@ -147,7 +147,7 @@ export default function AddProduct() {
   }, []);
   return (  
     <Box sx={{ flexGrow: 1, marginTop: 3 }}>
-      {companyProfileData.isVerified !== true ? (
+      {companyProfileData.isVerified === true ? (
         <>
           <AppBar position="static">
             <Toolbar variant="dense" sx={{ background: "#333" }}>

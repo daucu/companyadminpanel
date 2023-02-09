@@ -149,6 +149,7 @@ function App() {
             <Route path="traders" element={<Traders />} />
             <Route path="jobs" element={<Jobs />} />
             <Route path="compilance" element={<Compilance />} />
+
             <Route path="profile" element={<Profile />} />
 
             {/*  */}

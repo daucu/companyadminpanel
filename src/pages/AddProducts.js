@@ -530,6 +530,7 @@ export default function AddProduct() {
                 open={handleErrOpen}
                 autoHideDuration={3000}
                 onClose={handleErrClose}
+                position="right"
               >
                 <Alert
                   onClose={handleErrClose}

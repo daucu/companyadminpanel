@@ -400,9 +400,7 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">
-            User Role
-          </InputLabel>
+          <InputLabel htmlFor="outlined-adornment-amount">User Role</InputLabel>
         </div>
         <div
           style={{

@@ -33,6 +33,9 @@ import {
   TextareaAutosize,
   Button,
   TextField,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -77,6 +80,12 @@ function EnhancedTableHead(props) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
+
+  const [age, setAge] = React.useState("");
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
   return (
     <TableHead>
       <TableRow>
@@ -162,7 +171,7 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Contract Details
+          Services Details
         </Typography>
       )}
 
@@ -220,7 +229,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function Contract() {
+export default function CreateContract() {
   const navigate = useNavigate();
   // Alert
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -244,103 +253,176 @@ export default function Contract() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={() => navigate("/admin/createcontract")}
+            onClick={() => navigate("/admin/addservices")}
           >
             <AddIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
-            Contracts
+            Create Contracts
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Toolbar>
       </AppBar>
-
-      {/* Alert */}
-      <Snackbar
-        autoHideDuration={5000}
-        resumeHideDuration={5000}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      >
-        <Alert sx={{ width: "100%" }}>"Dgssdg"</Alert>
-      </Snackbar>
-
-      {/*  */}
-
-      <Paper
-        sx={{
-          width: "100%",
-          mb: 2,
-          boxShadow: 0,
-          overflow: "scroll",
-        }}
-      >
-        <EnhancedTableToolbar />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size="small"
-          >
-            <EnhancedTableHead />
-            <TableBody>
-              <TableRow
-                hover
-                role="checkbox"
-                tabIndex={-1}
-                sx={{ color: "#fff" }}
-              >
-                <TableCell padding="checkbox">
-                  <Checkbox color="primary" />
-                </TableCell>
-
-                <TableCell scope="row" padding="none">
-                  <Typography
-                    size="small"
-                    sx={{
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      maxWidth: "20ch",
-                      textOverflow: "ellipsis",
-                      cursor: "pointer",
-                    }}
-                  >
-                    SDFDG
-                  </Typography>
-                </TableCell>
-
-                <TableCell
-                  component="th"
-                  scope="row"
-                  padding="none"
-                  sx={{
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    maxWidth: "20ch",
-                    minWidth: "15ch",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  gjfgj
-                </TableCell>
-                <TableCell align="left" sx={{}}>
-                  4 USD
-                </TableCell>
-                <TableCell align="left" sx={{}} style={{}}>
-                  <Stack direction={"row"} sx={{ columnGap: "10px" }}></Stack>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={100}
-          rowsPerPage={5}
-          page={0}
-          onPageChange={() => {}}
+      <div>
+        {/* title */}
+        <TextField
+          id="outlined-basic"
+          label="Title"
+          size="small"
+          variant="outlined"
+          sx={{ width: "100%", marginTop: 2 }}
         />
-      </Paper>
+        {/* terms */}
+        <TextField
+          id="outlined-basic"
+          label="Terms"
+          size="small"
+          variant="outlined"
+          sx={{ width: "100%", marginTop: 2 }}
+        />
+        {/* local terms */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <div
+            style={{
+              width: "24%",
+              textAlign: "left",
+            }}
+          >
+            <InputLabel
+              id="demo-simple-select-label"
+              sx={{ marginTop: 2, marginRight: 2 }}
+            >
+              Local Terms
+            </InputLabel>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              width: "70%",
+            }}
+          >
+            <div
+              style={{
+                width: "50%",
+              }}
+            >
+              <TextField
+                id="outlined-basic"
+                label="Price"
+                size="small"
+                variant="outlined"
+                sx={{ width: "100%", marginTop: 2 }}
+              />
+            </div>
+            <div
+              style={{
+                width: "50%",
+              }}
+            >
+              <TextField
+                id="outlined-basic"
+                label="Days"
+                size="small"
+                variant="outlined"
+                sx={{ width: "100%", marginTop: 2 }}
+              />
+            </div>
+          </div>
+        </div>
+        {/* International terms */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <div
+            style={{
+              width: "24%",
+              textAlign: "left",
+            }}
+          >
+            <InputLabel
+              id="demo-simple-select-label"
+              sx={{ marginTop: 2, marginRight: 2 }}
+            >
+              International Terms
+            </InputLabel>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              width: "70%",
+            }}
+          >
+            <div
+              style={{
+                width: "50%",
+              }}
+            >
+              <TextField
+                id="outlined-basic"
+                label="Price"
+                size="small"
+                variant="outlined"
+                sx={{ width: "100%", marginTop: 2 }}
+              />
+            </div>
+            <div
+              style={{
+                width: "50%",
+              }}
+            >
+              <TextField
+                id="outlined-basic"
+                label="Days"
+                size="small"
+                variant="outlined"
+                sx={{ width: "100%", marginTop: 2 }}
+              />
+            </div>
+          </div>
+        </div>
+        <div>
+          <TextField
+            id="outlined-basic"
+            label="Return Term"
+            size="small"
+            variant="outlined"
+            sx={{ width: "100%", marginTop: 2 }}
+          />
+        </div>
+        <div>
+          {/* menu drodown  */}
+          <InputLabel
+            id="demo-simple-select-label"
+            sx={{ width: "100%", marginTop: 2, textAlign: "left" }}
+          >
+            Menu
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={10}
+            label="Age"
+            size="small"
+            sx={{ width: "100%", marginTop: 2 }}
+          >
+            <MenuItem value={10}>Term 1</MenuItem>
+            <MenuItem value={20}>Term 2</MenuItem>
+            <MenuItem value={30}>Term 3</MenuItem>
+          </Select>
+        </div>
+      </div>
     </Box>
   );
 }

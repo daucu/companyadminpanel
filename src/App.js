@@ -52,6 +52,7 @@ import Jobs from "./pages/Jobs";
 import Compilance from "./pages/Compilance";
 import Profile from "./pages/Profile";
 import AddServices from "./pages/AddServices";
+import CreateContract from "./pages/CreateContract";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -150,6 +151,7 @@ function App() {
             <Route path="traders" element={<Traders />} />
             <Route path="jobs" element={<Jobs />} />
             <Route path="addservices" element={<AddServices />} />
+            <Route path="createcontract" element={<CreateContract />} />
             <Route path="compilance" element={<Compilance />} />
 
             <Route path="profile" element={<Profile />} />

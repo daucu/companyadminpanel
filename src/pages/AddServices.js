@@ -281,22 +281,46 @@ function AddServices() {
                     margin: "20px",
                   }}
                 >
-                  <div
-                    style={{
-                      height: "250px",
-                      border: "1px solid #000",
-                      borderStyle: "dashed",
-                      borderRadius: "3px",
-                      borderColor: "#000",
-                      textAlign: "center",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    Images
-                  </div>
+                  {imageone && imageone.length > 0 ? (
+                    <div
+                      style={{
+                        height: "250px",
+                        border: "1px solid #000",
+                        borderStyle: "dashed",
+                        borderRadius: "3px",
+                        borderColor: "#000",
+                        textAlign: "center",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <img
+                        src={imageone}
+                        style={{ width: "100%", marginTop: "10px" }}
+                        alt="image"
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      style={{
+                        height: "250px",
+                        border: "1px solid #000",
+                        borderStyle: "dashed",
+                        borderRadius: "3px",
+                        borderColor: "#000",
+                        textAlign: "center",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      Images
+                    </div>
+                  )}
+
                   <Button
                     variant="contained"
                     component="label"
@@ -306,7 +330,16 @@ function AddServices() {
                     }}
                   >
                     Upload
-                    <input hidden accept="image/*" multiple type="file" />
+                    <input
+                      hidden
+                      accept="image/*"
+                      multiple
+                      type="file"
+                      name={imageone}
+                      onChange={(e) => {
+                        setImageone(URL.createObjectURL(e.target.files[0]));
+                      }}
+                    />
                   </Button>
                 </div>
               </div>

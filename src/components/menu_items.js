@@ -138,7 +138,7 @@ const menu_items = [
   {
     name: "Complaints",
     icon: <SdStorageTwoToneIcon />,
-    url: "/admin/compliance",
+    url: "/admin/complaints",
   },
   {
     name: "ChatBot Settings ",

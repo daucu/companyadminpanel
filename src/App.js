@@ -56,6 +56,8 @@ import AddServices from "./pages/AddServices";
 import CreateContract from "./pages/CreateContract";
 import AddAuction from "./pages/AddAuction";
 import Protected from "./pages/Protected";
+import Complaints from "./pages/Complaints";
+import AddComplaints from "./pages/AddComplaints";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -275,6 +277,14 @@ function App() {
             />
 
             <Route path="search" element={<Protected Component={Search} />} />
+            <Route
+              path="addcomplaints"
+              element={<Protected Component={AddComplaints} />}
+            />
+            <Route
+              path="complaints"
+              element={<Protected Component={Complaints} />}
+            />
 
             {/* 404 page */}
             <Route

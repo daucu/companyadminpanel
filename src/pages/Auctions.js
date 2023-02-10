@@ -359,15 +359,15 @@ export default function Auctions() {
     <Box sx={{ flexGrow: 1, marginTop: 3 }}>
       <AppBar position="static">
         <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
-          {/* <IconButton
+          <IconButton
             edge="start"
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={() => navigate("/add-page")}
+            onClick={() => navigate("/admin/addauctinos")}
           >
             <AddIcon />
-          </IconButton> */}
+          </IconButton>
           <Typography variant="h6" color="inherit" component="div">
             Auctions
           </Typography>

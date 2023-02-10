@@ -1,4 +1,11 @@
-import { AppBar, Divider, IconButton, Toolbar } from "@mui/material";
+import {
+  AppBar,
+  Divider,
+  IconButton,
+  InputLabel,
+  TextField,
+  Toolbar,
+} from "@mui/material";
 import React from "react";
 
 function Bankaccounts() {
@@ -23,6 +30,106 @@ function Bankaccounts() {
           </IconButton> */}
         </Toolbar>
       </AppBar>
+      <div
+        style={{
+          marginTop: "20px",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "25%",
+            padding: "10px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <InputLabel htmlFor="outlined-adornment-amount">
+            Bank Account
+          </InputLabel>
+        </div>
+        <div
+          style={{
+            width: "75%",
+          }}
+        >
+          <TextField
+            id="outlined-basic"
+            label="Bank Account"
+            size="small"
+            variant="outlined"
+            sx={{ width: "100%", marginTop: 2 }}
+          />
+        </div>
+      </div>
+      <div
+        style={{
+          marginTop: "20px",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "25%",
+            padding: "10px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <InputLabel htmlFor="outlined-adornment-amount">
+       IBAN
+          </InputLabel>
+        </div>
+        <div
+          style={{
+            width: "75%",
+          }}
+        >
+          <TextField
+            id="outlined-basic"
+            label="IBAN"
+            size="small"
+            variant="outlined"
+            sx={{ width: "100%", marginTop: 2 }}
+          />
+        </div>
+      </div>
+      <div
+        style={{
+          marginTop: "20px",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "25%",
+            padding: "10px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <InputLabel htmlFor="outlined-adornment-amount">
+            Country
+          </InputLabel>
+        </div>
+        <div
+          style={{
+            width: "75%",
+          }}
+        >
+          <TextField
+            id="outlined-basic"
+            label="Country"
+            size="small"
+            variant="outlined"
+            sx={{ width: "100%", marginTop: 2 }}
+          />
+        </div>
+      </div>
+       
     </div>
   );
 }

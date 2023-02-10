@@ -1,4 +1,12 @@
-import { AppBar, Divider, IconButton, Toolbar } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Divider,
+  IconButton,
+  InputLabel,
+  TextField,
+  Toolbar,
+} from "@mui/material";
 import React from "react";
 
 function Wallets() {
@@ -23,6 +31,73 @@ function Wallets() {
           </IconButton> */}
         </Toolbar>
       </AppBar>
+      <div
+        style={{
+          marginTop: "20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "30%",
+          }}
+        >
+          <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+        </div>
+        <div
+          style={{
+            width: "70%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              width: "40%",
+              margin: "auto",
+            }}
+          >
+            <TextField
+              id="outlined-basic"
+              label="Balance"
+              size="small"
+              variant="outlined"
+              disabled
+              sx={{ width: "100%", marginTop: 2 }}
+            />
+          </div>
+          <div
+            style={{
+              width: "40%",
+              margin: "auto",
+            }}
+          >
+            <TextField
+              id="outlined-basic"
+              label="Currency"
+              size="small"
+              variant="outlined"
+              sx={{ width: "100%", marginTop: 2 }}
+            />
+          </div>
+        </div>
+      </div>
+      <div>
+        <Button
+          variant="contained"
+          size="small"
+          color="success"
+          sx={{
+            boxShadow: 0,
+            marginTop: "50px",
+          }}
+        >
+          Withdraw money
+        </Button>
+      </div>
     </div>
   );
 }

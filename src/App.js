@@ -1,6 +1,8 @@
+import * as React from "react";
 import "./App.css";
-import MiniDrawer from "./components/Drawer";
 import { Route, Routes, useNavigate } from "react-router-dom";
+
+import MiniDrawer from "./components/Drawer";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Register from "./pages/Register";
@@ -31,7 +33,6 @@ import Search from "./pages/Search";
 import NewCategory from "./pages/NewCategory";
 import Invoice from "./pages/Invoice";
 import axios from "axios";
-import * as React from "react";
 import ViewMedia from "./pages/ViewMedia";
 import Withdraw from "./pages/Withdraw";
 import ViewProduct from "./pages/ViewProduct";
@@ -53,6 +54,7 @@ import Compilance from "./pages/Compilance";
 import Profile from "./pages/Profile";
 import AddServices from "./pages/AddServices";
 import CreateContract from "./pages/CreateContract";
+import AddAuction from "./pages/AddAuction";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -152,6 +154,7 @@ function App() {
             <Route path="jobs" element={<Jobs />} />
             <Route path="addservices" element={<AddServices />} />
             <Route path="createcontract" element={<CreateContract />} />
+            <Route path="addauctinos" element={<AddAuction />} />
             <Route path="compilance" element={<Compilance />} />
 
             <Route path="profile" element={<Profile />} />

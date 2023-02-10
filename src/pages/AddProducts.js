@@ -60,8 +60,6 @@ export default function AddProduct() {
 
   const [successSnack, setSuccessSnack] = React.useState(false);
   const [successOpen, setSuccessOpen] = React.useState(false);
-  const [errorSnack, setErrorSnack] = React.useState(false);
-  const [errorOpen, setErrorOpen] = React.useState(false);
 
   // success snackbar
   const handlesuccessOpen = () => {
@@ -75,15 +73,6 @@ export default function AddProduct() {
   };
 
   // error snackbar
-  const handleerrorOpen = () => {
-    setErrorOpen(true);
-  };
-  const handleerrorClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setErrorOpen(false);
-  };
 
   //Generate Slug
   const slug = slugify(title, {
@@ -92,6 +81,18 @@ export default function AddProduct() {
     lower: true, // result in lower case
     remove: /[*+~.()'"!:@#/]/g,
   });
+
+  // const errorSnack
+  const [geterror, setGeterror] = React.useState(false);
+  const handleErrOpen = () => {
+    setGeterror(true);
+  };
+  const handleErrClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setGeterror(false);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -124,8 +125,7 @@ export default function AddProduct() {
       })
       .catch((err) => {
         console.log(err);
-        setErrorSnack(err.response.data.message);
-        handleerrorOpen(true);
+        setGeterror(true);
       });
   };
   // loading animation
@@ -525,19 +525,21 @@ export default function AddProduct() {
             ) : null}
 
             {/* error snack */}
-            {/* <Snackbar
-          open={handleerrorOpen}
-          autoHideDuration={3000}
-          onClose={handleerrorClose}
-        >
-          <Alert
-            onClose={handleerrorClose}
-            severity="error"
-            sx={{ width: "100%" }}
-          >
-            {errorSnack}
-          </Alert>
-        </Snackbar> */}
+            {geterror === true ? (
+              <Snackbar
+                open={handleErrOpen}
+                autoHideDuration={3000}
+                onClose={handleErrClose}
+              >
+                <Alert
+                  onClose={handleErrClose}
+                  severity="error"
+                  sx={{ width: "100%" }}
+                >
+                  Error in adding product
+                </Alert>
+              </Snackbar>
+            ) : null}
           </Grid>
         </>
       ) : (

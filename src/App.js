@@ -55,6 +55,7 @@ import Profile from "./pages/Profile";
 import AddServices from "./pages/AddServices";
 import CreateContract from "./pages/CreateContract";
 import AddAuction from "./pages/AddAuction";
+import Protected from "./pages/Protected";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -123,79 +124,157 @@ function App() {
           <Route path="/company_reg" element={<Company_reg />} />
           <Route path="/register" element={<Register />} />
           <Route path="/company_login" element={<Company_Login />} />
+          <Route path="/protected" element={<Protected />} />
 
           <Route path="/admin" element={<MiniDrawer />}>
             <Route path="" element={<Dashboard />} />
 
             <Route path="account" element={<Account />} />
             <Route path="new-account" element={<AddProduct />} />
+            <Route
+              path="categories"
+              element={<Protected Component={Categories} />}
+            />
+            <Route
+              path="new-category"
+              element={<Protected Component={NewCategory} />}
+            />
 
-            <Route path="categories" element={<Categories />} />
-            <Route path="new-category" element={<NewCategory />} />
-
-            <Route path="products" element={<Products />} />
-            <Route path="new-product" element={<AddProduct />} />
-            <Route path="viewproduct/:slug" element={<ViewProduct />} />
+            <Route
+              path="products"
+              element={<Protected Component={Products} />}
+            />
+            <Route
+              path="new-product"
+              element={<Protected Component={AddProduct} />}
+            />
+            <Route
+              path="viewproduct/:slug"
+              element={<Protected Component={ViewProduct} />}
+            />
             <Route path="update/:slug" element={<UpdateProduct />} />
 
-            <Route path="media" element={<Storage />} />
-            <Route path="viewmedia" element={<ViewMedia />} />
-            <Route path="withdraw" element={<Withdraw />} />
+            <Route path="media" element={<Protected Component={Storage} />} />
+            <Route
+              path="viewmedia"
+              element={<Protected Component={ViewMedia} />}
+            />
+            <Route
+              path="withdraw"
+              element={<Protected Component={Withdraw} />}
+            />
             {/*  */}
-            <Route path="chatbotservice" element={<CharbotServices />} />
-            <Route path="pservices" element={<PServices />} />
-            <Route path="contract" element={<Contract />} />
-            <Route path="deals" element={<Deals />} />
-            <Route path="wallets" element={<Wallets />} />
-            <Route path="bankaccounts" element={<Bankaccounts />} />
-            <Route path="loyalitypoints" element={<Loyality_Points />} />
-            <Route path="ads" element={<Ads />} />
-            <Route path="traders" element={<Traders />} />
-            <Route path="jobs" element={<Jobs />} />
-            <Route path="addservices" element={<AddServices />} />
-            <Route path="createcontract" element={<CreateContract />} />
-            <Route path="addauctinos" element={<AddAuction />} />
-            <Route path="compilance" element={<Compilance />} />
+            <Route
+              path="chatbotservice"
+              element={<Protected Component={CharbotServices} />}
+            />
+            <Route
+              path="pservices"
+              element={<Protected Component={PServices} />}
+            />
+            <Route
+              path="contract"
+              element={<Protected Component={Contract} />}
+            />
+            <Route path="deals" element={<Protected Component={Deals} />} />
+            <Route path="wallets" element={<Protected Component={Wallets} />} />
+            <Route
+              path="bankaccounts"
+              element={<Protected Component={Bankaccounts} />}
+            />
+            <Route
+              path="loyalitypoints"
+              element={<Protected Component={Loyality_Points} />}
+            />
+            <Route path="ads" element={<Protected Component={Ads} />} />
+            <Route path="traders" element={<Protected Component={Traders} />} />
+            <Route path="jobs" element={<Protected Component={Jobs} />} />
+            <Route
+              path="addservices"
+              element={<Protected Component={AddServices} />}
+            />
+            <Route
+              path="createcontract"
+              element={<Protected Component={CreateContract} />}
+            />
+            <Route
+              path="addauctinos"
+              element={<Protected Component={AddAuction} />}
+            />
+            <Route
+              path="compilance"
+              element={<Protected Component={Compilance} />}
+            />
 
-            <Route path="profile" element={<Profile />} />
+            <Route path="profile" element={<Protected Component={Profile} />} />
 
             {/*  */}
-            <Route path="pages" element={<Pages />} />
-            <Route path="new-page" element={<AddPage />} />
+            <Route path="pages" element={<Protected Component={Pages} />} />
+            <Route
+              path="new-page"
+              element={<Protected Component={AddPage} />}
+            />
 
-            <Route path="tags" element={<Tags />} />
-            <Route path="new-tag" element={<AddProduct />} />
+            <Route path="tags" element={<Protected Component={Tags} />} />
+            <Route
+              path="new-tag"
+              element={<Protected Component={AddProduct} />}
+            />
 
-            <Route path="users" element={<Users />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="support" element={<Support />} />
+            <Route path="users" element={<Protected Component={Users} />} />
+            <Route
+              path="settings"
+              element={<Protected Component={Settings} />}
+            />
+            <Route path="support" element={<Protected Component={Support} />} />
 
-            <Route path="posts" element={<Posts />} />
-            <Route path="new-post" element={<AddPost />} />
+            <Route path="posts" element={<Protected Component={Posts} />} />
+            <Route
+              path="new-post"
+              element={<Protected Component={AddPost} />}
+            />
 
-            <Route path="orders" element={<Posts />} />
+            <Route path="orders" element={<Protected Component={Posts} />} />
 
-            <Route path="invoice" element={<Invoice />} />
+            <Route path="invoice" element={<Protected Component={Invoice} />} />
 
-            <Route path="bids" element={<Bids />} />
+            <Route path="bids" element={<Protected Component={Bids} />} />
 
-            <Route path="info" element={<Info />} />
-            <Route path="notifications" element={<Notifications />} />
+            <Route path="info" element={<Protected Component={Info} />} />
+            <Route
+              path="notifications"
+              element={<Protected Component={Notifications} />}
+            />
 
-            <Route path="auctions" element={<Auctions />} />
-            <Route path="points" element={<Points />} />
+            <Route
+              path="auctions"
+              element={<Protected Component={Auctions} />}
+            />
+            <Route path="points" element={<Protected Component={Points} />} />
 
-            <Route path="services" element={<Services />} />
+            <Route
+              path="services"
+              element={<Protected Component={Services} />}
+            />
 
-            <Route path="offers" element={<Offers />} />
+            <Route path="offers" element={<Protected Component={Offers} />} />
 
-            <Route path="companies" element={<Companies />} />
+            <Route
+              path="companies"
+              element={<Protected Component={Companies} />}
+            />
 
-            <Route path="commission" element={<Commission />} />
+            <Route
+              path="commission"
+              element={<Protected Component={Commission} />}
+            />
 
-            <Route path="classifications" element={<Classifications />} />
+            <Route
+              path="classifications"
+              element={<Protected Component={Classifications} />}
+            />
 
-            <Route path="search" element={<Search />} />
+            <Route path="search" element={<Protected Component={Search} />} />
 
             {/* 404 page */}
             <Route

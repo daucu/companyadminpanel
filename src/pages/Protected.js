@@ -13,8 +13,8 @@ function Protected({ Component }) {
       .then((res) => {
         console.log(res);
         setCompanyProfileData(res.data[0].data);
-        setVerified(res.data[0].data.isVerified);
-        console.log(res.data[0].data.isVerified);
+        console.log(res.data[0].data.status);
+        setVerified(res.data[0].data.status);
       })
       .catch((e) => {
         console.log(e);
@@ -25,9 +25,7 @@ function Protected({ Component }) {
   }, []);
   return (
     <div>
-      {verified === true ? (
-        <Component />
-      ) : (
+      {verified !== "active" ? (
         <>
           <div
             style={{
@@ -68,6 +66,8 @@ function Protected({ Component }) {
             </div>
           </div>
         </>
+      ) : (
+        <Component />
       )}
     </div>
   );

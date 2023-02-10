@@ -21,6 +21,7 @@ import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import slugify from "slugify";
 import TextField from "@mui/material/TextField";
+import Loading from "./Loading";
 
 const Item = styled(Paper)(({ theme }) => ({
   // backgroundColor: "#1A2027",
@@ -133,15 +134,18 @@ export default function AddProduct() {
   const [companyProfileData, setCompanyProfileData] = React.useState([]);
 
   const getCompanyProfileData = async () => {
+    setLoadingGif(true);
     await axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/profile/company`, {
         withCredentials: true,
       })
       .then((res) => {
         setCompanyProfileData(res.data[0].data);
+        setLoadingGif(false);
       })
       .catch((e) => {
         console.log(e);
+        setLoadingGif(false);
       });
   };
   React.useEffect(() => {
@@ -151,6 +155,8 @@ export default function AddProduct() {
     <Box sx={{ flexGrow: 1, marginTop: 3 }}>
       {companyProfileData.isVerified === true ? (
         <>
+          {loadingGif === true ? <Loading /> : null}
+
           <AppBar position="static">
             <Toolbar variant="dense" sx={{ background: "#333" }}>
               <IconButton
@@ -196,7 +202,6 @@ export default function AddProduct() {
               </Button>
             </Toolbar>
           </AppBar>
-
           <Grid container spacing={1} alignItems="stretch">
             <Grid item xs={12} alignItems="stretch">
               <form onSubmit={(e) => handleSubmit(e)}>

@@ -136,7 +136,7 @@ const menu_items = [
     url: "/admin/jobs",
   },
   {
-    name: "Compliance",
+    name: "Complaints",
     icon: <SdStorageTwoToneIcon />,
     url: "/admin/compliance",
   },

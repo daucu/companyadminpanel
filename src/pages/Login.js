@@ -341,13 +341,13 @@ export default function Login() {
     setIsLoading(true);
     e.preventDefault();
     await axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/login/company`, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/login`, {
         email: username,
         password: password,
       })
       .then((res) => {
         // console.log(res);
-        localStorage.setItem("token", res.data.token);  
+        localStorage.setItem("token", res.data.token);
         setAlert(res.data.message, res);
         setStatus(res.data.status);
         setOpen(true);
@@ -495,13 +495,6 @@ export default function Login() {
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
-                </Link>
-              </Grid>
-            </Grid>
-            <Grid container style={{ marginTop: 10 }}>
-              <Grid item xs>
-                <Link href="/company_reg" variant="body2">
-                  Register Your Company here!
                 </Link>
               </Grid>
             </Grid>

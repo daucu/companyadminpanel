@@ -25,7 +25,7 @@ function Protected({ Component }) {
   }, []);
   return (
     <div>
-      {verified !== "active" ? (
+      {verified === "active" ? (
         <>
           <div
             style={{

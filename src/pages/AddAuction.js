@@ -20,6 +20,12 @@ function AddAuction() {
   const [token, setToken] = useState("token");
   const [title, setTitle] = useState("");
 
+  // code to get products from backend and display them in the dropdown menu
+  const [getCompanyProducts, setGetCompanyProducts] = useState([]);
+  // const CompanyProductsData = async () => {
+
+  // }
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -35,7 +41,7 @@ function AddAuction() {
     };
 
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/bids`, data)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/auctions`, data)
       .then((res) => {
         console.log(res);
         console.log(res.data);

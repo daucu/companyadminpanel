@@ -227,6 +227,9 @@ export default function Contract() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+
+  // code to get all contracts from the database
+
   return (
     <Box
       sx={{

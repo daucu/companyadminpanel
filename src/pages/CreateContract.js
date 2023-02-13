@@ -1,5 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
+import { useState, useEffect } from "react";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -41,6 +42,7 @@ import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTo
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 // import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { Stack } from "@mui/system";
+import axios from "axios";
 const headCells = [
   {
     id: "1",
@@ -236,6 +238,60 @@ export default function CreateContract() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  // code to add contract
+  const [title, setTitle] = useState("");
+  const [signature_profile, setSignature_profile] = useState(
+    "https://picsum.photos/500/500"
+  );
+  const [stamp_profile, setStamp_profile] = useState(
+    "https://picsum.photos/500/500"
+  );
+  const [terms, setTerms] = useState("");
+  const [return_terms, setReturn_terms] = useState("");
+  const [international_ship_terms, setInternational_ship_terms] = useState([]);
+  const [local_ship_terms, setLocal_ship_terms] = useState([]);
+
+  const addContractdata = (e) => {
+    // code to store days and price in array of objects
+    e.preventDefault();
+
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/contract`, {
+        title: title,
+        signature_profile: signature_profile,
+        stamp_profile: stamp_profile,
+        terms: terms,
+        return_terms: return_terms,
+        international_ship_terms: {
+          days: international_ship_terms.days,
+          price: international_ship_terms.price,
+        },
+        local_ship_terms: {
+          days: local_ship_terms.days,
+          price: local_ship_terms.price,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        handleOpen();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // code for success snackbar
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
   return (
     <Box
       sx={{
@@ -261,168 +317,251 @@ export default function CreateContract() {
             Create Contracts
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
+          <Button
+            variant="contained"
+            size="small"
+            color="success"
+            sx={{
+              boxShadow: 0,
+            }}
+            onClick={addContractdata}
+          >
+            Publish
+          </Button>
         </Toolbar>
       </AppBar>
-      <div>
-        {/* title */}
-        <TextField
-          id="outlined-basic"
-          label="Title"
-          size="small"
-          variant="outlined"
-          sx={{ width: "100%", marginTop: 2 }}
-        />
-        {/* terms */}
-        <TextField
-          id="outlined-basic"
-          label="Terms"
-          size="small"
-          variant="outlined"
-          sx={{ width: "100%", marginTop: 2 }}
-        />
-        {/* local terms */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-          }}
-        >
-          <div
-            style={{
-              width: "24%",
-              textAlign: "left",
-            }}
-          >
-            <InputLabel
-              id="demo-simple-select-label"
-              sx={{ marginTop: 2, marginRight: 2 }}
-            >
-              Local Terms
-            </InputLabel>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              width: "70%",
-            }}
-          >
-            <div
-              style={{
-                width: "50%",
-              }}
-            >
-              <TextField
-                id="outlined-basic"
-                label="Price"
-                size="small"
-                variant="outlined"
-                sx={{ width: "100%", marginTop: 2 }}
-              />
-            </div>
-            <div
-              style={{
-                width: "50%",
-              }}
-            >
-              <TextField
-                id="outlined-basic"
-                label="Days"
-                size="small"
-                variant="outlined"
-                sx={{ width: "100%", marginTop: 2 }}
-              />
-            </div>
-          </div>
-        </div>
-        {/* International terms */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            width: "100%",
-          }}
-        >
-          <div
-            style={{
-              width: "24%",
-              textAlign: "left",
-            }}
-          >
-            <InputLabel
-              id="demo-simple-select-label"
-              sx={{ marginTop: 2, marginRight: 2 }}
-            >
-              International Terms
-            </InputLabel>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              width: "70%",
-            }}
-          >
-            <div
-              style={{
-                width: "50%",
-              }}
-            >
-              <TextField
-                id="outlined-basic"
-                label="Price"
-                size="small"
-                variant="outlined"
-                sx={{ width: "100%", marginTop: 2 }}
-              />
-            </div>
-            <div
-              style={{
-                width: "50%",
-              }}
-            >
-              <TextField
-                id="outlined-basic"
-                label="Days"
-                size="small"
-                variant="outlined"
-                sx={{ width: "100%", marginTop: 2 }}
-              />
-            </div>
-          </div>
-        </div>
+      <form
+        onSubmit={(e) => {
+          addContractdata(e);
+        }}
+      >
         <div>
+          {/* title */}
           <TextField
             id="outlined-basic"
-            label="Return Term"
+            label="Title"
+            name={title}
+            onChange={(e) => setTitle(e.target.value)}
             size="small"
             variant="outlined"
             sx={{ width: "100%", marginTop: 2 }}
           />
-        </div>
-        <div>
-          {/* menu drodown  */}
-          <InputLabel
-            id="demo-simple-select-label"
-            sx={{ width: "100%", marginTop: 2, textAlign: "left" }}
-          >
-            Menu
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={10}
-            label="Age"
+          {/* terms */}
+          <TextField
+            id="outlined-basic"
+            label="Terms"
+            name={terms}
+            onChange={(e) => setTerms(e.target.value)}
             size="small"
+            variant="outlined"
             sx={{ width: "100%", marginTop: 2 }}
+          />
+          {/* local terms */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+            }}
           >
-            <MenuItem value={10}>Term 1</MenuItem>
-            <MenuItem value={20}>Term 2</MenuItem>
-            <MenuItem value={30}>Term 3</MenuItem>
-          </Select>
+            <div
+              style={{
+                width: "24%",
+                textAlign: "left",
+              }}
+            >
+              <InputLabel
+                id="demo-simple-select-label"
+                sx={{ marginTop: 2, marginRight: 2 }}
+              >
+                Local Terms
+              </InputLabel>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                width: "70%",
+              }}
+            >
+              <div
+                style={{
+                  width: "50%",
+                }}
+              >
+                <TextField
+                  id="outlined-basic"
+                  label="Price"
+                  type={"number"}
+                  name={local_ship_terms.price}
+                  onChange={(e) =>
+                    setLocal_ship_terms({
+                      ...local_ship_terms,
+                      price: e.target.value,
+                    })
+                  }
+                  size="small"
+                  variant="outlined"
+                  sx={{ width: "100%", marginTop: 2 }}
+                />
+              </div>
+              <div
+                style={{
+                  width: "50%",
+                }}
+              >
+                <TextField
+                  id="outlined-basic"
+                  label="Days"
+                  type={"number"}
+                  name={local_ship_terms.days}
+                  onChange={(e) =>
+                    setLocal_ship_terms({
+                      ...local_ship_terms,
+                      days: e.target.value,
+                    })
+                  }
+                  size="small"
+                  variant="outlined"
+                  sx={{ width: "100%", marginTop: 2 }}
+                />
+              </div>
+            </div>
+          </div>
+          {/* International terms */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <div
+              style={{
+                width: "24%",
+                textAlign: "left",
+              }}
+            >
+              <InputLabel
+                id="demo-simple-select-label"
+                sx={{ marginTop: 2, marginRight: 2 }}
+              >
+                International Terms
+              </InputLabel>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                width: "70%",
+              }}
+            >
+              <div
+                style={{
+                  width: "50%",
+                }}
+              >
+                <TextField
+                  id="outlined-basic"
+                  label="Price"
+                  type={"number"}
+                  name={international_ship_terms.price}
+                  onChange={(e) =>
+                    setInternational_ship_terms({
+                      ...international_ship_terms,
+                      price: e.target.value,
+                    })
+                  }
+                  size="small"
+                  variant="outlined"
+                  sx={{ width: "100%", marginTop: 2 }}
+                />
+              </div>
+              <div
+                style={{
+                  width: "50%",
+                }}
+              >
+                <TextField
+                  id="outlined-basic"
+                  label="Days"
+                  type={"number"}
+                  name={international_ship_terms.days}
+                  onChange={(e) =>
+                    setInternational_ship_terms({
+                      ...international_ship_terms,
+                      days: e.target.value,
+                    })
+                  }
+                  size="small"
+                  variant="outlined"
+                  sx={{ width: "100%", marginTop: 2 }}
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <TextField
+              id="outlined-basic"
+              label="Return Term"
+              size="small"
+              name={return_terms}
+              onChange={(e) => setReturn_terms(e.target.value)}
+              variant="outlined"
+              sx={{ width: "100%", marginTop: 2 }}
+            />
+          </div>
+          <div>
+            <InputLabel
+              id="demo-simple-select-label"
+              sx={{ marginTop: 2, marginRight: 2, textAlign: "left" }}
+            >
+              Signature Profile
+            </InputLabel>
+          </div>
+          <div>
+            <TextField
+              id="outlined-basic"
+              size="small"
+              type={"file"}
+              // name={signature_profile}
+              // onChange={(e) => setSignature_profile(e.target.value)}
+              variant="outlined"
+              sx={{ width: "100%", marginTop: 2 }}
+            />
+          </div>
+          <div>
+            <InputLabel
+              id="demo-simple-select-label"
+              sx={{ marginTop: 2, marginRight: 2, textAlign: "left" }}
+            >
+              Stamp Profile
+            </InputLabel>
+          </div>
+          <div>
+            <TextField
+              id="outlined-basic"
+              size="small"
+              type={"file"}
+              // name={stamp_profile}
+              // onChange={(e) => setStamp_profile(e.target.value)}
+              variant="outlined"
+              sx={{ width: "100%", marginTop: 2 }}
+            />
+          </div>
         </div>
-      </div>
+      </form>
+      {open === true ? (
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            Contract Added Successfully
+          </Alert>
+        </Snackbar>
+      ) : null}
     </Box>
   );
 }

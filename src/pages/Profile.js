@@ -8,9 +8,42 @@ import {
   TextField,
   Toolbar,
 } from "@mui/material";
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 
 function Profile() {
+  const [name, setName] = useState("");
+  const [logo, setLogo] = useState("");
+  const [description, setDescription] = useState("");
+  const [contact_email, setContact_email] = useState("");
+  const [company_owner, setCompany_owner] = useState("");
+  const [contact_phone, setContact_phone] = useState("");
+  const [gst, setGst] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+  const [zip, setZip] = useState("");
+
+  const [companyProfileData, setCompanyProfileData] = React.useState([]);
+  const getCompanyProfileData = async () => {
+    await axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/profile/company`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data[0].data);
+        setCompanyProfileData(res.data[0].data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  React.useEffect(() => {
+    getCompanyProfileData();
+  }, []);
+
   const [age, setAge] = React.useState("");
 
   const handleChange = (event) => {

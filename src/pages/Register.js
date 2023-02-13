@@ -195,6 +195,7 @@ export default function Register() {
                     margin="dense"
                     required
                     fullWidth
+                    type={"number"}
                     id="Phone"
                     size="small"
                     label="Phone"

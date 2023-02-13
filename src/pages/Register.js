@@ -10,6 +10,13 @@ import React, { useEffect, useState } from "react";
 import ShieldTwoToneIcon from "@mui/icons-material/ShieldTwoTone";
 import { Avatar, Container, CssBaseline } from "@mui/material";
 import axios from "axios";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -58,6 +65,18 @@ export default function Register() {
   // success snackbar
   const [open, setOpen] = React.useState(false);
 
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   // code to submit form to backend
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -84,7 +103,7 @@ export default function Register() {
       .post(`${process.env.REACT_APP_BACKEND_URL}/register`, data)
       .then((res) => {
         console.log(res);
-        setOpen(true);
+        handleClick();
       })
       .catch((err) => {
         console.log(err);
@@ -94,38 +113,6 @@ export default function Register() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Container component="main" maxWidth="xs">
-        {/* {open === true ? (
-          <Snackbar
-            open={open}
-            autoHideDuration={3000}
-            resumeHideDuration={3000}
-            action={action}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            onClose={handleClose}
-          >
-            <Alert
-              onClose={handleClose}
-              severity={status}
-              sx={{ width: "100%" }}
-            >
-              {server_alert}
-            </Alert>
-          </Snackbar>
-        ) : null} */}
-
-        {/* <Snackbar
-          open={errorOpen}
-          autoHideDuration={3000}
-          onClose={handleClose}
-        >
-          <Alert
-            onClose={errorHandleClose}
-            severity="error"
-            sx={{ width: "100%" }}
-          >
-            {erroralert}
-          </Alert>
-        </Snackbar> */}
         <CssBaseline />
         <Box
           sx={{
@@ -290,6 +277,17 @@ export default function Register() {
               </Grid>
             </Box>
           </form>
+          {open === true ? (
+            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+              <Alert
+                onClose={handleClose}
+                severity="success"
+                sx={{ width: "100%" }}
+              >
+                User Registered Successfully
+              </Alert>
+            </Snackbar>
+          ) : null}
         </Box>
       </Container>
     </Box>

@@ -27,6 +27,7 @@ function AddAuction() {
   // const CompanyProductsData = async () => {
 
   // }
+
   const [products, setProducts] = React.useState([]);
   React.useEffect(() => {
     // get products
@@ -52,10 +53,15 @@ function AddAuction() {
       description: description,
       token: token,
       title: title,
+      type: type,
     };
 
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/auctions`, data)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/auctions`, data, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      })
       .then((res) => {
         console.log(res);
         console.log(res.data);

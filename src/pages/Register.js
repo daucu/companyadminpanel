@@ -10,6 +10,8 @@ import React, { useEffect, useState } from "react";
 import ShieldTwoToneIcon from "@mui/icons-material/ShieldTwoTone";
 import { Avatar, Container, CssBaseline } from "@mui/material";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
@@ -38,7 +40,7 @@ export default function Register() {
   const [country, setCountry] = useState("");
   const [google_map, setGoogle_map] = useState([]);
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState("user");
 
   // code to get longitude and latitude from google map api
   const [lat, setLat] = useState(null);
@@ -80,8 +82,26 @@ export default function Register() {
     setOpen(false);
   };
 
+  // error snackbar
+  const [openError, setOpenError] = React.useState(false);
+  const [errStatus, setErrStatus] = useState("");
+  const handleClickError = () => {
+    setOpenError(true);
+  };
+
+  const handleCloseError = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenError(false);
+  };
+
   // code to submit form to backend
+  // loading state
+  const [loading, setLoading] = useState(false);
   const handleSubmit = (e) => {
+    setLoading(true);
+
     e.preventDefault();
     const data = {
       fullName: fullName,
@@ -100,12 +120,12 @@ export default function Register() {
       password: password,
       role: role,
     };
-    console.log(data);
 
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/register`, data)
       .then((res) => {
         console.log(res);
+        setLoading(false);
         handleClick();
         setTimeout(() => {
           navigate("/");
@@ -113,31 +133,54 @@ export default function Register() {
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
+
+        setErrStatus(err.response.data.message);
+        handleClickError();
       });
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 6,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            backgroundColor: "#f3f3f3",
-            padding: "20px",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            {/* <LockOutlinedIcon /> */}
+    <div
+      style={{
+        backgroundColor: "#E2EBF0",
+        minHeight: "100vh",
+        height: "auto",
+        padding: "30px 10px",
+        // media query
+        "@media (max-width: 768px)": {
+          display: "flex",
+          padding: "0px",
+          justifyContent: "center",
+          alignItems: "center",
+        },
+      }}
+    >
+      <Box
+        sx={{
+          width: "70%",
+          margin: "auto",
+          background: "white",
+          height: "80vh",
+          padding: "20px",
+          "@media (max-width: 768px)": {
+            minHeight: "75vh",
+            height: "auto",
+          },
+        }}
+      >
+        <Container component="main">
+          <Avatar
+            sx={{ m: 1, bgcolor: "secondary.main" }}
+            style={{ margin: "auto", display: "flex" }}
+          >
+            <ShieldTwoToneIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" sx={{ marginTop: 1 }}>
             Signup
           </Typography>
           <form>
-            <Box noValidate sx={{ mt: 1 }}>
+            <Box noValidate sx={{ mt: 7 }}>
               {/* Grid  */}
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
@@ -226,21 +269,7 @@ export default function Register() {
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    margin="dense"
-                    required
-                    fullWidth
-                    id="Role"
-                    size="small"
-                    label="Role"
-                    autoComplete="Role"
-                    name={role}
-                    onChange={(e) => setRole(e.target.value)}
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                   <TextField
                     margin="dense"
                     required
@@ -272,14 +301,32 @@ export default function Register() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    onClick={handleSubmit}
-                  >
-                    Signup
-                  </Button>
+                  {loading === true ? (
+                    <Button
+                      type="submit"
+                      disabled
+                      fullWidth
+                      variant="contained"
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <CircularProgress size={18} sx={{
+                        marginRight: "10px"
+                      }} />    Loading...
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      onClick={handleSubmit}
+                    >
+                      Signup
+                    </Button>
+                  )}
                 </Grid>
               </Grid>
             </Box>
@@ -295,8 +342,26 @@ export default function Register() {
               </Alert>
             </Snackbar>
           ) : null}
-        </Box>
-      </Container>
-    </Box>
+          {
+            // error snackbar
+            openError === true ? (
+              <Snackbar
+                open={openError}
+                autoHideDuration={6000}
+                onClose={handleCloseError}
+              >
+                <Alert
+                  severity="error"
+                  onClose={handleCloseError}
+                  sx={{ width: "100%" }}
+                >
+                  {errStatus}
+                </Alert>
+              </Snackbar>
+            ) : null
+          }
+        </Container>
+      </Box>
+    </div>
   );
 }

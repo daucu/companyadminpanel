@@ -291,12 +291,14 @@ export default function Tags() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-
-
   async function loadTags() {
     setLoading(true);
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/tags`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/tags/mytags`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      })
       .then((res) => {
         setTags(res.data);
       })
@@ -369,7 +371,7 @@ export default function Tags() {
         },
       })
       .then((res) => {
-       setIsAddingTags(false);
+        setIsAddingTags(false);
         setOpen(false);
         setTags([...tags, res.data.tag]);
         setTagData({

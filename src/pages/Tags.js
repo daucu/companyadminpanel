@@ -1,18 +1,5 @@
-import { Stack } from "@mui/system";
 import * as React from "react";
 import PropTypes from "prop-types";
-import {
-  Dialog,
-  Divider,
-  OutlinedInput,
-  TextareaAutosize,
-  Button,
-  TextField,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -38,10 +25,52 @@ import Snackbar from "@mui/material/Snackbar";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import AppBar from "@mui/material/AppBar";
 import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+import {
+  Dialog,
+  Divider,
+  Button,
+  TextField,
+  Grid,
+  LinearProgress,
+} from "@mui/material";
+
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
+import { Link as RouterLink } from "react-router-dom";
+import { Stack } from "@mui/system";
+import axios from "axios";
+
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === "desc"
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+// Hello
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
 
 const headCells = [
   {
@@ -63,7 +92,7 @@ const headCells = [
     label: "Published At",
   },
   {
-    id: "3",
+    id: "4",
     numeric: false,
     disablePadding: false,
     label: "Actions",
@@ -225,87 +254,132 @@ const EnhancedTableToolbar = (props) => {
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
+
 export default function Tags() {
-  // how to get token from local storage
+  const [order, setOrder] = React.useState("asc");
+  const [orderBy, setOrderBy] = React.useState("description");
+  const [selected, setSelected] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
-  // code to get tags
-  const [tagsdata, setTagsdata] = useState("");
-  const [loading, setLoading] = useState(true);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
-  const getTags = () => {
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const isSelected = (_id) => selected.indexOf(_id) !== -1;
+
+  const [open, setOpen] = React.useState(false);
+  const [tags, setTags] = React.useState([]);
+
+  const [loading, setLoading] = React.useState(false);
+
+  const [deleting, setDeleting] = React.useState("");
+
+  const [isEdit, setIsEdit] = React.useState(false);
+  const [tagData, setTagData] = React.useState({
+    name: "",
+    description: "",
+  });
+
+  // Alert
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+
+
+  async function loadTags() {
     setLoading(true);
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/tags`)
       .then((res) => {
-        console.log(res.data);
-        setLoading(false);
+        setTags(res.data);
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 300);
       });
-  };
+  }
+
+  // load all tags
   React.useEffect(() => {
-    getTags();
+    loadTags();
   }, []);
-  // code to add tags
-  const navigate = useNavigate();
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [token, setToken] = useState("");
-
-  const userToken = localStorage.getItem("token");
-
-  const addTags = () => {
-    const data = {
-      name: name,
-      description: description,
-    };
-    console.log(data);
-
-    axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/tags`, data, {
-        headers: {
-          "x-access-token": userToken,
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-        handleClick();
-        if (res.data.message == "Tag added successfully") {
-          setOpen(false);
-          // navigate("/admin/tags");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  // Alert
-  const [open, setOpen] = React.useState(false);
-  const [succesSnackOpen, setSuccesSnackOpen] = useState(false);
-  const handleClick = () => {
-    setSuccesSnackOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setSuccesSnackOpen(false);
-  };
-
-  // code to delete tags
   const deleteTag = (id) => {
+    setDeleting(id);
     axios
       .delete(`${process.env.REACT_APP_BACKEND_URL}/tags/${id}`)
       .then((res) => {
         console.log(res.data);
+        setTimeout(() => {
+          setTags(tags.filter((tag) => tag.id !== id));
+        }, 400);
       })
       .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setTimeout(() => {
+          setDeleting("");
+        }, 400);
+      });
+  };
+
+  const updateTag = () => {
+    axios
+      .put(`${process.env.REACT_APP_BACKEND_URL}/tags/${tagData.id}`, tagData)
+      .then((res) => {
+        console.log(res.data);
+        setOpen(false);
+
+        setTags(
+          tags.map((tag) => {
+            if (tag.id === tagData.id) {
+              return res.data.tag;
+            } else {
+              return tag;
+            }
+          })
+        );
+        setTagData({
+          name: "",
+          description: "",
+        });
+      });
+  };
+
+  const [isAdingTags, setIsAddingTags] = React.useState(false);
+
+  const addTag = () => {
+    setIsAddingTags(true);
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/tags`, tagData, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+       setIsAddingTags(false);
+        setOpen(false);
+        setTags([...tags, res.data.tag]);
+        setTagData({
+          name: "",
+          description: "",
+        });
+        loadTags();
+      })
+      .catch((err) => {
+        setIsAddingTags(false);
         console.log(err);
       });
   };
@@ -320,98 +394,69 @@ export default function Tags() {
         transition: "box-shadow 1s ease-in-out",
       }}
     >
-      {succesSnackOpen === true ? (
-        <Snackbar
-          open={succesSnackOpen}
-          autoHideDuration={3000}
-          onClose={handleClose}
-        >
-          <Alert
-            onClose={handleClose}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            Tag Added Successfully
-          </Alert>
-        </Snackbar>
-      ) : null}
       <Dialog
         open={open}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        style={{
-          padding: "10px",
-        }}
       >
-        <div
-          style={{
-            padding: "10px",
-          }}
-        >
-          <div>
-            <h3 className="text-[#333] font-bold text-[20px] mb-[10px]">
-              Add New Tag
-            </h3>
-            <div>
-              <TextField
-                id="outlined-basic"
-                label="Tag Name"
-                variant="outlined"
-                size="small"
-                name={name}
-                onChange={(e) => setName(e.target.value)}
-                fullWidth
-                sx={{
-                  marginBottom: "10px",
-                }}
-              />
-              <TextField
-                multiline
-                id="outlined-basic"
-                label="Tag Description"
-                variant="outlined"
-                name={description}
-                onChange={(e) => setDescription(e.target.value)}
-                size="small"
-                rows={4}
-                fullWidth
-                sx={{
-                  marginBottom: "10px",
-                }}
-              />
-            </div>
-          </div>
-          <Stack
-            direction="row"
-            spacing={1}
+        <DialogTitle id="alert-dialog-title">{"Add Tag"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <TextField
+              value={tagData.name}
+              onChange={(e) => setTagData({ ...tagData, name: e.target.value })}
+              size="small"
+              type="text"
+              placeholder="Tag"
+              sx={{ margin: "10px 0", width: "100%" }}
+            />
+
+            <TextField
+              value={tagData.description}
+              onChange={(e) =>
+                setTagData({ ...tagData, description: e.target.value })
+              }
+              multiline
+              type="text"
+              variant="outlined"
+              placeholder="Description.."
+              minRows={8}
+              sx={{ margin: "5px 0 20px 0", width: "100%" }}
+            />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            size="small"
+            color="error"
+            onClick={() => {
+              setOpen(false);
+              setTagData({
+                name: "",
+                description: "",
+              });
+            }}
             sx={{
-              marginTop: "10px",
-              textAlign: "right",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end",
+              boxShadow: 0,
             }}
           >
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => setOpen(false)}
-            >
-              Close
-            </Button>
-            <Button
-              variant="contained"
-              sx={{
-                background: "#333",
-                color: "#fff",
-                elevation: 0,
-              }}
-              onClick={() => addTags()}
-            >
-              Submit
-            </Button>
-          </Stack>
-        </div>
+            Cancel
+          </Button>
+          <Button
+            sx={{
+              boxShadow: 0,
+            }}
+            autoFocus
+            onClick={() => (isEdit ? updateTag() : addTag())}
+            color="success"
+            variant="contained"
+            size="small"
+            disabled={isAdingTags}
+          >
+            {isEdit ? "Update" : isAdingTags ? "Adding..." : "Add"}
+          </Button>
+        </DialogActions>
       </Dialog>
       <AppBar position="static">
         <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
@@ -420,7 +465,10 @@ export default function Tags() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={() => setOpen(true)}
+            onClick={() => {
+              setOpen(true);
+              setIsEdit(false);
+            }}
           >
             <AddIcon />
           </IconButton>
@@ -442,115 +490,137 @@ export default function Tags() {
 
       {/*  */}
 
-      <Paper
-        sx={{
-          width: "100%",
-          mb: 2,
-          boxShadow: 0,
-        }}
-      >
-        <EnhancedTableToolbar />
+      <Grid item xs>
+        <Paper sx={{ boxShadow: 0, borderRadius: 1 }}>
+          {loading ? (
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                width: "100%",
+                height: "100%",
+                marginTop: 0,
+                paddingBottom: 4,
+                paddingTop: 2,
+                paddingLeft: 2,
+                paddingRight: 2,
+              }}
+            >
+              <Grid item xs={12}>
+                <LinearProgress />
+              </Grid>
+            </Grid>
+          ) : (
+            <Paper
+              sx={{
+                width: "100%",
+                mb: 2,
+                boxShadow: 0,
+                overflow: "scroll",
+              }}
+            >
+              <EnhancedTableToolbar />
+              <TableContainer>
+                <Table
+                  sx={{ minWidth: 750 }}
+                  aria-labelledby="tableTitle"
+                  size="small"
+                >
+                  <EnhancedTableHead />
+                  <TableBody>
+                    {stableSort(tags, getComparator(order, orderBy))
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row, index) => {
+                        const isItemSelected = isSelected(row._id);
+                        const labelId = `enhanced-table-checkbox-${index}`;
 
-        <TableContainer>
-          <Table
-            sx={{ width: "100%" }}
-            aria-labelledby="tableTitle"
-            size="small"
-          >
-            <EnhancedTableHead />
-            <TableBody>
-              {tagsdata &&
-                tagsdata.map((row) => {
-                  return (
-                    <>
-                      {" "}
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        sx={{ color: "#fff" }}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox color="primary" />
-                        </TableCell>
+                        return (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            tabIndex={-1}
+                            sx={{ color: "#fff" }}
+                            key={row.id}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox color="primary" />
+                            </TableCell>
 
-                        <TableCell scope="row" padding="none">
-                          <Typography
-                            size="small"
-                            sx={{
-                              overflow: "hidden",
-                              whiteSpace: "nowrap",
-                              maxWidth: "20ch",
-                              textOverflow: "ellipsis",
-                              cursor: "pointer",
-                            }}
-                          >
-                            asdasd
-                          </Typography>
-                        </TableCell>
+                            <TableCell scope="row" padding="none">
+                              <Typography
+                                size="small"
+                                sx={{
+                                  overflow: "hidden",
+                                  whiteSpace: "nowrap",
+                                  maxWidth: "20ch",
+                                  textOverflow: "ellipsis",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                {row.name}
+                              </Typography>
+                            </TableCell>
 
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          padding="none"
-                          sx={{
-                            overflow: "hidden",
-                            whiteSpace: "nowrap",
-                            maxWidth: "20ch",
-                            minWidth: "15ch",
-                            textOverflow: "ellipsis",
-                          }}
-                        >
-                          sdsa
-                        </TableCell>
-                        <TableCell align="left" sx={{}}>
-                          sd
-                        </TableCell>
-                        <TableCell
-                          align="left"
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Stack
-                            direction={"row"}
-                            sx={{ columnGap: "10px", margin: "3px 10px" }}
-                          >
-                            <IconButton aria-label="edit" size="small">
-                              <ModeEditOutlineOutlinedIcon fontSize="small" />
-                            </IconButton>
-                          </Stack>
-                          <Stack
-                            direction={"row"}
-                            sx={{ columnGap: "10px", margin: "3px 10px" }}
-                          >
-                            <IconButton
-                              aria-label="delete"
-                              size="small"
-                              onClick={(id) => deleteTag(row.id)}
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              padding="none"
+                              sx={{
+                                overflow: "hidden",
+                                whiteSpace: "nowrap",
+                                maxWidth: "20ch",
+                                minWidth: "15ch",
+                                textOverflow: "ellipsis",
+                              }}
                             >
-                              <DeleteIcon fontSize="small" />
-                            </IconButton>
-                          </Stack>
-                        </TableCell>
-                      </TableRow>
-                    </>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        {/* <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={100}
-          rowsPerPage={5}
-          page={0}
-          onPageChange={() => {}}
-        /> */}
-      </Paper>
+                              {row.description}
+                            </TableCell>
+                            <TableCell align="left" sx={{}}>
+                              {new Date(row.createdAt).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell align="left" sx={{}} style={{}}>
+                              <Stack
+                                direction={"row"}
+                                sx={{
+                                  columnGap: "10px",
+                                  alignItems: "center",
+                                }}
+                              >
+                                {/* <AiOutlineEdit size="18" onClick={() => {
+                                setOpen(true);
+                                setTagData(row);
+                                setIsEdit(true);
+                              }} /> */}
+                                {/* {deleting === row.id ?
+                                <Loading height={30} width={30} />
+                                : (
+                                  <AiOutlineDelete size="18" onClick={() => deleteTag(row.id)} />
+                                )} */}
+                              </Stack>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[15, 30, 40]}
+                component="div"
+                count={tags.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                sx={{}}
+              />
+            </Paper>
+          )}
+        </Paper>
+      </Grid>
     </Box>
   );
 }

@@ -1,36 +1,22 @@
 // icons
-
-import SdStorageTwoToneIcon from "@mui/icons-material/SdStorageTwoTone";
-
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import ElectricalServicesTwoToneIcon from "@mui/icons-material/ElectricalServicesTwoTone";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import LoyaltyTwoToneIcon from "@mui/icons-material/LoyaltyTwoTone";
-import AddBusinessTwoToneIcon from "@mui/icons-material/AddBusinessTwoTone";
-import ContactPhoneTwoToneIcon from "@mui/icons-material/ContactPhoneTwoTone";
-import PermMediaTwoToneIcon from "@mui/icons-material/PermMediaTwoTone";
-import GavelTwoToneIcon from "@mui/icons-material/GavelTwoTone";
-import DashboardTwoToneIcon from "@mui/icons-material/DashboardTwoTone";
-import TipsAndUpdatesTwoToneIcon from "@mui/icons-material/TipsAndUpdatesTwoTone";
 import StarBorderPurple500TwoToneIcon from "@mui/icons-material/StarBorderPurple500TwoTone";
-import WalletTwoToneIcon from "@mui/icons-material/WalletTwoTone";
 import AccountBalanceTwoToneIcon from "@mui/icons-material/AccountBalanceTwoTone";
-import HandshakeTwoToneIcon from "@mui/icons-material/HandshakeTwoTone";
-import FeaturedVideoTwoToneIcon from "@mui/icons-material/FeaturedVideoTwoTone";
 import ShowChartTwoToneIcon from "@mui/icons-material/ShowChartTwoTone";
 import PhonelinkSetupTwoToneIcon from "@mui/icons-material/PhonelinkSetupTwoTone";
-import WorkTwoToneIcon from "@mui/icons-material/WorkTwoTone";
-import SettingsSuggestTwoToneIcon from "@mui/icons-material/SettingsSuggestTwoTone";
 import AddCardTwoToneIcon from "@mui/icons-material/AddCardTwoTone";
+
+import { AccountCircleOutlined, ContactPhoneOutlined, DashboardOutlined, FaceRetouchingOffOutlined, GavelOutlined, HandshakeOutlined, Inventory2Outlined, LoyaltyOutlined, PermMediaOutlined, ProductionQuantityLimitsOutlined, SdCardOutlined, SettingsOutlined, TipsAndUpdatesOutlined, WalletOutlined, WorkOutlineOutlined } from "@mui/icons-material";
+
 const menu_items = [
   {
     name: "Profile",
-    icon: <AccountBoxIcon />,
+    icon: <AccountCircleOutlined />,
     url: "/admin/profile",
   },
   {
     name: "Tags",
-    icon: <LoyaltyTwoToneIcon />,
+    icon: <LoyaltyOutlined />,
     url: "/admin/tags",
   },
   {
@@ -39,7 +25,7 @@ const menu_items = [
   },
   {
     name: "Products",
-    icon: <AddBusinessTwoToneIcon />,
+    icon: <Inventory2Outlined />,
     url: "/admin/products",
   },
   {
@@ -55,12 +41,12 @@ const menu_items = [
   },
   {
     name: "Contract",
-    icon: <ContactPhoneTwoToneIcon />,
+    icon: <ContactPhoneOutlined />,
     url: "/admin/contract",
   },
   {
     name: "Media",
-    icon: <PermMediaTwoToneIcon />,
+    icon: <PermMediaOutlined />,
     url: "/admin/viewmedia",
   },
 
@@ -70,7 +56,7 @@ const menu_items = [
   },
   {
     name: "Auction",
-    icon: <GavelTwoToneIcon />,
+    icon: <GavelOutlined />,
     url: "/admin/auctions",
   },
   {
@@ -79,12 +65,12 @@ const menu_items = [
   },
   {
     name: "Dashboard",
-    icon: <DashboardTwoToneIcon />,
+    icon: <DashboardOutlined />,
     url: "/admin",
   },
   {
     name: "Deals",
-    icon: <TipsAndUpdatesTwoToneIcon />,
+    icon: <TipsAndUpdatesOutlined />,
     url: "/admin/deals",
   },
 
@@ -99,7 +85,7 @@ const menu_items = [
   },
   {
     name: "Wallets",
-    icon: <WalletTwoToneIcon />,
+    icon: <WalletOutlined />,
     url: "/admin/wallets",
   },
   {
@@ -113,12 +99,12 @@ const menu_items = [
   },
   {
     name: "Points",
-    icon: <HandshakeTwoToneIcon />,
+    icon: <HandshakeOutlined />,
     url: "/admin/loyalitypoints",
   },
   {
     name: "Ads",
-    icon: <FeaturedVideoTwoToneIcon />,
+    icon: <FaceRetouchingOffOutlined />,
     url: "/admin/ads",
   },
   {
@@ -132,12 +118,12 @@ const menu_items = [
   },
   {
     name: "Jobs",
-    icon: <WorkTwoToneIcon />,
+    icon: <WorkOutlineOutlined />,
     url: "/admin/jobs",
   },
   {
     name: "Complaints",
-    icon: <SdStorageTwoToneIcon />,
+    icon: <SdCardOutlined />,
     url: "/admin/complaints",
   },
   {
@@ -147,7 +133,7 @@ const menu_items = [
   },
   {
     name: "Settings ",
-    icon: <SettingsSuggestTwoToneIcon />,
+    icon: <SettingsOutlined />,
     url: "/admin/settings",
   },
 ];

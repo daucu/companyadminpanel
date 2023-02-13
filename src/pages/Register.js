@@ -12,6 +12,7 @@ import { Avatar, Container, CssBaseline } from "@mui/material";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { useNavigate } from "react-router-dom";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -26,6 +27,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const [fullName, setFullName] = useState("");
   const [logo, setLogo] = useState("https://picsum.photos/500/500");
   const [description, setDescription] = useState("");
@@ -104,6 +107,9 @@ export default function Register() {
       .then((res) => {
         console.log(res);
         handleClick();
+        setTimeout(() => {
+          navigate("/");
+        }, [2000]);
       })
       .catch((err) => {
         console.log(err);

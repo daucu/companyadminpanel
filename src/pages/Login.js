@@ -498,6 +498,13 @@ export default function Login() {
                 </Link>
               </Grid>
             </Grid>
+            <Grid container>
+              <Grid item xs>
+                <Link href="/register" variant="body2">
+                  Don't have an account? Sign Up
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Container>

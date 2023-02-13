@@ -116,7 +116,11 @@ export default function AddProduct() {
     console.log(formdata);
 
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/products`, formdata)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/products`, formdata, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      })
       .then((res) => {
         console.log(res);
         setSuccessSnack(res.data.message);
@@ -153,7 +157,7 @@ export default function AddProduct() {
   }, []);
   return (
     <Box sx={{ flexGrow: 1, marginTop: 3 }}>
-      {companyProfileData.isVerified === true ? (
+      {companyProfileData.isVerified !== true ? (
         <>
           {loadingGif === true ? <Loading /> : null}
 

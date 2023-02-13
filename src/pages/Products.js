@@ -455,7 +455,11 @@ export default function Products() {
   //Get Product
   const getProducts = () => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/products`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/products/my-products`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      })
       .then((response) => {
         setProducts(response.data);
       });

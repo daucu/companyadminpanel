@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Autocomplete,
   Button,
   Divider,
   IconButton,
@@ -11,21 +12,34 @@ import axios from "axios";
 import React, { useState } from "react";
 
 function AddAuction() {
-  const [contract, setContract] = useState("");
   const [value, setValue] = useState("");
-  const [items, setItems] = useState("");
+  const [items, setItems] = useState([]);
   const [currency, setCurrency] = useState("");
   const [minimal_step, setMinimal_step] = useState("");
   const [description, setDescription] = useState("");
   const [token, setToken] = useState("token");
   const [title, setTitle] = useState("");
+  const [type, setType] = useState("");
+  const [contract, setContract] = useState("");
 
   // code to get products from backend and display them in the dropdown menu
   const [getCompanyProducts, setGetCompanyProducts] = useState([]);
   // const CompanyProductsData = async () => {
 
   // }
-
+  const [products, setProducts] = React.useState([]);
+  React.useEffect(() => {
+    // get products
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/products`)
+      .then((res) => {
+        console.log(res.data);
+        setProducts(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -84,241 +98,154 @@ function AddAuction() {
         <div
           style={{
             marginTop: "10px",
-            display: "flex",
+            // display: "flex",
             alignItems: "center",
           }}
         >
+          <TextField
+            id="outlined-basic"
+            label="Title"
+            variant="outlined"
+            size="small"
+            name={title}
+            onChange={(e) => setTitle(e.target.value)}
+            style={{
+              width: "100%",
+              marginBottom: "10px",
+            }}
+          />
+          <TextField
+            id="outlined-basic"
+            label="Value"
+            variant="outlined"
+            size="small"
+            name={value}
+            onChange={(e) => setValue(e.target.value)}
+            style={{
+              width: "100%",
+              marginBottom: "10px",
+            }}
+          />
+          <TextField
+            id="outlined-basic"
+            label="Description"
+            multiline
+            rows={6}
+            variant="outlined"
+            size="small"
+            name={description}
+            onChange={(e) => setDescription(e.target.value)}
+            style={{
+              width: "100%",
+              marginBottom: "10px",
+            }}
+          />
           <div
             style={{
-              width: "25%",
-              padding: "10px",
               display: "flex",
+              justifyContent: "space-between",
               alignItems: "center",
+              // media query for mobile
+              "@media (max-width: 600px)": {
+                display: "block",
+              },
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              Contract
-            </InputLabel>
+            <div
+              style={{
+                width: "40%",
+              }}
+            >
+              <TextField
+                id="outlined-basic"
+                label="Currency"
+                variant="outlined"
+                size="small"
+                name={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+                style={{
+                  width: "100%",
+                  marginBottom: "10px",
+                }}
+              />
+            </div>
+            <div
+              style={{
+                width: "33%",
+              }}
+            >
+              <TextField
+                id="outlined-basic"
+                label="Minimal Step"
+                variant="outlined"
+                size="small"
+                name={minimal_step}
+                onChange={(e) => setMinimal_step(e.target.value)}
+                style={{
+                  width: "100%",
+                  marginBottom: "10px",
+                }}
+              />
+            </div>
+            <div
+              style={{
+                width: "33%",
+              }}
+            >
+              <TextField
+                id="outlined-basic"
+                label="Type"
+                variant="outlined"
+                size="small"
+                name={type}
+                onChange={(e) => setType(e.target.value)}
+                style={{
+                  width: "100%",
+                  marginBottom: "10px",
+                }}
+              />
+            </div>
           </div>
-          <div
+          <TextField
+            id="outlined-basic"
+            label="Contract"
+            variant="outlined"
+            size="small"
+            name={contract}
+            onChange={(e) => setContract(e.target.value)}
             style={{
-              width: "75%",
+              width: "100%",
+              marginBottom: "10px",
             }}
-          >
-            <TextField
-              id="outlined-basic"
-              label="Contract"
-              name={contract}
-              onChange={(e) => setContract(e.target.value)}
-              size="small"
-              variant="outlined"
-              sx={{ width: "100%", marginTop: 2 }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "25%",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
+          />
+          {/* dropdown menu */}
+          <Autocomplete
+            multiple
+            sx={{
+              width: "100%",
             }}
-          >
-            <InputLabel htmlFor="outlined-adornment-amount">Value</InputLabel>
-          </div>
-          <div
-            style={{
-              width: "75%",
+            label="Items"
+            defaultChecked={items}
+            isOptionEqualToValue={(option, value) => value == option.id}
+            id="tags-standard"
+            options={products}
+            name={items}
+            size="small"
+            //  get optionlabel from array without using map
+            getOptionLabel={(option) => option.title}
+            onChange={(e, value) => {
+              setItems(value.map((item) => item.id));
             }}
-          >
-            <TextField
-              id="outlined-basic"
-              label="Value"
-              name={value}
-              onChange={(e) => setValue(e.target.value)}
-              size="small"
-              variant="outlined"
-              sx={{ width: "100%", marginTop: 1 }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "25%",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <InputLabel htmlFor="outlined-adornment-amount">Items</InputLabel>
-          </div>
-          <div
-            style={{
-              width: "75%",
-            }}
-          >
-            <TextField
-              id="outlined-basic"
-              label="Items"
-              size="small"
-              name={items}
-              onChange={(e) => setItems(e.target.value)}
-              variant="outlined"
-              sx={{ width: "100%", marginTop: 1 }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "25%",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              Currency
-            </InputLabel>
-          </div>
-          <div
-            style={{
-              width: "75%",
-            }}
-          >
-            <TextField
-              id="outlined-basic"
-              label="Currency"
-              size="small"
-              name={currency}
-              onChange={(e) => setCurrency(e.target.value)}
-              variant="outlined"
-              sx={{ width: "100%", marginTop: 1 }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "25%",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              Minimal_step
-            </InputLabel>
-          </div>
-          <div
-            style={{
-              width: "75%",
-            }}
-          >
-            <TextField
-              id="outlined-basic"
-              label="Minimal_step"
-              size="small"
-              name={minimal_step}
-              onChange={(e) => setMinimal_step(e.target.value)}
-              variant="outlined"
-              sx={{ width: "100%", marginTop: 1 }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "25%",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              Description
-            </InputLabel>
-          </div>
-          <div
-            style={{
-              width: "75%",
-            }}
-          >
-            <TextField
-              id="outlined-basic"
-              label="Description"
-              size="small"
-              name={description}
-              onChange={(e) => setDescription(e.target.value)}
-              variant="outlined"
-              sx={{ width: "100%", marginTop: 1 }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "25%",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <InputLabel htmlFor="outlined-adornment-amount">Title</InputLabel>
-          </div>
-          <div
-            style={{
-              width: "75%",
-            }}
-          >
-            <TextField
-              id="outlined-basic"
-              label="Title"
-              size="small"
-              name={title}
-              onChange={(e) => setTitle(e.target.value)}
-              variant="outlined"
-              sx={{ width: "100%", marginTop: 1 }}
-            />
-          </div>
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Items"
+                placeholder="Items"
+                value={items}
+              />
+            )}
+          />
         </div>
       </form>
     </div>

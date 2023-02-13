@@ -1,5 +1,18 @@
+import { Stack } from "@mui/system";
 import * as React from "react";
 import PropTypes from "prop-types";
+import {
+  Dialog,
+  Divider,
+  OutlinedInput,
+  TextareaAutosize,
+  Button,
+  TextField,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -25,18 +38,10 @@ import Snackbar from "@mui/material/Snackbar";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import AppBar from "@mui/material/AppBar";
 import AddIcon from "@mui/icons-material/Add";
-import {
-  Dialog,
-  Divider,
-  OutlinedInput,
-  TextareaAutosize,
-  Button,
-  TextField,
-} from "@mui/material";
-import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
-import { Link as RouterLink } from "react-router-dom";
-// import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
-import { Stack } from "@mui/system";
+import { useState } from "react";
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const headCells = [
   {
@@ -58,7 +63,7 @@ const headCells = [
     label: "Published At",
   },
   {
-    id: "4",
+    id: "3",
     numeric: false,
     disablePadding: false,
     label: "Actions",
@@ -220,14 +225,90 @@ const EnhancedTableToolbar = (props) => {
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
-
 export default function Tags() {
-  const [open, setOpen] = React.useState(false);
+  // how to get token from local storage
+
+  // code to get tags
+  const [tagsdata, setTagsdata] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const getTags = () => {
+    setLoading(true);
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/tags`)
+      .then((res) => {
+        console.log(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
+  React.useEffect(() => {
+    getTags();
+  }, []);
+  // code to add tags
+  const navigate = useNavigate();
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [token, setToken] = useState("");
+
+  const userToken = localStorage.getItem("token");
+
+  const addTags = () => {
+    const data = {
+      name: name,
+      description: description,
+    };
+    console.log(data);
+
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/tags`, data, {
+        headers: {
+          "x-access-token": userToken,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        handleClick();
+        if (res.data.message == "Tag added successfully") {
+          setOpen(false);
+          // navigate("/admin/tags");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   // Alert
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
+  const [open, setOpen] = React.useState(false);
+  const [succesSnackOpen, setSuccesSnackOpen] = useState(false);
+  const handleClick = () => {
+    setSuccesSnackOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSuccesSnackOpen(false);
+  };
+
+  // code to delete tags
+  const deleteTag = (id) => {
+    axios
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/tags/${id}`)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Box
@@ -239,6 +320,21 @@ export default function Tags() {
         transition: "box-shadow 1s ease-in-out",
       }}
     >
+      {succesSnackOpen === true ? (
+        <Snackbar
+          open={succesSnackOpen}
+          autoHideDuration={3000}
+          onClose={handleClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            Tag Added Successfully
+          </Alert>
+        </Snackbar>
+      ) : null}
       <Dialog
         open={open}
         aria-labelledby="alert-dialog-title"
@@ -262,6 +358,8 @@ export default function Tags() {
                 label="Tag Name"
                 variant="outlined"
                 size="small"
+                name={name}
+                onChange={(e) => setName(e.target.value)}
                 fullWidth
                 sx={{
                   marginBottom: "10px",
@@ -272,6 +370,8 @@ export default function Tags() {
                 id="outlined-basic"
                 label="Tag Description"
                 variant="outlined"
+                name={description}
+                onChange={(e) => setDescription(e.target.value)}
                 size="small"
                 rows={4}
                 fullWidth
@@ -281,14 +381,15 @@ export default function Tags() {
               />
             </div>
           </div>
-          <Stack direction="row" spacing={1}
+          <Stack
+            direction="row"
+            spacing={1}
             sx={{
               marginTop: "10px",
               textAlign: "right",
               display: "flex",
               flexDirection: "row",
               justifyContent: "flex-end",
-              
             }}
           >
             <Button
@@ -305,6 +406,7 @@ export default function Tags() {
                 color: "#fff",
                 elevation: 0,
               }}
+              onClick={() => addTags()}
             >
               Submit
             </Button>
@@ -345,75 +447,109 @@ export default function Tags() {
           width: "100%",
           mb: 2,
           boxShadow: 0,
-          overflow: "scroll",
         }}
       >
         <EnhancedTableToolbar />
+
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
+            sx={{ width: "100%" }}
             aria-labelledby="tableTitle"
             size="small"
           >
             <EnhancedTableHead />
             <TableBody>
-              <TableRow
-                hover
-                role="checkbox"
-                tabIndex={-1}
-                sx={{ color: "#fff" }}
-              >
-                <TableCell padding="checkbox">
-                  <Checkbox color="primary" />
-                </TableCell>
+              {tagsdata &&
+                tagsdata.map((row) => {
+                  return (
+                    <>
+                      {" "}
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        sx={{ color: "#fff" }}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox color="primary" />
+                        </TableCell>
 
-                <TableCell scope="row" padding="none">
-                  <Typography
-                    size="small"
-                    sx={{
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      maxWidth: "20ch",
-                      textOverflow: "ellipsis",
-                      cursor: "pointer",
-                    }}
-                  >
-                    SDFDG
-                  </Typography>
-                </TableCell>
+                        <TableCell scope="row" padding="none">
+                          <Typography
+                            size="small"
+                            sx={{
+                              overflow: "hidden",
+                              whiteSpace: "nowrap",
+                              maxWidth: "20ch",
+                              textOverflow: "ellipsis",
+                              cursor: "pointer",
+                            }}
+                          >
+                            asdasd
+                          </Typography>
+                        </TableCell>
 
-                <TableCell
-                  component="th"
-                  scope="row"
-                  padding="none"
-                  sx={{
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    maxWidth: "20ch",
-                    minWidth: "15ch",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  gjfgj
-                </TableCell>
-                <TableCell align="left" sx={{}}>
-                  4 USD
-                </TableCell>
-                <TableCell align="left" sx={{}} style={{}}>
-                  <Stack direction={"row"} sx={{ columnGap: "10px" }}></Stack>
-                </TableCell>
-              </TableRow>
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          padding="none"
+                          sx={{
+                            overflow: "hidden",
+                            whiteSpace: "nowrap",
+                            maxWidth: "20ch",
+                            minWidth: "15ch",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          sdsa
+                        </TableCell>
+                        <TableCell align="left" sx={{}}>
+                          sd
+                        </TableCell>
+                        <TableCell
+                          align="left"
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Stack
+                            direction={"row"}
+                            sx={{ columnGap: "10px", margin: "3px 10px" }}
+                          >
+                            <IconButton aria-label="edit" size="small">
+                              <ModeEditOutlineOutlinedIcon fontSize="small" />
+                            </IconButton>
+                          </Stack>
+                          <Stack
+                            direction={"row"}
+                            sx={{ columnGap: "10px", margin: "3px 10px" }}
+                          >
+                            <IconButton
+                              aria-label="delete"
+                              size="small"
+                              onClick={(id) => deleteTag(row.id)}
+                            >
+                              <DeleteIcon fontSize="small" />
+                            </IconButton>
+                          </Stack>
+                        </TableCell>
+                      </TableRow>
+                    </>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
+        {/* <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={100}
           rowsPerPage={5}
           page={0}
           onPageChange={() => {}}
-        />
+        /> */}
       </Paper>
     </Box>
   );

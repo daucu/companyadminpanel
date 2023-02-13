@@ -215,6 +215,26 @@ export default function MiniDrawer() {
   React.useEffect(() => {
     getCompanyProfileData();
   }, []);
+
+  // code to get user profile data
+  const [userProfileData, setUserProfileData] = React.useState([]);
+  const getUserProfileData = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/profile`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res.data);
+        setUserProfileData(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  React.useEffect(() => {
+    getUserProfileData();
+  }, []);
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -359,7 +379,7 @@ export default function MiniDrawer() {
                   color: "#000",
                 }}
               >
-                {companyProfileData.contact_name}
+                {userProfileData.fullname}
                 {/* {userdata.name} */}
               </div>
             )}

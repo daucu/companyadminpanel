@@ -37,9 +37,7 @@ function ViewProduct() {
           </div>
           <div className="card__body">
             <div className="half">
-              <div className="featured_text">
-               
-              </div>
+              <div className="featured_text"></div>
               <div className="image">
                 <img
                   src={product.gallery}
@@ -53,8 +51,7 @@ function ViewProduct() {
               </div>
             </div>
             <div className="half">
-              <div className="description">
-              </div>
+              <div className="description"></div>
               {/* <div
                 style={{
                   display: "flex",

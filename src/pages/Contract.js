@@ -15,6 +15,7 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
@@ -26,6 +27,8 @@ import Snackbar from "@mui/material/Snackbar";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import AppBar from "@mui/material/AppBar";
 import AddIcon from "@mui/icons-material/Add";
+import { useState, useEffect } from "react";
+
 import {
   Dialog,
   Divider,
@@ -38,6 +41,7 @@ import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTo
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 // import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { Stack } from "@mui/system";
+import axios from "axios";
 const headCells = [
   {
     id: "1",
@@ -49,7 +53,7 @@ const headCells = [
     id: "2",
     numeric: false,
     disablePadding: true,
-    label: "Description",
+    label: "Return Terms",
   },
   {
     id: "3",
@@ -222,13 +226,29 @@ EnhancedTableToolbar.propTypes = {
 
 export default function Contract() {
   const navigate = useNavigate();
+
   // Alert
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-
   // code to get all contracts from the database
+  const [contracts, setContracts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const getAllContracts = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/contract`)
+      .then((res) => {
+        console.log(res.data);
+        setContracts(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getAllContracts();
+  }, []);
 
   return (
     <Box
@@ -286,52 +306,72 @@ export default function Contract() {
           >
             <EnhancedTableHead />
             <TableBody>
-              <TableRow
-                hover
-                role="checkbox"
-                tabIndex={-1}
-                sx={{ color: "#fff" }}
-              >
-                <TableCell padding="checkbox">
-                  <Checkbox color="primary" />
-                </TableCell>
+              {contracts &&
+                contracts.map((contract) => {
+                  return (
+                    <>
+                      {" "}
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        sx={{ color: "#fff" }}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox color="primary" />
+                        </TableCell>
 
-                <TableCell scope="row" padding="none">
-                  <Typography
-                    size="small"
-                    sx={{
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      maxWidth: "20ch",
-                      textOverflow: "ellipsis",
-                      cursor: "pointer",
-                    }}
-                  >
-                    SDFDG
-                  </Typography>
-                </TableCell>
+                        <TableCell scope="row" padding="none">
+                          <Typography
+                            size="small"
+                            sx={{
+                              overflow: "hidden",
+                              whiteSpace: "nowrap",
+                              maxWidth: "20ch",
+                              textOverflow: "ellipsis",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {contract.title}
+                          </Typography>
+                        </TableCell>
 
-                <TableCell
-                  component="th"
-                  scope="row"
-                  padding="none"
-                  sx={{
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    maxWidth: "20ch",
-                    minWidth: "15ch",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  gjfgj
-                </TableCell>
-                <TableCell align="left" sx={{}}>
-                  4 USD
-                </TableCell>
-                <TableCell align="left" sx={{}} style={{}}>
-                  <Stack direction={"row"} sx={{ columnGap: "10px" }}></Stack>
-                </TableCell>
-              </TableRow>
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          padding="none"
+                          sx={{
+                            overflow: "hidden",
+                            whiteSpace: "nowrap",
+                            maxWidth: "20ch",
+                            minWidth: "15ch",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {contract.return_terms}
+                        </TableCell>
+                        <TableCell align="left" sx={{}}>
+                          {contract.createdAt}
+                        </TableCell>
+                        <TableCell
+                          align="left"
+                          sx={{}}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          <IconButton aria-label="edit" size="small">
+                            <EditTwoToneIcon />
+                          </IconButton>
+                          <IconButton aria-label="delete" size="small">
+                            <DeleteIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    </>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>

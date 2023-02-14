@@ -37,6 +37,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  CircularProgress,
 } from "@mui/material";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -251,7 +252,10 @@ export default function CreateContract() {
   const [international_ship_terms, setInternational_ship_terms] = useState([]);
   const [local_ship_terms, setLocal_ship_terms] = useState([]);
 
+  const [btnLoading, setBtnLoading] = useState(false);
+
   const addContractdata = (e) => {
+    setBtnLoading(true);
     // code to store days and price in array of objects
     e.preventDefault();
 
@@ -273,10 +277,12 @@ export default function CreateContract() {
       })
       .then((res) => {
         console.log(res.data);
+        setBtnLoading(false);
         handleOpen();
       })
       .catch((err) => {
         console.log(err);
+        setBtnLoading(false);
       });
   };
 
@@ -317,17 +323,31 @@ export default function CreateContract() {
             Create Contracts
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
-          <Button
-            variant="contained"
-            size="small"
-            color="success"
-            sx={{
-              boxShadow: 0,
-            }}
-            onClick={addContractdata}
-          >
-            Publish
-          </Button>
+          {btnLoading === true ? (
+            <Button
+              variant="contained"
+              size="small"
+              color="success"
+              sx={{
+                boxShadow: 0,
+              }}
+              disabled
+            >
+              <CircularProgress size={20} color="success" />
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              size="small"
+              color="success"
+              sx={{
+                boxShadow: 0,
+              }}
+              onClick={addContractdata}
+            >
+              Publish
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       <form
@@ -552,7 +572,13 @@ export default function CreateContract() {
         </div>
       </form>
       {open === true ? (
-        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Snackbar
+          open={open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+          position="right"
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        >
           <Alert
             onClose={handleClose}
             severity="success"

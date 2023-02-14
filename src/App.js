@@ -60,6 +60,7 @@ import Complaints from "./pages/Complaints";
 import AddComplaints from "./pages/AddComplaints";
 import EditContract from "./pages/EditContract";
 import EditAuctino from "./pages/EditAuctino";
+import AddBankAccount from "./pages/AddBankAccount";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -163,6 +164,10 @@ function App() {
             <Route
               path="viewmedia"
               element={<Protected Component={ViewMedia} />}
+            />
+            <Route
+              path="addbank"
+              element={<Protected Component={AddBankAccount} />}
             />
             <Route
               path="withdraw"

@@ -25,16 +25,24 @@ function Profile() {
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
   const [zip, setZip] = useState("");
-
+  const [email, setEmail] = useState("");
   const [companyProfileData, setCompanyProfileData] = React.useState([]);
+  const [userprofileData, setUserprofileData] = useState([]);
   const getCompanyProfileData = async () => {
     await axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/profile/company`, {
-        withCredentials: true,
+      .get(`${process.env.REACT_APP_BACKEND_URL}/profile`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
       })
       .then((res) => {
-        console.log(res.data[0].data);
-        setCompanyProfileData(res.data[0].data);
+        console.log(res.data);
+        setUserprofileData(res.data);
+        setName(res.data.name);
+        setCountry(res.data.country);
+        setDescription(res.data.description);
+        setEmail(res.data.email);
+        setPhone(res.data.phone);
       })
       .catch((e) => {
         console.log(e);
@@ -92,7 +100,7 @@ function Profile() {
         >
           <TextField
             id="outlined-basic"
-            label="Name"
+            value={userprofileData.fullName}
             size="small"
             variant="outlined"
             sx={{ width: "100%", marginTop: 2 }}
@@ -190,7 +198,6 @@ function Profile() {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={age}
             size="small"
             onChange={handleChange}
             sx={{
@@ -198,9 +205,9 @@ function Profile() {
               textAlign: "left",
             }}
           >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            <MenuItem value={10}>India</MenuItem>
+            <MenuItem value={20}>America</MenuItem>
+            <MenuItem value={30}>Japan</MenuItem>
           </Select>
         </div>
       </div>
@@ -336,8 +343,7 @@ function Profile() {
         >
           <TextField
             id="outlined-basic"
-            label="User name
-            "
+            value={userprofileData.username}
             placeholder="User name
             "
             size="small"
@@ -372,8 +378,8 @@ function Profile() {
         >
           <TextField
             id="outlined-basic"
-            label="Mobile
-            "
+            value={userprofileData.phone}
+
             placeholder="Mobile
             "
             size="small"
@@ -408,8 +414,8 @@ function Profile() {
         >
           <TextField
             id="outlined-basic"
-            label="Email
-            "
+            value={userprofileData.email}
+
             placeholder="Email
             "
             size="small"
@@ -442,8 +448,8 @@ function Profile() {
         >
           <TextField
             id="outlined-basic"
-            label="Role
-            "
+            value={userprofileData.role}
+
             placeholder="Role
             "
             size="small"

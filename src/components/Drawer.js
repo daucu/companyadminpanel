@@ -379,7 +379,7 @@ export default function MiniDrawer() {
                   color: "#000",
                 }}
               >
-                {userProfileData.fullname}
+                {userProfileData.fullName}
                 {/* {userdata.name} */}
               </div>
             )}

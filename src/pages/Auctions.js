@@ -524,7 +524,7 @@ export default function Auctions() {
                                   >
                                     <ModeEditOutlineOutlinedIcon
                                       onClick={() =>
-                                        navigate(`/edit-auction/${row.id}`)
+                                        navigate(`/admin/editauctinos/${row.id}`)
                                       }
                                       size={22}
                                     />

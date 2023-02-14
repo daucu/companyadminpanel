@@ -40,7 +40,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 // import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { Stack } from "@mui/system";
 import axios from "axios";
@@ -232,12 +232,39 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function CreateContract() {
+export default function EditContract() {
   const navigate = useNavigate();
   // Alert
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
+
+  //   get contract by id
+  const { id } = useParams();
+  const [contractByid, setContractByid] = useState([]);
+  const getContractById = () => {
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/contract/${id}`)
+      .then((res) => {
+        console.log(res.data.contract);
+        setContractByid(res.data.contract);
+        setTitle(res.data.contract.title);
+        setSignature_profile(res.data.contract.signature_profile);
+        setStamp_profile(res.data.contract.stamp_profile);
+        setTerms(res.data.contract.terms);
+
+        setReturn_terms(res.data.contract.return_terms);
+        setInternational_ship_terms(res.data.contract.international_ship_terms);
+
+        setLocal_ship_terms(res.data.contract.local_ship_terms);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getContractById();
+  }, []);
 
   // code to add contract
   const [title, setTitle] = useState("");
@@ -260,7 +287,7 @@ export default function CreateContract() {
     e.preventDefault();
 
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/contract`, {
+      .put(`${process.env.REACT_APP_BACKEND_URL}/contract/${id}`, {
         title: title,
         signature_profile: signature_profile,
         stamp_profile: stamp_profile,
@@ -311,7 +338,7 @@ export default function CreateContract() {
       <AppBar position="static">
         <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
           <Typography variant="h6" color="inherit" component="div">
-            Create Contracts
+            Edit Contract
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
           {btnLoading === true ? (
@@ -350,8 +377,8 @@ export default function CreateContract() {
           {/* title */}
           <TextField
             id="outlined-basic"
-            label="Title"
             name={title}
+            value={title}
             onChange={(e) => setTitle(e.target.value)}
             size="small"
             variant="outlined"
@@ -360,7 +387,7 @@ export default function CreateContract() {
           {/* terms */}
           <TextField
             id="outlined-basic"
-            label="Terms"
+            value={terms}
             name={terms}
             onChange={(e) => setTerms(e.target.value)}
             size="small"
@@ -402,8 +429,8 @@ export default function CreateContract() {
               >
                 <TextField
                   id="outlined-basic"
-                  label="Price"
                   type={"number"}
+                  value={local_ship_terms.price}
                   name={local_ship_terms.price}
                   onChange={(e) =>
                     setLocal_ship_terms({
@@ -423,7 +450,7 @@ export default function CreateContract() {
               >
                 <TextField
                   id="outlined-basic"
-                  label="Days"
+                  value={local_ship_terms.days}
                   type={"number"}
                   name={local_ship_terms.days}
                   onChange={(e) =>
@@ -474,7 +501,7 @@ export default function CreateContract() {
               >
                 <TextField
                   id="outlined-basic"
-                  label="Price"
+                  value={international_ship_terms.price}
                   type={"number"}
                   name={international_ship_terms.price}
                   onChange={(e) =>
@@ -495,7 +522,7 @@ export default function CreateContract() {
               >
                 <TextField
                   id="outlined-basic"
-                  label="Days"
+                  value={international_ship_terms.days}
                   type={"number"}
                   name={international_ship_terms.days}
                   onChange={(e) =>
@@ -514,7 +541,7 @@ export default function CreateContract() {
           <div>
             <TextField
               id="outlined-basic"
-              label="Return Term"
+              value={return_terms}
               size="small"
               name={return_terms}
               onChange={(e) => setReturn_terms(e.target.value)}

@@ -15,11 +15,14 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import MuiAlert from "@mui/material/Alert";
+import { useParams } from "react-router-dom";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-function AddAuction() {
+function EditAuctino() {
+  const { id } = useParams();
+
   // code to get contract by id
   const [allContract, setAllContract] = useState([]);
   const getAllContract = async () => {
@@ -46,6 +49,33 @@ function AddAuction() {
   const [title, setTitle] = useState("");
   const [type, setType] = useState("");
   const [contract, setContract] = useState("");
+  const [createdBy, setCreatedBy] = useState("");
+
+  // code to get auction by id
+  const [AuctionByID, setAuctionByID] = useState([]);
+  const getAuctionByID = async () => {
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/auctions/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        setAuctionByID(res.data);
+        setTitle(res.data.title);
+        setValue(res.data.value);
+        setCurrency(res.data.currency);
+        setMinimal_step(res.data.minimal_step);
+        setDescription(res.data.description);
+        setToken(res.data.tkn);
+        setType(res.data.type);
+        setContract(res.data.contract);
+        setCreatedBy(res.data.createdBy);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getAuctionByID();
+  }, []);
 
   // code to get products from backend and display them in the dropdown menu
   const [getCompanyProducts, setGetCompanyProducts] = useState([]);
@@ -80,13 +110,14 @@ function AddAuction() {
       currency: currency,
       minimal_step: minimal_step,
       description: description,
-      tkn: token,
+      token: token,
       title: title,
+      createdBy: createdBy,
       type: type,
     };
-
+    
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/auctions`, data, {
+      .put(`${process.env.REACT_APP_BACKEND_URL}/auctions/${id}`, data, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -131,7 +162,7 @@ function AddAuction() {
             aria-label="menu"
             sx={{ mr: 2 }}
           ></IconButton>
-          Add Auction
+          Edit Auction
           <Divider sx={{ flexGrow: 1 }} />
           {btnLoading === true ? (
             <Button
@@ -170,7 +201,7 @@ function AddAuction() {
         >
           <TextField
             id="outlined-basic"
-            label="Title"
+            value={title}
             variant="outlined"
             size="small"
             name={title}
@@ -182,7 +213,7 @@ function AddAuction() {
           />
           <TextField
             id="outlined-basic"
-            label="Value"
+            value={value}
             variant="outlined"
             size="small"
             name={value}
@@ -194,7 +225,7 @@ function AddAuction() {
           />
           <TextField
             id="outlined-basic"
-            label="Description"
+            value={description}
             multiline
             rows={6}
             variant="outlined"
@@ -224,7 +255,7 @@ function AddAuction() {
             >
               <TextField
                 id="outlined-basic"
-                label="Currency"
+                value={currency}
                 variant="outlined"
                 size="small"
                 name={currency}
@@ -242,7 +273,7 @@ function AddAuction() {
             >
               <TextField
                 id="outlined-basic"
-                label="Minimal Step"
+                value={minimal_step}
                 variant="outlined"
                 size="small"
                 name={minimal_step}
@@ -260,7 +291,7 @@ function AddAuction() {
             >
               <TextField
                 id="outlined-basic"
-                label="Type"
+                value={type}
                 variant="outlined"
                 size="small"
                 name={type}
@@ -357,4 +388,4 @@ function AddAuction() {
   );
 }
 
-export default AddAuction;
+export default EditAuctino;

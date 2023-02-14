@@ -1,3 +1,5 @@
+import ImageList from "@mui/material/ImageList";
+import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
@@ -17,64 +19,33 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import LinkOutlinedIcon from "@mui/icons-material/LinkOutlined";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import Tooltip from "@mui/material/Tooltip";
-import Box from "@mui/material/Box";
-import AppBar from "@mui/material/AppBar";
-import AddIcon from "@mui/icons-material/Add";
-import { Button, Divider } from "@mui/material";
-import Toolbar from "@mui/material/Toolbar";
-import { useNavigate } from "react-router-dom";
+import { AppBar, Divider, Toolbar } from "@mui/material";
+import { Add } from "@mui/icons-material";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
-  // color: "#fff",
-  // backgroundColor: "#0000009E",
+  color: "#fff",
+  //   backgroundColor: "#1A2027",
 }));
 
-export default function ViewMedia() {
+export default function FileManager() {
   const [files, setFiles] = React.useState([]);
-  const [dir, setDir] = React.useState([]);
   const [server_alert, setAlert] = useState();
   const [open, setOpen] = React.useState(false);
   const [status, setStatus] = useState();
-
-  // code to get image
-  const [image, setImage] = useState("");
-  const getProducts = () => {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/products/company/HarshaWeb`)
-      .then((response) => {
-        console.log(response.data);
-        setImage(response.data);
-      });
-  };
-
-  React.useEffect(() => {
-    getProducts();
-  }, []);
-
-  const navigate = useNavigate();
-
-  // Files Data
-  async function getFileData() {
-    await axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/storage/uploaded_files`)
-      .then((response) => {
-        setFiles(response.data);
-      });
-  }
+  const [loading, setLoading] = useState(false);
 
   //Delete Post
-  async function deleteOneFile(item) {
-    await axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/storage/delete`, {
+  function deleteOneFile(item) {
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/files/delete`, {
         name: item.name,
       })
       .then((res) => {
         setAlert("File successfully Deleted", res);
         setStatus("success");
-        getFileData();
       })
       .catch((e) => {
         setAlert(e.response.data.message);
@@ -83,31 +54,49 @@ export default function ViewMedia() {
     setOpen(true);
   }
 
-  // Directory Data
-  React.useEffect(() => {
-    getFileData();
-  }, []);
-
-  async function getDirectoryData() {
-    await axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/storage/dir`)
-      .then((response) => {
-        setDir(response.data);
-      });
-  }
-
   //get directory data path
   React.useEffect(() => {
-    getDirectoryData();
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/storage`)
+      .then((response) => {
+        setFiles(response.data.files);
+      })
+      .catch((e) => {
+        setAlert("Error while fetching files");
+        setStatus("info");
+        setOpen(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
-  // if (!files) return null;
+  // Upload File
+  const uploadFile = (url, file) => {
+    let formData = new FormData();
+    formData.append("uploadedFile", file);
+    axios
+      .post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((e) => {
+        setAlert("File successfully uploaded", e);
+        setStatus("success", e);
+        setOpen(true);
+      })
+      .catch((e) => {
+        setAlert(e.response.data.message);
+        setStatus(e.response.data.status);
+      });
+  };
 
   //Copy Link on Button Click
   const handleCopyClick = (item) => {
     setAlert("Link copied successfully");
     setStatus("success");
-    navigator.clipboard.writeText(item.path);
+    navigator.clipboard.writeText(item.url);
     setOpen(true);
   };
 
@@ -115,10 +104,6 @@ export default function ViewMedia() {
   const openInNewTab = (url) => {
     const newWindow = window.open(url, "_blank", "noopener,noreferrer");
     if (newWindow) newWindow.opener = null;
-  };
-
-  const onClickUrl = (url) => {
-    return () => openInNewTab(url);
   };
 
   //Alert
@@ -147,16 +132,7 @@ export default function ViewMedia() {
   });
 
   return (
-    <Box sx={{ flexGrow: 1, mt: 3 }}>
-      <AppBar position="static">
-        <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
-          <Typography variant="h6" color="inherit" component="div">
-            View Images
-          </Typography>
-          <Divider sx={{ flexGrow: 1 }} />
-        </Toolbar>
-      </AppBar>
-
+    <Grid container spacing={1} sx={{ marginBottom: 1, marginTop: 1 }}>
       <Snackbar
         open={open}
         autoHideDuration={3000}
@@ -169,108 +145,177 @@ export default function ViewMedia() {
           {server_alert}
         </Alert>
       </Snackbar>
-      <Paper
-        sx={{ boxShadow: 0, borderRadius: 1, background: "#e3e3e3", p: 1 }}
-      >
-        {/* Grid container for images card  */}
-        <Grid container spacing={2}>
-          {image &&
-            image.map((item) => {
-              return (
-                <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-                  <Item
-                    sx={{
-                      maxWidth: "450px",
-                      minWidth: "200px",
-                    }}
-                  >
+
+      <Grid item xs={12}>
+        <AppBar
+          position="static"
+          sx={{
+            boxShadow: 0,
+          }}
+        >
+          <Toolbar
+            variant="dense"
+            sx={{
+              background: "#333",
+              color: "#fff",
+              boxShadow: 0,
+            }}
+          >
+            {/* <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+               <CloseIcon />
+              <Add />
+            </IconButton> */}
+            <Typography variant="h6" color="inherit" component="div">
+              File Manager
+            </Typography>
+            <Divider sx={{ flexGrow: 1 }} />
+          </Toolbar>
+        </AppBar>
+      </Grid>
+
+      <Grid item xs={12}>
+        <Item sx={{ boxShadow: 0 }}>
+          <ImageList
+            sx={{ width: "100%", height: "80vh" }}
+            cols={5}
+            rowHeight={300}
+          >
+            {files
+              .slice(0)
+              .reverse()
+              .map((item, idx) => (
+                <Card
+                  sx={{
+                    height: 230,
+                    minWidth: 200,
+                    // backgroundColor: "#1A2027",
+                    boxShadow: 0,
+                    border: "1px solid #ccc",
+                  }}
+                  key={idx}
+                >
+                  {item.file_extension === ".jpg" ||
+                  item.file_extension === ".gif" ||
+                  item.file_extension === ".png" ||
+                  item.file_extension === ".jpeg" ||
+                  item.file_extension === ".svg" ||
+                  item.file_extension === ".ico" ? (
+                    <CardMedia component="img" height="150" image={item.path} />
+                  ) : (
                     <Card
+                      height="140"
                       sx={{
-                        height: 250,
+                        height: 120,
                         boxShadow: 0,
-                        border: "1px solid #1A2027",
-                        background: "#0000009E",
+                        // backgroundColor: "#1A2027",
+                        display: "block",
+                        justifyContent: "center",
+                        textAlign: "center",
+                        alignItems: "center",
                       }}
                     >
-                      <CardMedia
-                        component="img"
-                        height="150"
-                        width="150"
-                        image={item.image}
-                        style={{
-                          objectFit: "contain",
+                      <InsertDriveFileIcon
+                        sx={{
+                          width: 80,
+                          height: 80,
+                          marginTop: 2,
                         }}
                       />
-                      <CardContent>
-                        <Typography
-                          sx={{
-                            overflow: "hidden",
-                            whiteSpace: "nowrap",
-                            maxWidth: "25ch",
-                            minWidth: "25ch",
-                            textOverflow: "ellipsis",
-                            justifyContent: "left",
-                            textAlign: "left",
-                            color: "#fff",
-                          }}
-                        >
-                          {item.title}
-                        </Typography>
-                      </CardContent>
-
-                      <CardActions
+                      <Typography
+                        variant="h6"
                         sx={{
-                          margin: 0,
-                          padding: 0,
-                          marginLeft: 1,
-                          marginRight: 1,
+                          display: "flex",
+                          justifyContent: "center",
+                          textAlign: "center",
+                          alignItems: "center",
                         }}
                       >
-                        <Tooltip title="View">
-                          <IconButton
-                            size="small"
-                            sx={{
-                              backgroundColor: "#00000021",
-                              color: "#fff",
-                              border: "1px solid #fff",
-                            }}
-                          >
-                            <RemoveRedEyeOutlinedIcon />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Copy Link">
-                          <IconButton
-                            size="small"
-                            sx={{
-                              backgroundColor: "#00000021",
-                              color: "#fff",
-                              border: "1px solid #fff",
-                            }}
-                          >
-                            <LinkOutlinedIcon />
-                          </IconButton>
-                        </Tooltip>
-
-                        <Tooltip title="Delete">
-                          <IconButton
-                            size="small"
-                            sx={{
-                              backgroundColor: "#00000021",
-                              color: "#fff",
-                              border: "1px solid #fff",
-                            }}
-                          >
-                            <DeleteTwoToneIcon />
-                          </IconButton>
-                        </Tooltip>
-                      </CardActions>
+                        {item.file_extension} file
+                      </Typography>
                     </Card>
-                  </Item>
-                </Grid>
-              );
-            })}
-        </Grid>
-      </Paper>
-    </Box>
+                  )}
+
+                  <CardContent>
+                    <Typography
+                      sx={{
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        maxWidth: "25ch",
+                        minWidth: "25ch",
+                        textOverflow: "ellipsis",
+                        justifyContent: "left",
+                        textAlign: "left",
+                      }}
+                    >
+                      {item.name}
+                    </Typography>
+                  </CardContent>
+
+                  <CardActions
+                    sx={{
+                      margin: 0,
+                      padding: 0,
+                      marginLeft: 1,
+                      marginRight: 1,
+                    }}
+                  >
+                    <Tooltip title="View">
+                      <IconButton
+                        size="small"
+                        sx={{
+                          backgroundColor: "#00000021",
+                          border: "1px solid #fff",
+                        }}
+                        onClick={() => openInNewTab(`${item.url}`)}
+                      >
+                        <RemoveRedEyeOutlinedIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Copy Link">
+                      <IconButton
+                        size="small"
+                        sx={{
+                          backgroundColor: "#00000021",
+                          border: "1px solid #fff",
+                        }}
+                        onClick={() => handleCopyClick(item)}
+                      >
+                        <LinkOutlinedIcon />
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Delete">
+                      <IconButton
+                        size="small"
+                        sx={{
+                          backgroundColor: "#00000021",
+                          border: "1px solid #fff",
+                        }}
+                        onClick={() => deleteOneFile(item)}
+                      >
+                        <DeleteTwoToneIcon />
+                      </IconButton>
+                    </Tooltip>
+
+                    <Typography
+                      variant="caption"
+                      color="textSecondary"
+                      component="p"
+                      sx={{ marginLeft: 5, color: "#fff" }}
+                    >
+                      {item.size} Bytes
+                    </Typography>
+                  </CardActions>
+                </Card>
+              ))}
+          </ImageList>
+        </Item>
+      </Grid>
+    </Grid>
   );
 }

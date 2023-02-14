@@ -58,6 +58,8 @@ import AddAuction from "./pages/AddAuction";
 import Protected from "./pages/Protected";
 import Complaints from "./pages/Complaints";
 import AddComplaints from "./pages/AddComplaints";
+import EditContract from "./pages/EditContract";
+import EditAuctino from "./pages/EditAuctino";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -155,6 +157,7 @@ function App() {
               element={<Protected Component={ViewProduct} />}
             />
             <Route path="update/:id" element={<UpdateProduct />} />
+            <Route path="editcontract/:id" element={<EditContract />} />
 
             <Route path="media" element={<Protected Component={Storage} />} />
             <Route
@@ -202,6 +205,10 @@ function App() {
             <Route
               path="addauctinos"
               element={<Protected Component={AddAuction} />}
+            />
+            <Route
+              path="editauctinos/:id"
+              element={<Protected Component={EditAuctino} />}
             />
             <Route
               path="compilance"

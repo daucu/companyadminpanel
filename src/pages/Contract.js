@@ -390,7 +390,13 @@ export default function Contract() {
                             alignItems: "center",
                           }}
                         >
-                          <IconButton aria-label="edit" size="small">
+                          <IconButton
+                            aria-label="edit"
+                            size="small"
+                            onClick={() => {
+                              navigate(`/admin/editcontract/${contract.id}`);
+                            }}
+                          >
                             <EditTwoToneIcon />
                           </IconButton>
                           <IconButton

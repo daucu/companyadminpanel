@@ -6,7 +6,7 @@ import List from "@mui/material/List";
 import Paper from "@mui/material/Paper";
 import TabUnstyled from "@mui/base/TabUnstyled";
 import Button from "@mui/material/Button";
-import { Grid } from "@mui/material";
+import { AppBar, Grid, IconButton, Select, Toolbar } from "@mui/material";
 import MarkEmailUnreadTwoToneIcon from "@mui/icons-material/MarkEmailUnreadTwoTone";
 import PaymentTwoToneIcon from "@mui/icons-material/PaymentTwoTone";
 // import SMTP from "./settings/SMTP";
@@ -25,7 +25,11 @@ import DnsTwoToneIcon from "@mui/icons-material/DnsTwoTone";
 // import EmailTemplate from "./settings/EmailTemplate";
 // import CORS from "./settings/CORS";
 import TabsListUnstyled from "@mui/base/TabsListUnstyled";
-
+import { useNavigate } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import { useState } from "react";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -62,103 +66,78 @@ const Tab = styled(TabUnstyled)`
 `;
 
 export default function CustomizedList() {
-  const [open, setOpen] = React.useState(true);
-  const [value, setValue] = React.useState(0);
+  const [age, setAge] = React.useState("");
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChange = (event) => {
+    setAge(event.target.value);
   };
 
+  const [currency, setCurrency] = useState("");
+  const handlecurrency = (event) => {
+    setCurrency(event.target.value);
+  };
+  const navigate = useNavigate();
   return (
-    <Box sx={{ width: "100%", marginTop: 3, boxShadow: 0 }}>
-      <TabsUnstyled defaultValue={0}>
-        <TabsListUnstyled>
-          <Grid container spacing={1} sx={{ marginBottom: 1 }}>
-            {/* Top Area */}
-            <Grid item xs={12}>
-              <Item sx={{ boxShadow: 0 }}>
-                <Button
-                  variant="contained"
-                  size="small"
-                  sx={{
-                    mr: 2,
-                    display: { xs: "none", md: "flex" },
-                    boxShadow: 0,
-                    // background: "#333333",
-                  }}
-                ></Button>
-              </Item>
-            </Grid>
-
-            {/* Left Area */}
-            <Grid item xs={2}>
-              <Item sx={{ boxShadow: 0, maxWidth: 300 }}>
-                <FireNav component="nav" disablePadding>
-                  <Divider />
-                  <Tabs
-                    orientation="vertical"
-                    value={value}
-                    onChange={handleChange}
-                    sx={{ borderRight: 1 }}
-                    centered
-                    allowScrollButtonsMobile
-                  >
-                    <Tab sx={{ }}>
-                      <MarkEmailUnreadTwoToneIcon sx={{ marginRight: 1 }} />
-                      SMTP
-                    </Tab>
-                    <Tab sx={{ }}>
-                      <InsertPageBreakTwoToneIcon sx={{ marginRight: 1 }} />
-                      Email Template
-                    </Tab>
-                    <Tab sx={{ }}>
-                      <PaymentTwoToneIcon sx={{ marginRight: 1 }} />
-                      Payment
-                    </Tab>
-                    <Tab sx={{}}>
-                      <VpnLockTwoToneIcon sx={{ marginRight: 1 }} />
-                      CORS & keys
-                    </Tab>
-                    {/* <Tab sx={{ color: "#fff", background: "#1A2027" }}>
-                      <AccessTimeTwoToneIcon sx={{ marginRight: 1 }} />
-                      Timezone
-                    </Tab>
-                    <Tab sx={{ color: "#fff", background: "#1A2027" }}>
-                      <TranslateTwoToneIcon sx={{ marginRight: 1 }} />
-                      Languages
-                    </Tab> */}
-                    <Tab sx={{}}>
-                      <DnsTwoToneIcon sx={{ marginRight: 1 }} />
-                      Server Details
-                    </Tab>
-                  </Tabs>
-                </FireNav>
-              </Item>
-            </Grid>
-            <Grid item xs={10}>
-              {/* Tabs Panel */}
-              <Item sx={{ boxShadow: 0, }}>
-                <TabPanelUnstyled value={0}>
-                  {/* <SMTP /> */}
-                  <h1>Hello </h1>
-                </TabPanelUnstyled>
-                <TabPanelUnstyled value={1}>
-                  {/* <EmailTemplate /> */}
-                </TabPanelUnstyled>
-                <TabPanelUnstyled value={2}>
-                  {/* <Payment /> */}
-                </TabPanelUnstyled>
-                <TabPanelUnstyled value={3}>
-                  {/* <CORS /> */}
-                </TabPanelUnstyled>
-                <TabPanelUnstyled value={4}>
-                  {/* <ServerDetails /> */}
-                </TabPanelUnstyled>
-              </Item>
-            </Grid>
-          </Grid>
-        </TabsListUnstyled>
-      </TabsUnstyled>
-    </Box>
+    <>
+      <Box sx={{ flexGrow: 1, marginTop: 3 }}>
+        <AppBar position="static">
+          <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
+            <Typography variant="h6" color="inherit" component="div">
+              Settings
+            </Typography>
+            <Divider sx={{ flexGrow: 1 }} />
+          </Toolbar>
+        </AppBar>
+        {/* dropdown */}
+        <InputLabel
+          id="demo-simple-select-label"
+          style={{
+            marginTop: "20px",
+            textAlign: "left",
+          }}
+        >
+          Language
+        </InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={age}
+          label="Language"
+          size="small"
+          onChange={handleChange}
+          style={{
+            width: "100%",
+            textAlign: "left",
+          }}
+        >
+          <MenuItem value={10}>English</MenuItem>
+          <MenuItem value={20}>العربية</MenuItem>
+        </Select>
+        <InputLabel
+          id="demo-simple-select-label"
+          style={{
+            marginTop: "20px",
+            textAlign: "left",
+          }}
+        >
+          Currency
+        </InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={currency}
+          label="Language"
+          size="small"
+          onChange={handlecurrency}
+          style={{
+            width: "100%",
+            textAlign: "left",
+          }}
+        >
+          <MenuItem value={10}>SAR</MenuItem>
+          <MenuItem value={20}>USD</MenuItem>
+        </Select>
+      </Box>
+    </>
   );
 }

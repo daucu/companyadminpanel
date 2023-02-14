@@ -26,6 +26,7 @@ import WidgetsIcon from "@mui/icons-material/Widgets";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import { Bar, Pie } from "react-chartjs-2";
 import { PolarArea } from "react-chartjs-2";
+import { CircularProgress } from "@mui/material";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -106,6 +107,72 @@ export const polarData = {
 };
 
 export default function Dashboard() {
+  // code to get the length of the all products
+
+  const [products, setProducts] = useState([]);
+  const getallproducts = () => {
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/products/my-products`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        // setProducts(res.data);
+
+        //  code to count the length of the total products and set it to the state
+        setProducts(res.data.length);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  React.useEffect(() => {
+    getallproducts();
+  }, []);
+
+  // code to get the length of the all auctions and set it to the state
+
+  const [countacution, setCountacution] = useState([]);
+  const getallacutions = () => {
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/auctions`)
+      .then((res) => {
+        // console.log(res.data.length);
+        // setProducts(res.data);
+        // count the length of the total auctions and set it to the state
+        setCountacution(res.data.length);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  React.useEffect(() => {
+    getallacutions();
+  }, []);
+
+  // code to count the length of the total contract and set it to the state
+    const [allcontract, setAllcontract] = useState([]);
+    const getallcontract = () => {
+      axios
+        .get(`${process.env.REACT_APP_BACKEND_URL}/contracts`)
+        .then((res) => {  
+          // count the length of the total contract and set it to the state
+          setAllcontract(res.data.length);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    React.useEffect(() => {
+      getallcontract();
+    }, []);
+
+
+
   return (
     <>
       <Box
@@ -132,16 +199,27 @@ export default function Dashboard() {
                     color: "#1A2027",
                   }}
                 >
-                  Total User
+                  Total Products
                 </Typography>
-                <Typography
-                  sx={{
-                    fontSize: 20,
-                    color: "#1A2027",
-                  }}
-                >
-                  1545
-                </Typography>
+                {products && products.length > 0 ? (
+                  <Typography
+                    sx={{
+                      fontSize: 20,
+                      color: "#1A2027",
+                    }}
+                  >
+                    <CircularProgress size={17} />
+                  </Typography>
+                ) : (
+                  <Typography
+                    sx={{
+                      fontSize: 20,
+                      color: "#1A2027",
+                    }}
+                  >
+                    {products}
+                  </Typography>
+                )}
               </div>
               <div
                 style={{
@@ -174,7 +252,7 @@ export default function Dashboard() {
                     color: "#1A2027",
                   }}
                 >
-                  Inactive users
+                  Total Auctions
                 </Typography>
                 <Typography
                   sx={{
@@ -182,7 +260,7 @@ export default function Dashboard() {
                     color: "#1A2027",
                   }}
                 >
-                  1,234
+                  {countacution}
                 </Typography>
               </div>
               <div
@@ -216,7 +294,7 @@ export default function Dashboard() {
                     color: "#1A2027",
                   }}
                 >
-                  Upcoming Items
+                  Total Contracts
                 </Typography>
                 <Typography
                   sx={{
@@ -224,7 +302,7 @@ export default function Dashboard() {
                     color: "#1A2027",
                   }}
                 >
-                  1,234
+                  {allcontract}
                 </Typography>
               </div>
               <div

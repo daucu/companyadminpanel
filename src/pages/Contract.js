@@ -250,6 +250,35 @@ export default function Contract() {
     getAllContracts();
   }, []);
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+  // code to delete a contract by id
+  const [deleteSnack, setDeleteSnack] = useState(false);
+  const deleteContract = async (id) => {
+    await axios
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/contract/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        setDeleteSnack(true);
+        handleClick();
+        getAllContracts();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <Box
       sx={{
@@ -364,7 +393,13 @@ export default function Contract() {
                           <IconButton aria-label="edit" size="small">
                             <EditTwoToneIcon />
                           </IconButton>
-                          <IconButton aria-label="delete" size="small">
+                          <IconButton
+                            aria-label="delete"
+                            size="small"
+                            onClick={() => {
+                              deleteContract(contract.id);
+                            }}
+                          >
                             <DeleteIcon />
                           </IconButton>
                         </TableCell>
@@ -383,6 +418,23 @@ export default function Contract() {
           page={0}
           onPageChange={() => {}}
         />
+        {deleteSnack === true ? (
+          <Snackbar
+            open={open}
+            autoHideDuration={3000}
+            position="bottom-right"
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            onClose={handleClose}
+          >
+            <Alert
+              onClose={handleClose}
+              severity="success"
+              sx={{ width: "100%" }}
+            >
+              This is a success message!
+            </Alert>
+          </Snackbar>
+        ) : null}
       </Paper>
     </Box>
   );

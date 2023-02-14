@@ -151,10 +151,10 @@ function App() {
               element={<Protected Component={AddProduct} />}
             />
             <Route
-              path="viewproduct/:slug"
+              path="viewproduct/:id"
               element={<Protected Component={ViewProduct} />}
             />
-            <Route path="update/:slug" element={<UpdateProduct />} />
+            <Route path="update/:id" element={<UpdateProduct />} />
 
             <Route path="media" element={<Protected Component={Storage} />} />
             <Route

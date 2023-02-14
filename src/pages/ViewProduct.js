@@ -5,14 +5,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/productview.css";
 function ViewProduct() {
-  const { slug } = useParams();
+  const { id } = useParams();
   const [product, setProduct] = useState([]);
-  async function getproduct(slug) {
+  async function getproduct(id) {
     await axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/products/slug/${slug}`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/products/${id}`)
       .then((res) => {
-        console.log(res.data[0]);
-        setProduct(res.data[0]);
+        console.log(res.data);
+        setProduct(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -20,8 +20,8 @@ function ViewProduct() {
   }
 
   useEffect(() => {
-    getproduct(slug);
-  }, [slug]);
+    getproduct(id);
+  }, [id]);
 
   return (
     <>
@@ -33,35 +33,29 @@ function ViewProduct() {
                 <i className="fa fa-arrow-left" />
               </a>
             </div>
-            <h3>{product.title}</h3>
+            <h3>{product.name}</h3>
           </div>
           <div className="card__body">
             <div className="half">
               <div className="featured_text">
-                <h1>{product.title}</h1>
-                <p className="sub">{product.featured}</p>
+               
               </div>
               <div className="image">
                 <img
-                  src={product.image}
+                  src={product.gallery}
                   alt=""
                   style={{
                     margin: "auto",
+                    width: "70%",
+                    height: "70%",
                   }}
                 />
               </div>
             </div>
             <div className="half">
               <div className="description">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
-                  voluptatem nam pariatur voluptate perferendis, asperiores
-                  aspernatur! Porro similique consequatur, nobis soluta minima,
-                  quasi laboriosam hic cupiditate perferendis esse numquam
-                  magni.
-                </p>
               </div>
-              <div
+              {/* <div
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -89,26 +83,23 @@ function ViewProduct() {
                     ${product.salePrice}
                   </span>
                 </p>
-              </div>
-              <div className="MainInfo" style={{ marginTop: 20 }}>
-                <div className="left-info">Type:</div>
-                <div className="right-info"> {product.type}</div>
+              </div> */}
+
+              <div className="MainInfo" style={{ marginTop: 10 }}>
+                <div className="left-info">Name:</div>
+                <div className="right-info">{product.name}</div>
               </div>
               <div className="MainInfo" style={{ marginTop: 10 }}>
-                <div className="left-info">Vendor:</div>
-                <div className="right-info">{product.vendor}</div>
+                <div className="left-info">Description:</div>
+                <div className="right-info">{product.description}</div>
               </div>
               <div className="MainInfo" style={{ marginTop: 10 }}>
-                <div className="left-info">Bid Date:</div>
-                <div className="right-info">{product.bidDate}</div>
+                <div className="left-info">Created By:</div>
+                <div className="right-info">{product.createdBy}</div>
               </div>
               <div className="MainInfo" style={{ marginTop: 10 }}>
-                <div className="left-info">Featured:</div>
-                <div className="right-info">{product.featured}</div>
-              </div>
-              <div className="MainInfo" style={{ marginTop: 10 }}>
-                <div className="left-info">Company:</div>
-                <div className="right-info">{product.company}</div>
+                <div className="left-info">Created At:</div>
+                <div className="right-info">{product.createdAt}</div>
               </div>
             </div>
           </div>

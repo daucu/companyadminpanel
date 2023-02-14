@@ -25,6 +25,7 @@ import Snackbar from "@mui/material/Snackbar";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import AppBar from "@mui/material/AppBar";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Dialog,
   Divider,
@@ -317,6 +318,19 @@ export default function Tags() {
     loadTags();
   }, []);
 
+  // delete tag snackbar
+  const [openDelete, setOpenDelete] = React.useState(false);
+  const handleTagDeleteOpen = () => {
+    setOpenDelete(true);
+  };
+  const handleTagDeleteClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenDelete(false);
+  };
+
   const deleteTag = (id) => {
     setDeleting(id);
     axios
@@ -325,6 +339,7 @@ export default function Tags() {
         console.log(res.data);
         setTimeout(() => {
           setTags(tags.filter((tag) => tag.id !== id));
+          setOpenDelete(true);
         }, 400);
       })
       .catch((err) => {
@@ -591,16 +606,20 @@ export default function Tags() {
                                   alignItems: "center",
                                 }}
                               >
-                                {/* <AiOutlineEdit size="18" onClick={() => {
-                                setOpen(true);
-                                setTagData(row);
-                                setIsEdit(true);
-                              }} /> */}
-                                {/* {deleting === row.id ?
-                                <Loading height={30} width={30} />
-                                : (
-                                  <AiOutlineDelete size="18" onClick={() => deleteTag(row.id)} />
-                                )} */}
+                                {/* delete icon button */}
+                                <IconButton
+                                  onClick={() => {
+                                    deleteTag(row.id);
+                                  }}
+                                  color="error"
+                                  variant="contained"
+                                  size="small"
+                                  sx={{
+                                    boxShadow: 0,
+                                  }}
+                                >
+                                  <DeleteIcon />
+                                </IconButton>
                               </Stack>
                             </TableCell>
                           </TableRow>
@@ -622,6 +641,25 @@ export default function Tags() {
             </Paper>
           )}
         </Paper>
+        {openDelete === true ? (
+          <>
+            <Snackbar
+              open={handleTagDeleteOpen}
+              autoHideDuration={3000}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              onClose={handleTagDeleteClose}
+            >
+              <Alert
+                onClose={handleTagDeleteClose}
+                severity="success"
+                color="success"
+                sx={{ width: "100%" }}
+              >
+                Tag Deleted Successfully
+              </Alert>
+            </Snackbar>
+          </>
+        ) : null}
       </Grid>
     </Box>
   );

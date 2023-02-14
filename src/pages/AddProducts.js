@@ -10,6 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Alert,
+  Autocomplete,
   Divider,
   InputLabel,
   MenuItem,
@@ -22,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import slugify from "slugify";
 import TextField from "@mui/material/TextField";
 import Loading from "./Loading";
-
+import { useState } from "react";
 const Item = styled(Paper)(({ theme }) => ({
   // backgroundColor: "#1A2027",
   ...theme.typography.body2,
@@ -40,22 +41,14 @@ export default function AddProduct() {
     console.log("click");
   };
 
-  //get pages
-  const [content, setContent] = React.useState([]);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [video, setVideo] = useState("");
+  const [video_thumbnail, setVideo_thumbnail] = useState("");
+  const [gallery, setGallery] = useState("");
+  const [tags, setTags] = useState([]);
 
-  const [title, setTitle] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [price, setPrice] = React.useState("");
-  const [sale_price, setSale_price] = React.useState("");
-  const [image, setImage] = React.useState("");
-  const [vendor, setVendor] = React.useState("");
-  const [status, setStatus] = React.useState("");
-  const [category, setCategory] = React.useState("");
-  const [type, setType] = React.useState("");
-  const [featured, setFeatured] = React.useState("");
-  const [language, setLanguage] = React.useState("");
-  const [bidDate, setBidDate] = React.useState("");
-  const [company, setCompany] = React.useState("HarshaWeb");
   //Axios POST request
 
   const [successSnack, setSuccessSnack] = React.useState(false);
@@ -75,7 +68,7 @@ export default function AddProduct() {
   // error snackbar
 
   //Generate Slug
-  const slug = slugify(title, {
+  const slug = slugify(name, {
     replacement: "-", // replace spaces with replacement
     remove: null, // regex to remove characters
     lower: true, // result in lower case
@@ -94,29 +87,46 @@ export default function AddProduct() {
     setGeterror(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleVideoUpload = async (file) => {
+    const formData = new FormData();
+    formData.append("uploadedFile", file);
+
+    let resp = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/storage`,
+      formData
+    );
+    return resp.data.file_name;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    let videoUpload = await handleVideoUpload(video);
+    let videoThumbnailUpload = await handleVideoUpload(video_thumbnail);
+    let galleryUpload = await handleVideoUpload(gallery);
 
-    const formdata = new FormData();
-    formdata.append("title", title);
-    formdata.append("slug", slug);
-    formdata.append("description", description);
-    formdata.append("price", price);
-    formdata.append("sale_price", sale_price);
-    formdata.append("image", image);
-    formdata.append("vendor", vendor);
-    formdata.append("status", status);
-    formdata.append("category", category);
-    formdata.append("type", type);
-    formdata.append("featured", featured);
-    formdata.append("language", language);
-    formdata.append("bidDate", bidDate);
-    formdata.append("company", company);
+    // const formdata = new FormData();
+    // formdata.append("name", name);
+    // formdata.append("description", description);
+    // formdata.append("category", category);
 
-    console.log(formdata);
+    // formdata.append("tags", tags);
+    // formdata.append("slug", slug);
+
+    const sendData = {
+      name,
+      description,
+      category,
+      tags: tags,
+      slug,
+      video: videoUpload,
+      video_thumbnail: videoThumbnailUpload,
+      gallery: galleryUpload,
+    };
+
+    console.log(sendData);
 
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/products`, formdata, {
+      .post(`${process.env.REACT_APP_BACKEND_URL}/products`, sendData, {
         headers: {
           "x-access-token": localStorage.getItem("token"),
         },
@@ -155,6 +165,44 @@ export default function AddProduct() {
   React.useEffect(() => {
     getCompanyProfileData();
   }, []);
+
+  // code to get categories and map them to the select option
+  const [categories, setCategories] = React.useState([]);
+  const getAllCategories = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/categories`)
+      .then((res) => {
+        console.log(res.data);
+        setCategories(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  React.useEffect(() => {
+    getAllCategories();
+  }, []);
+
+  // code to get tags and map them to the select option
+  const [fetchTags, setFetchTags] = useState([]);
+  const getAllTags = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/tags`)
+      .then((res) => {
+        console.log(res.data);
+        setFetchTags(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  React.useEffect(() => {
+    getAllTags();
+  }, []);
+
+  // code to post video , video thumbnail and gallery images
+
   return (
     <Box sx={{ flexGrow: 1, marginTop: 3 }}>
       {companyProfileData.isVerified !== true ? (
@@ -173,8 +221,10 @@ export default function AddProduct() {
                 <CloseIcon />
               </IconButton>
 
-              <input
-                value={title}
+              {/* <input
+                type={text}
+                placeholder="Enter Page Title"
+                value={name}
                 onChange={(e) => setTitle(e.target.value)}
                 style={{
                   width: "60%",
@@ -187,7 +237,7 @@ export default function AddProduct() {
                   placeholder: "Enter Page Title",
                   placeholderColor: "#fff",
                 }}
-              />
+              /> */}
 
               <Divider sx={{ flexGrow: 1 }} />
               {/* <IconButton edge="start" color="inherit" aria-label="menu">
@@ -218,11 +268,11 @@ export default function AddProduct() {
                   {/* Product title */}
                   <TextField
                     id="outlined-basic"
-                    placeholder="Product title"
-                    label="Product Title"
+                    placeholder="Product name"
+                    label="Product name"
                     size="small"
-                    name={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    name={name}
+                    onChange={(e) => setName(e.target.value)}
                     minRows={6}
                     variant="outlined"
                     sx={{
@@ -258,256 +308,125 @@ export default function AddProduct() {
                       marginTop: 1,
                     }}
                   />
+                  {/* Map the categories into select dropdown optioin */}
 
-                  {/* Product price */}
-                  <TextField
-                    type={"number"}
-                    id="outlined-basic"
-                    placeholder="254"
-                    label="Price"
-                    name={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      width: "100%",
-                      color: "#fff",
-
-                      outline: "none",
-                      border: "none",
-                      fontSize: "1rem",
-                      placeholder: "Enter Page Title",
-                      placeholderColor: "#fff",
-                      marginTop: 1,
-                    }}
-                  />
-                  {/* sale price */}
-                  <TextField
-                    id="outlined-basic"
-                    placeholder="154"
-                    label="Sale Price"
-                    name={sale_price}
-                    onChange={(e) => setSale_price(e.target.value)}
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      width: "100%",
-                      color: "#fff",
-
-                      outline: "none",
-                      border: "none",
-                      fontSize: "1rem",
-                      placeholder: "Enter Page Title",
-                      placeholderColor: "#fff",
-                      marginTop: 1,
-                    }}
-                  />
-                  {/* Vendor */}
-                  <TextField
-                    id="outlined-basic"
-                    placeholder="Vendor name"
-                    label="Vendor"
-                    name={vendor}
-                    onChange={(e) => setVendor(e.target.value)}
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      width: "100%",
-                      color: "#fff",
-
-                      outline: "none",
-                      border: "none",
-                      fontSize: "1rem",
-                      placeholder: "Enter Page Title",
-                      placeholderColor: "#fff",
-                      marginTop: 1,
-                    }}
-                  />
-                  {/* type */}
-                  <TextField
-                    id="outlined-basic"
-                    placeholder="Type"
-                    label="Type"
-                    name={type}
-                    onChange={(e) => setType(e.target.value)}
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      width: "100%",
-                      color: "#fff",
-
-                      outline: "none",
-                      border: "none",
-                      fontSize: "1rem",
-                      placeholder: "Enter Page Title",
-                      placeholderColor: "#fff",
-                      marginTop: 1,
-                    }}
-                  />
-                  {/* Featured */}
-                  <TextField
-                    id="outlined-basic"
-                    placeholder="Featured"
-                    label="Featured"
-                    name={featured}
-                    onChange={(e) => setFeatured(e.target.value)}
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      width: "100%",
-                      color: "#fff",
-
-                      outline: "none",
-                      border: "none",
-                      fontSize: "1rem",
-                      placeholder: "Enter Page Title",
-                      placeholderColor: "#fff",
-                      marginTop: 1,
-                    }}
-                  />
-                  {/* Language */}
-                  <TextField
-                    id="outlined-basic"
-                    placeholder="Language"
-                    label="Language"
-                    name={language}
-                    onChange={(e) => setLanguage(e.target.value)}
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      width: "100%",
-                      color: "#fff",
-
-                      outline: "none",
-                      border: "none",
-                      fontSize: "1rem",
-                      placeholder: "Enter Page Title",
-                      placeholderColor: "#fff",
-                      marginTop: 1,
-                    }}
-                  />
-
-                  {/* Category */}
-                  <TextField
-                    type={"file"}
-                    required
-                    id="outlined-required"
-                    name="image"
-                    onChange={(e) => setImage(e.target.files[0])}
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      width: "100%",
-                      color: "#fff",
-
-                      outline: "none",
-                      border: "none",
-                      fontSize: "1rem",
-                      placeholderColor: "#fff",
-                      marginTop: 1,
-                    }}
-                  />
-
-                  {/* Category */}
-                  <TextField
-                    id="outlined-basic"
-                    placeholder="sale"
-                    label="Product Category"
-                    name={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      width: "100%",
-                      color: "#fff",
-
-                      outline: "none",
-                      border: "none",
-                      fontSize: "1rem",
-                      placeholder: "Enter Page Title",
-                      placeholderColor: "#fff",
-                      marginTop: 1,
-                    }}
-                  />
-
-                  {/* Date */}
-                  <TextField
-                    type={"date"}
-                    required
-                    id="filled-required"
-                    name={bidDate}
-                    onChange={(e) => setBidDate(e.target.value)}
-                    variant="outlined"
-                    size="small"
-                    sx={{
-                      width: "100%",
-                      color: "#fff",
-                      outline: "none",
-                      border: "none",
-                      fontSize: "1rem",
-                      placeholderColor: "#fff",
-                      marginTop: 1,
-                    }}
-                  />
-                  {/* Status */}
                   <InputLabel
-                    id="demo-select-small"
                     sx={{
                       textAlign: "left",
                       marginTop: 1,
                     }}
+                    id="demo-simple-select-outlined-label"
                   >
-                    Status
+                    Category
                   </InputLabel>
                   <Select
-                    labelId="demo-select-small"
-                    id="demo-select-small"
-                    name={status}
+                    labelId="demo-simple-select-outlined-label"
                     size="small"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                    label="Status"
+                    id="demo-simple-select-outlined"
+                    value={category}
+                    name={category}
                     sx={{
                       width: "100%",
-                      color: "black",
-
-                      outline: "none",
-                      border: "none",
-                      fontSize: "1rem",
-                      placeholder: "Enter Page Title",
-                      placeholderColor: "black",
-                      marginTop: 1,
                       textAlign: "left",
                     }}
+                    onChange={(e) => setCategory(e.target.value)}
+                    label="Category"
                   >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value="active">Active</MenuItem>
-                    <MenuItem value="unactive">Un-Active</MenuItem>
+                    {categories.map((category) => (
+                      <MenuItem value={category.id}>{category.name}</MenuItem>
+                    ))}
                   </Select>
-                  {/* <TextField
-              id="outlined-basic"
-              placeholder="Active default"
-              label="Status"
-              
-              name={status}
-              value="active"
-              onChange={(e) => setStatus(e.target.value)}
-              variant="outlined"
-              size="small"
-              sx={{
-                width: "100%",
-                color: "#fff",
-                
-                outline: "none",
-                border: "none",
-                fontSize: "1rem",
-                placeholder: "Enter Page Title",
-                placeholderColor: "#fff",
-                marginTop: 1,
-              }}
-            /> */}
+                  {/* video input */}
+                  <InputLabel
+                    sx={{
+                      textAlign: "left",
+                      marginTop: 1,
+                    }}
+                    id="demo-simple-select-outlined-label"
+                  >
+                    Video
+                  </InputLabel>
+                  <TextField
+                    id="outlined-basic"
+                    type={"file"}
+                    size="small"
+                    name={video}
+                    onChange={(e) => setVideo(e.target.files[0])}
+                    sx={{
+                      width: "100%",
+                      marginTop: 1,
+                    }}
+                  />
+                  <InputLabel
+                    sx={{
+                      textAlign: "left",
+                      marginTop: 1,
+                    }}
+                    id="demo-simple-select-outlined-label"
+                  >
+                    Video Thumbnail
+                  </InputLabel>
+                  <TextField
+                    id="outlined-basic"
+                    type={"file"}
+                    name={video_thumbnail}
+                    onChange={(e) => setVideo_thumbnail(e.target.files[0])}
+                    size="small"
+                    sx={{
+                      width: "100%",
+                      marginTop: 1,
+                    }}
+                  />
+                  <InputLabel
+                    sx={{
+                      textAlign: "left",
+                      marginTop: 1,
+                    }}
+                    id="demo-simple-select-outlined-label"
+                  >
+                    Gallery
+                  </InputLabel>
+                  <TextField
+                    id="outlined-basic"
+                    type={"file"}
+                    name={gallery}
+                    onChange={(e) => setGallery(e.target.files[0])}
+                    size="small"
+                    sx={{
+                      width: "100%",
+                      marginTop: 1,
+                    }}
+                  />
+                  {/* map tags in select menu  */}
+                  <InputLabel
+                    sx={{
+                      textAlign: "left",
+                      marginTop: 2,
+                    }}
+                    id="demo-simple-select-outlined-label"
+                  >
+                    Tags
+                  </InputLabel>
+                  {/* map tags in autocomplete selct menu option with chip  */}
+                  <Autocomplete
+                    multiple
+                    id="tags-standard"
+                    options={fetchTags}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(e, value) => setTags(value.map((tag) => tag.id))}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="standard"
+                        size="small"
+                        sx={{
+                          width: "100%",
+                          marginTop: 1,
+                        }}
+                      />
+                    )}
+                  />
+                  {/* map tags in select menu  */}
                 </Item>
               </form>
             </Grid>
@@ -562,8 +481,8 @@ export default function AddProduct() {
               </IconButton>
 
               <input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 style={{
                   width: "60%",
                   height: "35px",

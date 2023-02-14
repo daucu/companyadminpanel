@@ -104,29 +104,35 @@ const headCells = [
     disablePadding: true,
     label: "Products Name",
   },
-  {
-    id: "3",
-    numeric: false,
-    disablePadding: false,
-    label: "Price",
-  },
-  {
-    id: "4",
-    numeric: false,
-    disablePadding: false,
-    label: "Rating",
-  },
-  {
-    id: "5",
-    numeric: false,
-    disablePadding: false,
-    label: "Tags",
-  },
+  // {
+  //   id: "3",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: "Price",
+  // },
+  // {
+  //   id: "4",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: "Rating",
+  // },
+  // {
+  //   id: "5",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: "Tags",
+  // },
+  // {
+  //   id: "6",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: "Categories",
+  // },
   {
     id: "6",
     numeric: false,
     disablePadding: false,
-    label: "Categories",
+    label: "Description",
   },
   {
     id: "7",
@@ -134,12 +140,12 @@ const headCells = [
     disablePadding: false,
     label: "Published At",
   },
-  {
-    id: "8",
-    numeric: false,
-    disablePadding: false,
-    label: "Status",
-  },
+  // {
+  //   id: "8",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: "Status",
+  // },
 ];
 
 function EnhancedTableHead(props) {
@@ -330,7 +336,7 @@ export default function Products() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n._id);
+      const newSelecteds = rows.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -619,17 +625,17 @@ export default function Products() {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .reverse()
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.slug);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.slug)}
+                      onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.slug}
+                      key={row.id}
                       selected={isItemSelected}
                       sx={{ color: "#fff" }}
                     >
@@ -670,7 +676,7 @@ export default function Products() {
                               // color: "#fff",
                             }}
                           >
-                            {row.image}
+                            {row.video_thumbnail}
                           </Typography>
                         </HtmlTooltip>
                       </TableCell>
@@ -689,45 +695,35 @@ export default function Products() {
                           // color: "#fff",
                         }}
                       >
-                        {row.title}
+                        {row.name}
                       </TableCell>
-                      <TableCell align="left" sx={{}}>
+                      {/* <TableCell align="left" sx={{}}>
                         {row.price + " USD"}
-                      </TableCell>
-                      <TableCell align="left">
+                      </TableCell> */}
+                      {/* <TableCell align="left">
                         <Rating
                           name="half-rating-read"
                           // value={row.all_reviews.rating}
                           precision={0.5}
                           readOnly
                         />
-                      </TableCell>
-                      <TableCell align="left" sx={{ width: 400 }}>
-                        {/* {row.tags.map((value) => (
-                          <Chip
-                            sx={{ height: 18, fontSize: 12, margin: 0.2 }}
-                            color="success"
-                            size="small"
-                            key={value._id}
-                            label={value}
-                          />
-                        ))} */}
-                      </TableCell>
+                      </TableCell> */}
+
                       <TableCell align="left" sx={{}}>
-                        {row.category}
+                        {row.description}
                       </TableCell>
                       <TableCell align="left" sx={{}}>
                         {row.createdAt.slice(0, 10)}
                       </TableCell>
 
-                      <TableCell align="left">
+                      {/* <TableCell align="left">
                         <Chip
                           label={row.status}
                           size="small"
                           color={row.status === "active" ? "success" : "error"}
                           sx={{ width: 80 }}
                         />
-                      </TableCell>
+                      </TableCell> */}
                     </TableRow>
                   );
                 })}

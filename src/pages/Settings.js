@@ -76,6 +76,12 @@ export default function CustomizedList() {
   const handlecurrency = (event) => {
     setCurrency(event.target.value);
   };
+
+  const [colorbg, setColorbg] = useState("");
+  const handlecolorbg = (event) => {
+    setColorbg(event.target.value);
+  };
+
   const navigate = useNavigate();
   return (
     <>
@@ -86,6 +92,16 @@ export default function CustomizedList() {
               Settings
             </Typography>
             <Divider sx={{ flexGrow: 1 }} />
+            <Button
+              variant="contained"
+              size="small"
+              color="success"
+              sx={{
+                boxShadow: 0,
+              }}
+            >
+              Save
+            </Button>
           </Toolbar>
         </AppBar>
         {/* dropdown */}
@@ -136,6 +152,33 @@ export default function CustomizedList() {
         >
           <MenuItem value={10}>SAR</MenuItem>
           <MenuItem value={20}>USD</MenuItem>
+        </Select>
+        <InputLabel
+          id="demo-simple-select-label"
+          style={{
+            marginTop: "20px",
+            textAlign: "left",
+          }}
+        >
+          Background Color
+        </InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={colorbg}
+          label="Language"
+          size="small"
+          onChange={handlecolorbg}
+          style={{
+            width: "100%",
+            textAlign: "left",
+          }}
+        >
+          <MenuItem value={10}>Red</MenuItem>
+          <MenuItem value={20}>Green</MenuItem>
+          <MenuItem value={30}>Yellow</MenuItem>
+          <MenuItem value={40}>Red</MenuItem>
+          <MenuItem value={50}>Black</MenuItem>
         </Select>
       </Box>
     </>

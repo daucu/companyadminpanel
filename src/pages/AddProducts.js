@@ -98,8 +98,9 @@ export default function AddProduct() {
     );
     return resp.data.file_name;
   };
-
+  const [btnLoading, setBtnLoading] = useState(false);
   const handleSubmit = async (e) => {
+    setBtnLoading(true);
     e.preventDefault();
     let videoUpload = await handleVideoUpload(video);
     let videoThumbnailUpload = await handleVideoUpload(video_thumbnail);
@@ -134,12 +135,14 @@ export default function AddProduct() {
       })
       .then((res) => {
         console.log(res);
+        setBtnLoading(false);
         setSuccessSnack(res.data.message);
         handlesuccessOpen(true);
         console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
+        setBtnLoading(false);
         setGeterror(true);
       });
   };
@@ -248,17 +251,30 @@ export default function AddProduct() {
               {/* <IconButton edge="start" color="inherit" aria-label="menu">
             <AddIcon />
           </IconButton> */}
-              <Button
-                variant="contained"
-                size="small"
-                color="success"
-                sx={{
-                  boxShadow: 0,
-                }}
-                onClick={handleSubmit}
-              >
-                Publish
-              </Button>
+              {btnLoading === true ? (
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="success"
+                  sx={{
+                    boxShadow: 0,
+                  }}
+                >
+                  <CircularProgress size={20} color="inherit" />
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  size="small"
+                  color="success"
+                  sx={{
+                    boxShadow: 0,
+                  }}
+                  onClick={handleSubmit}
+                >
+                  Publish
+                </Button>
+              )}
             </Toolbar>
           </AppBar>
           {prodLoading === true ? (
@@ -468,6 +484,9 @@ export default function AddProduct() {
                     open={handlesuccessOpen}
                     autoHideDuration={3000}
                     onClose={handlesuccessClose}
+                    position="right"
+                    variant="success"
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                   >
                     <Alert
                       onClose={handlesuccessClose}
@@ -486,6 +505,7 @@ export default function AddProduct() {
                     autoHideDuration={3000}
                     onClose={handleErrClose}
                     position="right"
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                   >
                     <Alert
                       onClose={handleErrClose}

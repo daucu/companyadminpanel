@@ -7,17 +7,20 @@ function Protected({ Component }) {
 
   const getCompanyProfileData = async () => {
     await axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/profile/company`, {
-        withCredentials: true,
+      .get(`${process.env.REACT_APP_BACKEND_URL}/companies/my-companies`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
       })
       .then((res) => {
         console.log(res);
-        setCompanyProfileData(res.data[0].data);
-        console.log(res.data[0].data.status);
+        // setCompanyProfileData(res.data[0].data);
+        // console.log(res.data[0].data.status);
         setVerified(res.data[0].data.status);
       })
       .catch((e) => {
-        console.log(e);
+        // print the error
+        console.log(e.response.data.message);
       });
   };
   React.useEffect(() => {

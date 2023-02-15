@@ -346,7 +346,7 @@ function EditAuctino() {
             name={items}
             size="small"
             //  get optionlabel from array without using map
-            getOptionLabel={(option) => option.title}
+            getOptionLabel={(option) => option.name}
             onChange={(e, value) => {
               setItems(value.map((item) => item.id));
             }}

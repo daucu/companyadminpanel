@@ -11,6 +11,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import successgif from "../assets/images/successgif.gif";
 import {
   Autocomplete,
+  InputLabel,
   TextareaAutosize,
   TextField,
   Tooltip,
@@ -23,29 +24,90 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 const steps = ["Address", "Upload Documents", "Verification"];
 
-
 export default function Company_reg() {
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="outlined" {...props} />;
   });
+
+  // "name": "req.body.name",
+  // "description": "req.body.description",
+  // "address": "req.body.address",
+  // "gst": "req.body.gst",
+  // "company_owner": "req.body.company_owner",
+  // "category": "req.body.category",
+  // "tags": "req.body.tags",
+  // "featured_image": "req.body.featured_image",
+  // "digital_signature": "req.body.digital_signature",
+  // "status": "pending",
+  // "isVerified": false
+
+  // code to add address before company registration
+
+  // const [title, setTitle] = useState(""); //  title done
+  // const [address, setAddress] = useState(""); // address done
+  // const [phone, setPhone] = useState(""); // phone done
+  // const [email, setEmail] = useState(""); // email done
+  // const [contact_email, setContact_email] = useState(""); // contact_email done
+  // const [contact_phone, setContact_phone] = useState(""); // contact_phone done
+  // const [contact_name, setContact_name] = useState("");
+  // const [password, setPassword] = useState(""); // password done
+  // const [status, setStatus] = useState("");
+  // const [isVerified, setIsVerified] = useState(""); // isVerified done
+
+  const [addressID, setAddressID] = useState("");
+  const [first_address, setFirst_address] = useState("");
+  const [sec_address, setSec_address] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+  const [zip_code, setZip_code] = useState("");
+  const [city, setCity] = useState("");
+
+  const addAddressData = () => {
+    const addressData = new FormData();
+    addressData.append("first_address", first_address);
+    addressData.append("sec_address", sec_address);
+    addressData.append("state", state);
+    addressData.append("country", country);
+
+    addressData.append("zip_code", zip_code);
+    addressData.append("city", city);
+
+    axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/address`, addressData)
+      .then((res) => {
+        console.log(res.data.address.id);
+        setAddressID(res.data.address.id);
+        console.log(res);
+        if (res.status === 200) {
+          setSuccessAddressSubmit(true);
+          addressSnackOpen();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const [name, setName] = useState(""); // name done
-  const [title, setTitle] = useState(""); //  title done
-  const [featured_image, setFeatured_image] = useState(""); // featured_image done
   const [description, setDescription] = useState(""); // description done
-  const [address, setAddress] = useState(""); // address done
-  const [phone, setPhone] = useState(""); // phone done
-  const [email, setEmail] = useState(""); // email done
   const [gst, setGst] = useState(""); // gst done
-  const [tags, setTags] = useState([]);
   const [company_owner, setCompany_owner] = useState(""); // company_owner done
-  const [category, setCategory] = useState(""); // category done
-  const [contact_email, setContact_email] = useState(""); // contact_email done
-  const [contact_phone, setContact_phone] = useState(""); // contact_phone done
-  const [contact_name, setContact_name] = useState("");
-  const [password, setPassword] = useState(""); // password done
-  const [status, setStatus] = useState("");
-  const [isVerified, setIsVerified] = useState(""); // isVerified done
+  const [category, setCategory] = useState("default"); // category done
+  const [address, setAddress] = useState(""); // address done
+  const [tags, setTags] = useState([]);
+  const [featured_image, setFeatured_image] = useState(""); // featured_image done
   const [digital_signature, setDigital_signature] = useState("");
+
+  const handleImgUpload = async (file) => {
+    const imgData = new FormData();
+    imgData.append("uploadedFile", file);
+
+    let response = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/storage`,
+      imgData
+    );
+    return response.data.file_name;
+  };
 
   // finish page state
   const [loading, setLoading] = useState(false);
@@ -54,39 +116,57 @@ export default function Company_reg() {
   // code to add company to database
   const addCompany = async (e) => {
     setLoading(true);
-    // console.log(tags);
-    // return;
 
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("title", title);
-    formData.append("featured_image", featured_image);
-    formData.append("description", description);
-    formData.append("address", address);
-    formData.append("phone", phone);
-    formData.append("email", email);
-    formData.append("gst", gst);
-    formData.append("tags", JSON.stringify(tags));
-    formData.append("company_owner", company_owner);
-    formData.append("category", category);
-    formData.append("contact_email", contact_email);
-    formData.append("contact_phone", contact_phone);
-    formData.append("contact_name", contact_name);
-    formData.append("password", password);
-    formData.append("digital_signature", digital_signature);
+    let featured_imageupload = await handleImgUpload(featured_image);
+    let digital_signatureupload = await handleImgUpload(digital_signature);
+    let fetchedAddressId = addressID;
+
+    const sendData = {
+      name,
+      description,
+      address: fetchedAddressId,
+      gst,
+      company_owner,
+      category,
+      tags: tags,
+      featured_image: imgurl,
+      digital_signature: digital_sign,
+      status: "pending",
+      isVerified: false,
+    };
 
     const res = axios
-      .post(`${API}/companies`, formData)
+      .post(`${API}/companies`, sendData)
       .then((res) => {
         console.log(res);
-        setSuccessData(res.status);
         setLoading(false);
+        if (res.status === 200) {
+          setSuccessData(res.status);
+        }
       })
       .catch((err) => {
         console.log(err);
         setLoading(false);
       });
   };
+
+  // code to get tags and map them to the select option
+  const [fetchTags, setFetchTags] = useState([]);
+  const getAllTags = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/tags`)
+      .then((res) => {
+        console.log(res.data);
+        setFetchTags(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  React.useEffect(() => {
+    getAllTags();
+  }, []);
+
   const top100Films = [
     "Agrochemicals",
     "Machinery",
@@ -187,13 +267,14 @@ export default function Company_reg() {
   // code to validate spet 0 of stpper form and restrict user to go to next step if any field is empty
   // stepper zero index validation--------------------------------------------
   const validateStep0 = () => {
+    // code to validate spet 0 of stpper form and restrict user to go to next step if any field is empty
     if (
-      name === "" ||
-      title === "" ||
-      address === "" ||
-      phone === "" ||
-      tags.length === 0 ||
-      description === ""
+      first_address.length === 0 ||
+      sec_address.length === 0 ||
+      state.length === 0 ||
+      city.length === 0 ||
+      zip_code.length === 0 ||
+      country.length === 0
     ) {
       setStepzeroErr(true);
       return false;
@@ -241,13 +322,10 @@ export default function Company_reg() {
   const [steptwoErr, setSteptwoErr] = useState(false);
   const validateStep2 = () => {
     if (
-      contact_email === "" ||
-      gst === "" ||
-      contact_name === "" ||
-      contact_phone === "" ||
-      password === "" ||
-      company_owner === "" ||
-      category === ""
+      name.length === 0 ||
+      description.length === 0 ||
+      gst.length === 0 ||
+      company_owner.length === 0
     ) {
       setSteptwoErr(true);
       return false;
@@ -268,12 +346,16 @@ export default function Company_reg() {
   };
 
   // code to add address before submiting form
-  const [first_address, setFirst_address] = useState("");
-  const [sec_address, setSec_address] = useState("");
-  const [state, setState] = useState("");
-  const [country, setCountry] = useState("");
-  const [zip_code, setZip_code] = useState("");
-  const [city, setCity] = useState("");
+  const [successAddressSubmit, setSuccessAddressSubmit] = useState(false);
+  const addressSnackOpen = () => {
+    setSuccessAddressSubmit(true);
+  };
+  const addressSnackClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccessAddressSubmit(false);
+  };
 
   return (
     <div
@@ -383,7 +465,7 @@ export default function Company_reg() {
                   height: "100%",
                 }}
               >
-                {successData === 201 ? (
+                {successData === 200 ? (
                   <>
                     <Typography
                       sx={{
@@ -395,7 +477,7 @@ export default function Company_reg() {
                         fontSize: "30px",
                       }}
                     >
-                      Thank you for Joining us..
+                      Thank you for Joining us.. 
                     </Typography>
                     <Typography sx={{ mt: 5, mb: 1 }}>
                       <Link
@@ -433,9 +515,9 @@ export default function Company_reg() {
                     <TextField
                       id="outlined-basic"
                       size="small"
-                      name={name}
-                      onChange={(e) => setName(e.target.value)}
-                      label="Company Name"
+                      name={first_address}
+                      onChange={(e) => setFirst_address(e.target.value)}
+                      label="Address"
                       variant="outlined"
                       sx={{
                         width: "100%",
@@ -445,9 +527,9 @@ export default function Company_reg() {
                     <TextField
                       id="outlined-basic"
                       size="small"
-                      name={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      label="Company Title"
+                      name={sec_address}
+                      onChange={(e) => setSec_address(e.target.value)}
+                      label="Second Address"
                       variant="outlined"
                       sx={{
                         width: "100%",
@@ -464,9 +546,9 @@ export default function Company_reg() {
                     <TextField
                       id="outlined-basic"
                       size="small"
-                      name={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      label="Company Location"
+                      name={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                      label="Country"
                       variant="outlined"
                       sx={{
                         width: "100%",
@@ -475,9 +557,9 @@ export default function Company_reg() {
                     <TextField
                       id="outlined-basic"
                       size="small"
-                      name={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      label="Company phone Number"
+                      name={state}
+                      onChange={(e) => setState(e.target.value)}
+                      label="State"
                       variant="outlined"
                       sx={{
                         width: "100%",
@@ -491,7 +573,50 @@ export default function Company_reg() {
                       padding: "10px",
                     }}
                   >
-                    {/* how to add multiple value in array in database using autocomplete tag*/}
+                    <TextField
+                      id="outlined-basic"
+                      size="small"
+                      name={zip_code}
+                      onChange={(e) => setZip_code(e.target.value)}
+                      label="Zip Code"
+                      variant="outlined"
+                      sx={{
+                        width: "100%",
+                      }}
+                    />
+                    <TextField
+                      id="outlined-basic"
+                      size="small"
+                      name={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      label="City"
+                      variant="outlined"
+                      sx={{
+                        width: "100%",
+                      }}
+                    />
+                  </Stack>
+                  <Stack
+                    sx={{
+                      marginTop: "40px",
+                      padding: "10px",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      onClick={addAddressData}
+                      size="small"
+                    >
+                      Add Address
+                    </Button>
+                  </Stack>
+                  {/* <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{
+                      padding: "10px",
+                    }}
+                  >
                     <Autocomplete
                       multiple
                       sx={{
@@ -501,7 +626,6 @@ export default function Company_reg() {
                       id="tags-standard"
                       options={top100Films}
                       size="small"
-                      //  get optionlabel from array without using map
                       getOptionLabel={(option) => option}
                       onChange={(e, value) => {
                         setTags(value);
@@ -536,7 +660,7 @@ export default function Company_reg() {
                         width: "100%",
                       }}
                     />
-                  </Stack>
+                  </Stack> */}
                 </div>
               ) : activeStep === 1 ? (
                 <div>
@@ -548,7 +672,6 @@ export default function Company_reg() {
                       textAlign: "center",
                       display: "flex",
                       justifyContent: "space-between",
-                      // media query
                       "@media (max-width: 768px)": {
                         width: "95%",
                         display: "block",
@@ -560,7 +683,6 @@ export default function Company_reg() {
                       style={{
                         width: "100%",
                         margin: "15px auto",
-                        // media query
                         "@media (max-width: 768px)": {
                           width: "100%",
                           margin: "10px auto",
@@ -684,6 +806,7 @@ export default function Company_reg() {
                             accept="image/*"
                             multiple
                             type="file"
+                            name={digital_sign}
                             onChange={(e) => {
                               setDigital_sign(
                                 URL.createObjectURL(e.target.files[0])
@@ -708,50 +831,50 @@ export default function Company_reg() {
                     <TextField
                       id="outlined-basic"
                       size="small"
-                      name={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      label="Company Email"
+                      name={name}
+                      onChange={(e) => setName(e.target.value)}
+                      label="Name"
                       variant="outlined"
                       sx={{
                         width: "100%",
                       }}
                     />
+                    <TextField
+                      id="outlined-basic"
+                      size="small"
+                      name={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      label="Description"
+                      variant="outlined"
+                      sx={{
+                        width: "100%",
+                      }}
+                    />
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{
+                      padding: "10px",
+                    }}
+                  >
                     <TextField
                       id="outlined-basic"
                       size="small"
                       name={gst}
                       onChange={(e) => setGst(e.target.value)}
-                      label="Company License"
+                      label="GST"
                       variant="outlined"
                       sx={{
                         width: "100%",
                       }}
                     />
-                  </Stack>
-                  <Stack
-                    direction="row"
-                    spacing={2}
-                    sx={{
-                      padding: "10px",
-                    }}
-                  >
                     <TextField
                       id="outlined-basic"
                       size="small"
                       name={company_owner}
                       onChange={(e) => setCompany_owner(e.target.value)}
-                      label="Owner Name"
-                      variant="outlined"
-                      sx={{
-                        width: "100%",
-                      }}
-                    />
-                    <TextField
-                      id="outlined-basic"
-                      size="small"
-                      name={contact_phone}
-                      onChange={(e) => setContact_phone(e.target.value)}
-                      label="Owner Phone"
+                      label="Company Owner"
                       variant="outlined"
                       sx={{
                         width: "100%",
@@ -759,6 +882,46 @@ export default function Company_reg() {
                     />
                   </Stack>
                   <Stack
+                    spacing={2}
+                    sx={{
+                      padding: "10px",
+                    }}
+                  >
+                    <InputLabel
+                      sx={{
+                        textAlign: "left",
+                        marginTop: 2,
+                      }}
+                      id="demo-simple-select-outlined-label"
+                    >
+                      Tags
+                    </InputLabel>
+                    {/* map tags in autocomplete selct menu option with chip  */}
+                    <Autocomplete
+                      multiple
+                      id="tags-standard"
+                      options={fetchTags}
+                      sx={{
+                        width: "100%",
+                      }}
+                      getOptionLabel={(option) => option.name}
+                      onChange={(e, value) =>
+                        setTags(value.map((tag) => tag.id))
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          variant="standard"
+                          size="small"
+                          sx={{
+                            width: "100%",
+                            marginTop: 1,
+                          }}
+                        />
+                      )}
+                    />
+                  </Stack>
+                  {/* <Stack
                     direction="row"
                     spacing={2}
                     sx={{
@@ -768,9 +931,9 @@ export default function Company_reg() {
                     <TextField
                       id="outlined-basic"
                       size="small"
-                      name={contact_email}
-                      onChange={(e) => setContact_email(e.target.value)}
-                      label="Owner Email"
+                      name={category}
+                      onChange={(e) => setCategory(e.target.value)}
+                      label="Category"
                       variant="outlined"
                       sx={{
                         width: "100%",
@@ -825,7 +988,7 @@ export default function Company_reg() {
                         width: "100%",
                       }}
                     />
-                  </Stack>
+                  </Stack> */}
                   {/* <div>
                     <Button
                       onClick={(e) => addCompany(e)}
@@ -873,12 +1036,15 @@ export default function Company_reg() {
             {/* Stepper Zero Index Error Snack */}
             <Snackbar
               open={zeroErrOpen}
-              autoHideDuration={1000}
+              autoHideDuration={2000}
               onClose={zeroErrClose}
+              position="bottom-right"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             >
               <Alert
                 onClose={zeroErrClose}
                 severity="error"
+                variant="filled"
                 sx={{ width: "100%" }}
               >
                 Please fill all the fields
@@ -891,7 +1057,7 @@ export default function Company_reg() {
           steponeErr ? (
             <Snackbar
               open={oneErrOpen}
-              autoHideDuration={1000}
+              autoHideDuration={2000}
               onClose={oneErrClose}
             >
               <Alert
@@ -909,7 +1075,7 @@ export default function Company_reg() {
           steptwoErr ? (
             <Snackbar
               open={twoErrOpen}
-              autoHideDuration={1000}
+              autoHideDuration={2000}
               onClose={twoErrClose}
             >
               <Alert
@@ -922,6 +1088,27 @@ export default function Company_reg() {
             </Snackbar>
           ) : null
         }
+        {successAddressSubmit === true ? (
+          <>
+            {" "}
+            <Snackbar
+              open={addressSnackOpen}
+              autoHideDuration={5000}
+              position="bottom-right"
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              onClose={addressSnackClose}
+            >
+              <Alert
+                onClose={addressSnackClose}
+                severity="success"
+                variant="filled"
+                sx={{ width: "100%" }}
+              >
+                Address Added Successfully , Please Go to the next step 👍.
+              </Alert>
+            </Snackbar>
+          </>
+        ) : null}
       </Box>
     </div>
   );

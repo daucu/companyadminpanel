@@ -119,6 +119,32 @@ function App() {
     checkLogin();
   }, []);
 
+  // code to chekc the length of company
+  // const [verified, setVerified] = React.useState([]);
+
+  // const getCompanyProfileData = async () => {
+  //   await axios
+  //     .get(`${process.env.REACT_APP_BACKEND_URL}/companies/my`, {
+  //       headers: {
+  //         "x-access-token": localStorage.getItem("token"),
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data.length);
+  //       // setCompanyProfileData(res.data[0].data);
+  //       // console.log(res.data[0].data.status);
+  //       setVerified(res.data.length);
+  //     })
+  //     .catch((e) => {
+  //       // print the error
+  //       console.log(e);
+  //       console.log(e.response.data.message);
+  //     });
+  // };
+  // React.useEffect(() => {
+  //   getCompanyProfileData();
+  // }, []);
+
   return (
     <div className="App">
       {loadingif != false ? (
@@ -129,10 +155,11 @@ function App() {
           <Route path="/company_reg" element={<Company_reg />} />
           <Route path="/register" element={<Register />} />
           <Route path="/company_login" element={<Company_Login />} />
+
           <Route path="/protected" element={<Protected />} />
 
           <Route path="/admin" element={<MiniDrawer />}>
-            <Route path="" element={<Dashboard />} />
+            <Route path="" element={<Protected Component={Dashboard} />} />
 
             <Route path="account" element={<Account />} />
             <Route path="new-account" element={<AddProduct />} />

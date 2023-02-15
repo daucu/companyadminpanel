@@ -171,7 +171,7 @@ export default function Dashboard() {
       .get(`${process.env.REACT_APP_BACKEND_URL}/contract`)
       .then((res) => {
         // count the length of the total contract and set it to the state
-        console.log(res.data.length);
+        // console.log(res.data.length);
         setContractLoading(false);
         setAllcontract(res.data.length);
       })

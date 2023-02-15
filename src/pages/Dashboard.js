@@ -108,9 +108,11 @@ export const polarData = {
 
 export default function Dashboard() {
   // code to get the length of the all products
+  const [productLoading, setProductLoading] = useState(false);
 
   const [products, setProducts] = useState([]);
   const getallproducts = () => {
+    setProductLoading(true);
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/products/my-products`, {
         headers: {
@@ -119,6 +121,7 @@ export default function Dashboard() {
       })
       .then((res) => {
         console.log(res.data);
+        setProductLoading(false);
         // setProducts(res.data);
 
         //  code to count the length of the total products and set it to the state
@@ -126,6 +129,7 @@ export default function Dashboard() {
       })
       .catch((err) => {
         console.log(err);
+        setProductLoading(false);
       });
   };
   React.useEffect(() => {
@@ -133,18 +137,21 @@ export default function Dashboard() {
   }, []);
 
   // code to get the length of the all auctions and set it to the state
-
+  const [auctionLoading, setAuctionLoading] = useState(false);
   const [countacution, setCountacution] = useState([]);
   const getallacutions = () => {
+    setAuctionLoading(true);
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/auctions`)
       .then((res) => {
         // console.log(res.data.length);
         // setProducts(res.data);
         // count the length of the total auctions and set it to the state
+        setAuctionLoading(false);
         setCountacution(res.data.length);
       })
       .catch((err) => {
+        setAuctionLoading(false);
         console.log(err);
       });
   };
@@ -154,25 +161,50 @@ export default function Dashboard() {
   }, []);
 
   // code to count the length of the total contract and set it to the state
-    const [allcontract, setAllcontract] = useState([]);
-    const getallcontract = () => {
-      axios
-        .get(`${process.env.REACT_APP_BACKEND_URL}/contracts`)
-        .then((res) => {  
-          // count the length of the total contract and set it to the state
-          setAllcontract(res.data.length);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
+  const [contractLoading, setContractLoading] = useState(false);
+  const [allcontract, setAllcontract] = useState([]);
+  const getallcontract = () => {
+    setContractLoading(true);
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/contract`)
+      .then((res) => {
+        // count the length of the total contract and set it to the state
+        console.log(res.data.length);
+        setContractLoading(false);
+        setAllcontract(res.data.length);
+      })
+      .catch((err) => {
+        setContractLoading(false);
+        console.log(err);
+      });
+  };
 
-    React.useEffect(() => {
-      getallcontract();
-    }, []);
+  React.useEffect(() => {
+    getallcontract();
+  }, []);
 
+  // code to get total number of tags and set it to the state
+  const [tagsLoading, setTagsLoading] = useState(false);
+  const [alltags, setAlltags] = useState([]);
+  const getalltags = () => {
+    setTagsLoading(true);
 
-
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/tags/mytags`)
+      .then((res) => {
+        // count the length of the total tags and set it to the state
+        console.log(res.data.length);
+        setTagsLoading(false);
+        setAlltags(res.data.length);
+      })
+      .catch((err) => {
+        console.log(err);
+        setTagsLoading(false);
+      });
+  };
+  React.useEffect(() => {
+    getalltags();
+  }, []);
   return (
     <>
       <Box
@@ -201,7 +233,8 @@ export default function Dashboard() {
                 >
                   Total Products
                 </Typography>
-                {products && products.length > 0 ? (
+
+                {productLoading === true ? (
                   <Typography
                     sx={{
                       fontSize: 20,
@@ -254,14 +287,25 @@ export default function Dashboard() {
                 >
                   Total Auctions
                 </Typography>
-                <Typography
-                  sx={{
-                    fontSize: 20,
-                    color: "#1A2027",
-                  }}
-                >
-                  {countacution}
-                </Typography>
+                {auctionLoading === true ? (
+                  <Typography
+                    sx={{
+                      fontSize: 20,
+                      color: "#1A2027",
+                    }}
+                  >
+                    <CircularProgress size={17} />
+                  </Typography>
+                ) : (
+                  <Typography
+                    sx={{
+                      fontSize: 20,
+                      color: "#1A2027",
+                    }}
+                  >
+                    {countacution}
+                  </Typography>
+                )}
               </div>
               <div
                 style={{
@@ -296,14 +340,25 @@ export default function Dashboard() {
                 >
                   Total Contracts
                 </Typography>
-                <Typography
-                  sx={{
-                    fontSize: 20,
-                    color: "#1A2027",
-                  }}
-                >
-                  {allcontract}
-                </Typography>
+                {contractLoading === true ? (
+                  <Typography
+                    sx={{
+                      fontSize: 20,
+                      color: "#1A2027",
+                    }}
+                  >
+                    <CircularProgress size={17} />
+                  </Typography>
+                ) : (
+                  <Typography
+                    sx={{
+                      fontSize: 20,
+                      color: "#1A2027",
+                    }}
+                  >
+                    {allcontract}
+                  </Typography>
+                )}
               </div>
               <div
                 style={{
@@ -336,16 +391,27 @@ export default function Dashboard() {
                     color: "#1A2027",
                   }}
                 >
-                  Completed Products
+                  Total Tags
                 </Typography>
-                <Typography
-                  sx={{
-                    fontSize: 20,
-                    color: "#1A2027",
-                  }}
-                >
-                  1,234
-                </Typography>
+                {tagsLoading === true ? (
+                  <Typography
+                    sx={{
+                      fontSize: 20,
+                      color: "#1A2027",
+                    }}
+                  >
+                    <CircularProgress size={17} />
+                  </Typography>
+                ) : (
+                  <Typography
+                    sx={{
+                      fontSize: 20,
+                      color: "#1A2027",
+                    }}
+                  >
+                    {alltags}
+                  </Typography>
+                )}
               </div>
               <div
                 style={{
@@ -380,7 +446,7 @@ export default function Dashboard() {
                     color: "#1A2027",
                   }}
                 >
-                  Total Vendors
+                  Total Services
                 </Typography>
                 <Typography
                   sx={{

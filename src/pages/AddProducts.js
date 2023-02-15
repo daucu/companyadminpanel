@@ -506,6 +506,8 @@ export default function AddProduct() {
                     autoHideDuration={3000}
                     onClose={handleErrClose}
                     position="right"
+                    variant="error"
+                    
                     anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                   >
                     <Alert

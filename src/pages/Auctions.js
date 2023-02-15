@@ -258,7 +258,6 @@ export default function Auctions() {
 
   React.useEffect(() => {
     getCategoryData();
-    setProdLoading(false);
     setLoading(false);
   }, []);
 
@@ -355,7 +354,7 @@ export default function Auctions() {
             <AddIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
-            Auctions  
+            Auctions
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Toolbar>
@@ -375,10 +374,6 @@ export default function Auctions() {
       </Snackbar>
 
       <Grid container spacing={1}>
-        {/* StartSubmit Form */}
-
-        {/* End Submit form */}
-        {/* Start Table of Post */}
         <Grid item xs>
           <Paper sx={{ boxShadow: 0, borderRadius: 1 }}>
             {prodLoading === true ? (

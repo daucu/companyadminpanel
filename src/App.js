@@ -70,82 +70,39 @@ axios.defaults.withCredentials = true;
 function App() {
   const navigate = useNavigate();
 
-  //Check login
-  // async function checkLogin() {
-  //   await axios
-  //     .post(`${process.env.REACT_APP_BACKEND_URL}/login/checktoken`, {
-  //       withCredentials: true,
-  //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //       // if (res.data.islogin !== true) {
-  //       //   console.log("Not logged in");
-  //       //   // navigate("/login");
-  //       // }
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //       // console.log(e.response.data);
-  //       // navigate("/login");
-  //     });
-  // }
   const [loadingif, setLoadingif] = React.useState(true);
+
   const checkLogin = async () => {
     setLoadingif(true);
     await axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/login/checktoken`, {
-        withCredentials: true,
+      .post(`${process.env.REACT_APP_BACKEND_URL}/login/check`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
       })
       .then((res) => {
         setLoadingif(false);
-        // console.log(res);
-        // console.log(res.data.islogin);
         if (res.data.islogin === true) {
-          navigate("/admin");
+          navigate(window.location.pathname)
+          if (window.location.pathname === "/") {
+            navigate("/admin")
+          } else {
+            navigate(window.location.pathname)
+          }
         } else {
-          // setTimeout(() => {
-          //   navigate("/login");
-          // }, [2000]);
+          navigate("/")
         }
       })
       .catch((e) => {
         console.log(e);
         setLoadingif(false);
-        // setTimeout(() => {
-        //   navigate("/login");
-        // }, [2000]);
+        navigate("/")
       });
   };
 
   React.useEffect(() => {
     checkLogin();
   }, []);
-
-  // code to chekc the length of company
-  // const [verified, setVerified] = React.useState([]);
-
-  // const getCompanyProfileData = async () => {
-  //   await axios
-  //     .get(`${process.env.REACT_APP_BACKEND_URL}/companies/my`, {
-  //       headers: {
-  //         "x-access-token": localStorage.getItem("token"),
-  //       },
-  //     })
-  //     .then((res) => {
-  //       console.log(res.data.length);
-  //       // setCompanyProfileData(res.data[0].data);
-  //       // console.log(res.data[0].data.status);
-  //       setVerified(res.data.length);
-  //     })
-  //     .catch((e) => {
-  //       // print the error
-  //       console.log(e);
-  //       console.log(e.response.data.message);
-  //     });
-  // };
-  // React.useEffect(() => {
-  //   getCompanyProfileData();
-  // }, []);
 
   return (
     <div className="App">

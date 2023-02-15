@@ -153,36 +153,36 @@ export default function MiniDrawer() {
   const [loadinggif, setLoadinggif] = useState(false);
   const [userLoginValue, setUserLoginValue] = useState(false);
   const [userdata, setUserdata] = useState("username");
-  const checkLogin = async () => {
-    await axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/login/check`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setUserLoginValue(res.data.islogin);
-        setUserdata(res.data.user);
-        if (res.data.islogin === true) {
-          navigate("/admin");
-        } else {
-          navigate("/");
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-        navigate("/");
-      });
-  };
+  // const checkLogin = async () => {
+  //   await axios
+  //     .post(`${process.env.REACT_APP_BACKEND_URL}/login/check`, {
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => {
+  //       setUserLoginValue(res.data.islogin);
+  //       setUserdata(res.data.user);
+  //       if (res.data.islogin === true) {
+  //         navigate("/admin");
+  //       } else {
+  //         navigate("/");
+  //       }
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //       navigate("/");
+  //     });
+  // };
 
-  React.useEffect(() => {
-    checkLogin();
-  }, []);
+  // React.useEffect(() => {
+  //   checkLogin();
+  // }, []);
 
   // code to get logged in user data if logged in true
-  if (userLoginValue === true) {
+  // if (userLoginValue === true) {
     // console.log("user is logged in");
-  } else {
+  // } else {
     // console.log("user is not logged in");
-  }
+  // }
 
   // alert popup
   const Transition = React.forwardRef(function Transition(props, ref) {

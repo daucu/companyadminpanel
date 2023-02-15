@@ -121,7 +121,7 @@ function AddAuction() {
   // code to split the name of the product into two
   const splitName = (name) => {
     const splitName = name.split(" ");
-    return splitName[0] + " " + splitName[1];
+    return splitName[0] + " " + splitName[1] + " " + splitName[2] + " ...";
   };
 
   return (

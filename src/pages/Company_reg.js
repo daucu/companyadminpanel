@@ -21,10 +21,40 @@ import { Stack } from "@mui/system";
 import axios from "axios";
 import { API } from "../constant/constant";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const steps = ["Address", "Upload Documents", "Verification"];
 
 export default function Company_reg() {
+  // code to check if user is logged in or not
+  const navigate = useNavigate();
+  // code to check login
+  const [loadinggif, setLoadinggif] = useState(false);
+  const [userLoginValue, setUserLoginValue] = useState(false);
+  const [userdata, setUserdata] = useState("username");
+  const checkLogin = async () => {
+    await axios
+      .post(`${process.env.REACT_APP_BACKEND_URL}/login/check`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setUserLoginValue(res.data.islogin);
+        setUserdata(res.data.user);
+        if (res.data.islogin === true) {
+          navigate("/company_reg");
+        } else {
+          navigate("/");
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        navigate("/");
+      });
+  };
+
+  React.useEffect(() => {
+    checkLogin();
+  }, []);
+
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="outlined" {...props} />;
   });
@@ -477,7 +507,7 @@ export default function Company_reg() {
                         fontSize: "30px",
                       }}
                     >
-                      Thank you for Joining us.. 
+                      Thank you for Joining us..
                     </Typography>
                     <Typography sx={{ mt: 5, mb: 1 }}>
                       <Link

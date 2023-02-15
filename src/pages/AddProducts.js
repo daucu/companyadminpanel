@@ -260,6 +260,7 @@ export default function AddProduct() {
                   sx={{
                     boxShadow: 0,
                   }}
+                  disabled
                 >
                   <CircularProgress size={20} color="inherit" />
                 </Button>
@@ -492,6 +493,7 @@ export default function AddProduct() {
                     <Alert
                       onClose={handlesuccessClose}
                       severity="success"
+                      variant="filled"
                       sx={{ width: "100%" }}
                     >
                       {successSnack}
@@ -506,13 +508,14 @@ export default function AddProduct() {
                     autoHideDuration={3000}
                     onClose={handleErrClose}
                     position="right"
-                    variant="error"
-                    
+                    // dark mode
+                    variant="contained"
                     anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                   >
                     <Alert
                       onClose={handleErrClose}
                       severity="error"
+                      variant="filled"
                       sx={{ width: "100%" }}
                     >
                       Error in adding product

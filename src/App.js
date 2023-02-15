@@ -1,6 +1,10 @@
 import * as React from "react";
 import "./App.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 import MiniDrawer from "./components/Drawer";
 import Login from "./pages/Login";
@@ -344,6 +348,19 @@ function App() {
           </Route>
         </Routes>
       )}
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

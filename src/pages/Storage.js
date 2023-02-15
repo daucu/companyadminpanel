@@ -190,7 +190,7 @@ export default function Storage() {
             </AddIcon>
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
-            File Manager
+            File Manager 
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Toolbar>

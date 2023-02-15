@@ -244,16 +244,21 @@ export default function Auctions() {
   const navigate = useNavigate();
 
   //Get all categories
+  const [prodLoading, setProdLoading] = React.useState(false);
+
   async function getCategoryData() {
+    setProdLoading(true);
     const res = await axios.get(
       `${process.env.REACT_APP_BACKEND_URL}/auctions`
     );
     console.log(res.data);
+    setProdLoading(false);
     setCategories(res.data);
   }
 
   React.useEffect(() => {
     getCategoryData();
+    setProdLoading(false);
     setLoading(false);
   }, []);
 
@@ -350,7 +355,7 @@ export default function Auctions() {
             <AddIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
-            Auctions
+            Auctions  
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Toolbar>
@@ -376,7 +381,7 @@ export default function Auctions() {
         {/* Start Table of Post */}
         <Grid item xs>
           <Paper sx={{ boxShadow: 0, borderRadius: 1 }}>
-            {loading ? (
+            {prodLoading === true ? (
               <Grid
                 container
                 spacing={2}
@@ -524,7 +529,9 @@ export default function Auctions() {
                                   >
                                     <ModeEditOutlineOutlinedIcon
                                       onClick={() =>
-                                        navigate(`/admin/editauctinos/${row.id}`)
+                                        navigate(
+                                          `/admin/editauctinos/${row.id}`
+                                        )
                                       }
                                       size={22}
                                     />

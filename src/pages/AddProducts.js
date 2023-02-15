@@ -13,6 +13,7 @@ import {
   Autocomplete,
   Divider,
   InputLabel,
+  LinearProgress,
   MenuItem,
   Select,
   Snackbar,
@@ -146,19 +147,25 @@ export default function AddProduct() {
   const [loadingGif, setLoadingGif] = React.useState(false);
   // code to get company profile data
   const [companyProfileData, setCompanyProfileData] = React.useState([]);
+  const [prodLoading, setProdLoading] = React.useState(false);
 
   const getCompanyProfileData = async () => {
+    setProdLoading(true);
     setLoadingGif(true);
     await axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/profile/company`, {
         withCredentials: true,
       })
       .then((res) => {
+        setProdLoading(false);
+
         setCompanyProfileData(res.data[0].data);
         setLoadingGif(false);
       })
       .catch((e) => {
         console.log(e);
+        setProdLoading(false);
+
         setLoadingGif(false);
       });
   };
@@ -207,8 +214,6 @@ export default function AddProduct() {
     <Box sx={{ flexGrow: 1, marginTop: 3 }}>
       {companyProfileData.isVerified !== true ? (
         <>
-          {loadingGif === true ? <Loading /> : null}
-
           <AppBar position="static">
             <Toolbar variant="dense" sx={{ background: "#333" }}>
               <IconButton
@@ -256,215 +261,244 @@ export default function AddProduct() {
               </Button>
             </Toolbar>
           </AppBar>
-          <Grid container spacing={1} alignItems="stretch">
-            <Grid item xs={12} alignItems="stretch">
-              <form onSubmit={(e) => handleSubmit(e)}>
-                <Item
-                  onDoubleClick={handleClick}
-                  sx={{
-                    height: "auto",
-                  }}
-                >
-                  {/* Product title */}
-                  <TextField
-                    id="outlined-basic"
-                    placeholder="Product name"
-                    label="Product name"
-                    size="small"
-                    name={name}
-                    onChange={(e) => setName(e.target.value)}
-                    minRows={6}
-                    variant="outlined"
-                    sx={{
-                      width: "100%",
-                      color: "#fff",
-
-                      outline: "none",
-                      border: "none",
-                      fontSize: "1.2rem",
-                      placeholder: "Enter Page Title",
-                      placeholderColor: "#fff",
-                    }}
-                  />
-                  {/* Product Description */}
-                  <TextField
-                    id="outlined-basic"
-                    placeholder="Product content"
-                    label="Product Description"
-                    multiline={true}
-                    name={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    minRows={6}
-                    variant="outlined"
-                    sx={{
-                      width: "100%",
-                      color: "#fff",
-
-                      outline: "none",
-                      border: "none",
-                      fontSize: "1.2rem",
-                      placeholder: "Enter Page Title",
-                      placeholderColor: "#fff",
-                      marginTop: 1,
-                    }}
-                  />
-                  {/* Map the categories into select dropdown optioin */}
-
-                  <InputLabel
-                    sx={{
-                      textAlign: "left",
-                      marginTop: 1,
-                    }}
-                    id="demo-simple-select-outlined-label"
-                  >
-                    Category
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    size="small"
-                    id="demo-simple-select-outlined"
-                    value={category}
-                    name={category}
-                    sx={{
-                      width: "100%",
-                      textAlign: "left",
-                    }}
-                    onChange={(e) => setCategory(e.target.value)}
-                    label="Category"
-                  >
-                    {categories.map((category) => (
-                      <MenuItem value={category.id}>{category.name}</MenuItem>
-                    ))}
-                  </Select>
-                  {/* video input */}
-                  <InputLabel
-                    sx={{
-                      textAlign: "left",
-                      marginTop: 1,
-                    }}
-                    id="demo-simple-select-outlined-label"
-                  >
-                    Video
-                  </InputLabel>
-                  <TextField
-                    id="outlined-basic"
-                    type={"file"}
-                    size="small"
-                    name={video}
-                    onChange={(e) => setVideo(e.target.files[0])}
-                    sx={{
-                      width: "100%",
-                      marginTop: 1,
-                    }}
-                  />
-                  <InputLabel
-                    sx={{
-                      textAlign: "left",
-                      marginTop: 1,
-                    }}
-                    id="demo-simple-select-outlined-label"
-                  >
-                    Video Thumbnail
-                  </InputLabel>
-                  <TextField
-                    id="outlined-basic"
-                    type={"file"}
-                    name={video_thumbnail}
-                    onChange={(e) => setVideo_thumbnail(e.target.files[0])}
-                    size="small"
-                    sx={{
-                      width: "100%",
-                      marginTop: 1,
-                    }}
-                  />
-                  <InputLabel
-                    sx={{
-                      textAlign: "left",
-                      marginTop: 1,
-                    }}
-                    id="demo-simple-select-outlined-label"
-                  >
-                    Gallery
-                  </InputLabel>
-                  <TextField
-                    id="outlined-basic"
-                    type={"file"}
-                    name={gallery}
-                    onChange={(e) => setGallery(e.target.files[0])}
-                    size="small"
-                    sx={{
-                      width: "100%",
-                      marginTop: 1,
-                    }}
-                  />
-                  {/* map tags in select menu  */}
-                  <InputLabel
-                    sx={{
-                      textAlign: "left",
-                      marginTop: 2,
-                    }}
-                    id="demo-simple-select-outlined-label"
-                  >
-                    Tags
-                  </InputLabel>
-                  {/* map tags in autocomplete selct menu option with chip  */}
-                  <Autocomplete
-                    multiple
-                    id="tags-standard"
-                    options={fetchTags}
-                    getOptionLabel={(option) => option.name}
-                    onChange={(e, value) => setTags(value.map((tag) => tag.id))}
-                    renderInput={(params) => (
+          {prodLoading === true ? (
+            <>
+              <Grid
+                container
+                spacing={2}
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  marginTop: 0,
+                  paddingBottom: 4,
+                  paddingTop: 2,
+                  paddingLeft: 2,
+                  paddingRight: 2,
+                }}
+              >
+                <Grid item xs={12}>
+                  <LinearProgress />
+                </Grid>
+              </Grid>
+            </>
+          ) : (
+            <>
+              {" "}
+              <Grid container spacing={1} alignItems="stretch">
+                <Grid item xs={12} alignItems="stretch">
+                  <form onSubmit={(e) => handleSubmit(e)}>
+                    <Item
+                      onDoubleClick={handleClick}
+                      sx={{
+                        height: "auto",
+                      }}
+                    >
+                      {/* Product title */}
                       <TextField
-                        {...params}
-                        variant="standard"
+                        id="outlined-basic"
+                        placeholder="Product name"
+                        label="Product name"
+                        size="small"
+                        name={name}
+                        onChange={(e) => setName(e.target.value)}
+                        minRows={6}
+                        variant="outlined"
+                        sx={{
+                          width: "100%",
+                          color: "#fff",
+
+                          outline: "none",
+                          border: "none",
+                          fontSize: "1.2rem",
+                          placeholder: "Enter Page Title",
+                          placeholderColor: "#fff",
+                        }}
+                      />
+                      {/* Product Description */}
+                      <TextField
+                        id="outlined-basic"
+                        placeholder="Product content"
+                        label="Product Description"
+                        multiline={true}
+                        name={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        minRows={6}
+                        variant="outlined"
+                        sx={{
+                          width: "100%",
+                          color: "#fff",
+
+                          outline: "none",
+                          border: "none",
+                          fontSize: "1.2rem",
+                          placeholder: "Enter Page Title",
+                          placeholderColor: "#fff",
+                          marginTop: 1,
+                        }}
+                      />
+                      {/* Map the categories into select dropdown optioin */}
+
+                      <InputLabel
+                        sx={{
+                          textAlign: "left",
+                          marginTop: 1,
+                        }}
+                        id="demo-simple-select-outlined-label"
+                      >
+                        Category
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-outlined-label"
+                        size="small"
+                        id="demo-simple-select-outlined"
+                        value={category}
+                        name={category}
+                        sx={{
+                          width: "100%",
+                          textAlign: "left",
+                        }}
+                        onChange={(e) => setCategory(e.target.value)}
+                        label="Category"
+                      >
+                        {categories.map((category) => (
+                          <MenuItem value={category.id}>
+                            {category.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      {/* video input */}
+                      <InputLabel
+                        sx={{
+                          textAlign: "left",
+                          marginTop: 1,
+                        }}
+                        id="demo-simple-select-outlined-label"
+                      >
+                        Video
+                      </InputLabel>
+                      <TextField
+                        id="outlined-basic"
+                        type={"file"}
+                        size="small"
+                        name={video}
+                        onChange={(e) => setVideo(e.target.files[0])}
+                        sx={{
+                          width: "100%",
+                          marginTop: 1,
+                        }}
+                      />
+                      <InputLabel
+                        sx={{
+                          textAlign: "left",
+                          marginTop: 1,
+                        }}
+                        id="demo-simple-select-outlined-label"
+                      >
+                        Video Thumbnail
+                      </InputLabel>
+                      <TextField
+                        id="outlined-basic"
+                        type={"file"}
+                        name={video_thumbnail}
+                        onChange={(e) => setVideo_thumbnail(e.target.files[0])}
                         size="small"
                         sx={{
                           width: "100%",
                           marginTop: 1,
                         }}
                       />
-                    )}
-                  />
-                  {/* map tags in select menu  */}
-                </Item>
-              </form>
-            </Grid>
-            {/* success snach */}
-            {successSnack ? (
-              <Snackbar
-                open={handlesuccessOpen}
-                autoHideDuration={3000}
-                onClose={handlesuccessClose}
-              >
-                <Alert
-                  onClose={handlesuccessClose}
-                  severity="success"
-                  sx={{ width: "100%" }}
-                >
-                  {successSnack}
-                </Alert>
-              </Snackbar>
-            ) : null}
+                      <InputLabel
+                        sx={{
+                          textAlign: "left",
+                          marginTop: 1,
+                        }}
+                        id="demo-simple-select-outlined-label"
+                      >
+                        Gallery
+                      </InputLabel>
+                      <TextField
+                        id="outlined-basic"
+                        type={"file"}
+                        name={gallery}
+                        onChange={(e) => setGallery(e.target.files[0])}
+                        size="small"
+                        sx={{
+                          width: "100%",
+                          marginTop: 1,
+                        }}
+                      />
+                      {/* map tags in select menu  */}
+                      <InputLabel
+                        sx={{
+                          textAlign: "left",
+                          marginTop: 2,
+                        }}
+                        id="demo-simple-select-outlined-label"
+                      >
+                        Tags
+                      </InputLabel>
+                      {/* map tags in autocomplete selct menu option with chip  */}
+                      <Autocomplete
+                        multiple
+                        id="tags-standard"
+                        options={fetchTags}
+                        getOptionLabel={(option) => option.name}
+                        onChange={(e, value) =>
+                          setTags(value.map((tag) => tag.id))
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            variant="standard"
+                            size="small"
+                            sx={{
+                              width: "100%",
+                              marginTop: 1,
+                            }}
+                          />
+                        )}
+                      />
+                      {/* map tags in select menu  */}
+                    </Item>
+                  </form>
+                </Grid>
+                {/* success snach */}
+                {successSnack ? (
+                  <Snackbar
+                    open={handlesuccessOpen}
+                    autoHideDuration={3000}
+                    onClose={handlesuccessClose}
+                  >
+                    <Alert
+                      onClose={handlesuccessClose}
+                      severity="success"
+                      sx={{ width: "100%" }}
+                    >
+                      {successSnack}
+                    </Alert>
+                  </Snackbar>
+                ) : null}
 
-            {/* error snack */}
-            {geterror === true ? (
-              <Snackbar
-                open={handleErrOpen}
-                autoHideDuration={3000}
-                onClose={handleErrClose}
-                position="right"
-              >
-                <Alert
-                  onClose={handleErrClose}
-                  severity="error"
-                  sx={{ width: "100%" }}
-                >
-                  Error in adding product
-                </Alert>
-              </Snackbar>
-            ) : null}
-          </Grid>
+                {/* error snack */}
+                {geterror === true ? (
+                  <Snackbar
+                    open={handleErrOpen}
+                    autoHideDuration={3000}
+                    onClose={handleErrClose}
+                    position="right"
+                  >
+                    <Alert
+                      onClose={handleErrClose}
+                      severity="error"
+                      sx={{ width: "100%" }}
+                    >
+                      Error in adding product
+                    </Alert>
+                  </Snackbar>
+                ) : null}
+              </Grid>
+            </>
+          )}
         </>
       ) : (
         <>

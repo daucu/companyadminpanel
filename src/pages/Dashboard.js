@@ -11,6 +11,7 @@ import "../styles/dashboard.css";
 import GroupIcon from "@mui/icons-material/Group";
 import SendTimeExtensionIcon from "@mui/icons-material/SendTimeExtension";
 import { useNavigate } from "react-router-dom";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -37,15 +38,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#1A2027",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "start",
-  color: theme.palette.text.secondary,
-  borderRadius: 0,
-  color: "#ffffff",
-}));
+
 export const options = {
   responsive: true,
   plugins: {
@@ -106,6 +99,15 @@ export const polarData = {
   ],
 };
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: "#1A2027",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "start",
+  color: theme.palette.text.secondary,
+  borderRadius: 0,
+  color: "#ffffff",
+}));
 export default function Dashboard() {
   // code to get the length of the all products
   const [productLoading, setProductLoading] = useState(false);

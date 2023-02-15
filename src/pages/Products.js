@@ -32,7 +32,7 @@ import Snackbar from "@mui/material/Snackbar";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import AppBar from "@mui/material/AppBar";
 import AddIcon from "@mui/icons-material/Add";
-import { Divider } from "@mui/material";
+import { Divider, Grid, LinearProgress } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -459,7 +459,9 @@ export default function Products() {
   };
 
   //Get Product
+  const [prodLoading, setProdLoading] = React.useState(false);
   const getProducts = () => {
+    setProdLoading(true);
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/products/my-products`, {
         headers: {
@@ -468,6 +470,11 @@ export default function Products() {
       })
       .then((response) => {
         setProducts(response.data);
+        setProdLoading(false);
+      })
+      .catch((e) => {
+        console.log(e);
+        setProdLoading(false);
       });
   };
 
@@ -591,116 +598,137 @@ export default function Products() {
         </Alert>
       </Snackbar>
 
-      {/*  */}
-
-      <Paper
-        sx={{
-          width: "100%",
-          mb: 2,
-          boxShadow: 0,
-          // background: "#1A2027",
-          // color: "#fff",
-          overflow: "scroll",
-        }}
-      >
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size="small"
+      {prodLoading === true ? (
+        <>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              width: "100%",
+              height: "100%",
+              marginTop: 0,
+              paddingBottom: 4,
+              paddingTop: 2,
+              paddingLeft: 2,
+              paddingRight: 2,
+            }}
           >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+            <Grid item xs={12}>
+              <LinearProgress />
+            </Grid>
+          </Grid>
+        </>
+      ) : (
+        <>
+          {" "}
+          <Paper
+            sx={{
+              width: "100%",
+              mb: 2,
+              boxShadow: 0,
+              // background: "#1A2027",
+              // color: "#fff",
+              overflow: "scroll",
+            }}
+          >
+            <EnhancedTableToolbar numSelected={selected.length} />
+            <TableContainer>
+              <Table
+                sx={{ minWidth: 750 }}
+                aria-labelledby="tableTitle"
+                size="small"
+              >
+                <EnhancedTableHead
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={rows.length}
+                />
+                <TableBody>
+                  {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .reverse()
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+                  {stableSort(rows, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .reverse()
+                    .map((row, index) => {
+                      const isItemSelected = isSelected(row.id);
+                      const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                      sx={{ color: "#fff" }}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          // sx={{ color: "#fff" }}
-                        />
-                      </TableCell>
-
-                      <TableCell
-                        scope="row"
-                        padding="none"
-                        // sx={{ color: "#fff" }}
-                      >
-                        <HtmlTooltip
-                          placement="right"
-                          title={
-                            <React.Fragment>
-                              <CardMedia
-                                component="img"
-                                height="140"
-                                image={row.image}
-                                alt="green iguana"
-                              />
-                            </React.Fragment>
-                          }
+                      return (
+                        <TableRow
+                          hover
+                          onClick={(event) => handleClick(event, row.id)}
+                          role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.id}
+                          selected={isItemSelected}
+                          sx={{ color: "#fff" }}
                         >
-                          <Typography
-                            size="small"
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              color="primary"
+                              checked={isItemSelected}
+                              // sx={{ color: "#fff" }}
+                            />
+                          </TableCell>
+
+                          <TableCell
+                            scope="row"
+                            padding="none"
+                            // sx={{ color: "#fff" }}
+                          >
+                            <HtmlTooltip
+                              placement="right"
+                              title={
+                                <React.Fragment>
+                                  <CardMedia
+                                    component="img"
+                                    height="140"
+                                    image={row.image}
+                                    alt="green iguana"
+                                  />
+                                </React.Fragment>
+                              }
+                            >
+                              <Typography
+                                size="small"
+                                sx={{
+                                  overflow: "hidden",
+                                  whiteSpace: "nowrap",
+                                  maxWidth: "20ch",
+                                  textOverflow: "ellipsis",
+                                  cursor: "pointer",
+                                  // color: "#fff",
+                                }}
+                              >
+                                {row.video_thumbnail}
+                              </Typography>
+                            </HtmlTooltip>
+                          </TableCell>
+
+                          <TableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="none"
                             sx={{
                               overflow: "hidden",
                               whiteSpace: "nowrap",
                               maxWidth: "20ch",
+                              minWidth: "15ch",
                               textOverflow: "ellipsis",
-                              cursor: "pointer",
                               // color: "#fff",
                             }}
                           >
-                            {row.video_thumbnail}
-                          </Typography>
-                        </HtmlTooltip>
-                      </TableCell>
-
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                        sx={{
-                          overflow: "hidden",
-                          whiteSpace: "nowrap",
-                          maxWidth: "20ch",
-                          minWidth: "15ch",
-                          textOverflow: "ellipsis",
-                          // color: "#fff",
-                        }}
-                      >
-                        {row.name}
-                      </TableCell>
-                      {/* <TableCell align="left" sx={{}}>
+                            {row.name}
+                          </TableCell>
+                          {/* <TableCell align="left" sx={{}}>
                         {row.price + " USD"}
                       </TableCell> */}
-                      {/* <TableCell align="left">
+                          {/* <TableCell align="left">
                         <Rating
                           name="half-rating-read"
                           // value={row.all_reviews.rating}
@@ -709,14 +737,14 @@ export default function Products() {
                         />
                       </TableCell> */}
 
-                      <TableCell align="left" sx={{}}>
-                        {row.description}
-                      </TableCell>
-                      <TableCell align="left" sx={{}}>
-                        {row.createdAt.slice(0, 10)}
-                      </TableCell>
+                          <TableCell align="left" sx={{}}>
+                            {row.description}
+                          </TableCell>
+                          <TableCell align="left" sx={{}}>
+                            {row.createdAt.slice(0, 10)}
+                          </TableCell>
 
-                      {/* <TableCell align="left">
+                          {/* <TableCell align="left">
                         <Chip
                           label={row.status}
                           size="small"
@@ -724,23 +752,25 @@ export default function Products() {
                           sx={{ width: 80 }}
                         />
                       </TableCell> */}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[15, 30, 40]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          // sx={{ color: "#fff" }}
-        />
-      </Paper>
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[15, 30, 40]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              // sx={{ color: "#fff" }}
+            />
+          </Paper>
+        </>
+      )}
     </Box>
   );
 }

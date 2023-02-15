@@ -36,6 +36,8 @@ import {
   TextareaAutosize,
   Button,
   TextField,
+  LinearProgress,
+  Grid,
 } from "@mui/material";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -235,15 +237,20 @@ export default function Contract() {
   // code to get all contracts from the database
   const [contracts, setContracts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [prodLoading, setProdLoading] = React.useState(false);
+
   const getAllContracts = async () => {
+    setProdLoading(true);
     await axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/contract`)
       .then((res) => {
         console.log(res.data);
+        setProdLoading(false);
         setContracts(res.data);
       })
       .catch((err) => {
         console.log(err);
+        setProdLoading(false);
       });
   };
   useEffect(() => {
@@ -317,131 +324,156 @@ export default function Contract() {
       </Snackbar>
 
       {/*  */}
-
-      <Paper
-        sx={{
-          width: "100%",
-          mb: 2,
-          boxShadow: 0,
-          overflow: "scroll",
-        }}
-      >
-        <EnhancedTableToolbar />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size="small"
+      {prodLoading === true ? (
+        <>
+          <Grid
+            container
+            spacing={2}
+            sx={{
+              width: "100%",
+              height: "100%",
+              marginTop: 0,
+              paddingBottom: 4,
+              paddingTop: 2,
+              paddingLeft: 2,
+              paddingRight: 2,
+            }}
           >
-            <EnhancedTableHead />
-            <TableBody>
-              {contracts &&
-                contracts.map((contract) => {
-                  return (
-                    <>
-                      {" "}
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        sx={{ color: "#fff" }}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox color="primary" />
-                        </TableCell>
-
-                        <TableCell scope="row" padding="none">
-                          <Typography
-                            size="small"
-                            sx={{
-                              overflow: "hidden",
-                              whiteSpace: "nowrap",
-                              maxWidth: "20ch",
-                              textOverflow: "ellipsis",
-                              cursor: "pointer",
-                            }}
-                          >
-                            {contract.title}
-                          </Typography>
-                        </TableCell>
-
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          padding="none"
-                          sx={{
-                            overflow: "hidden",
-                            whiteSpace: "nowrap",
-                            maxWidth: "20ch",
-                            minWidth: "15ch",
-                            textOverflow: "ellipsis",
-                          }}
-                        >
-                          {contract.return_terms}
-                        </TableCell>
-                        <TableCell align="left" sx={{}}>
-                          {contract.createdAt}
-                        </TableCell>
-                        <TableCell
-                          align="left"
-                          sx={{}}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          <IconButton
-                            aria-label="edit"
-                            size="small"
-                            onClick={() => {
-                              navigate(`/admin/editcontract/${contract.id}`);
-                            }}
-                          >
-                            <EditTwoToneIcon />
-                          </IconButton>
-                          <IconButton
-                            aria-label="delete"
-                            size="small"
-                            onClick={() => {
-                              deleteContract(contract.id);
-                            }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    </>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={100}
-          rowsPerPage={5}
-          page={0}
-          onPageChange={() => {}}
-        />
-        {deleteSnack === true ? (
-          <Snackbar
-            open={open}
-            autoHideDuration={3000}
-            position="bottom-right"
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            onClose={handleClose}
+            <Grid item xs={12}>
+              <LinearProgress />
+            </Grid>
+          </Grid>
+        </>
+      ) : (
+        <>
+          <Paper
+            sx={{
+              width: "100%",
+              mb: 2,
+              boxShadow: 0,
+              overflow: "scroll",
+            }}
           >
-            <Alert
-              onClose={handleClose}
-              severity="success"
-              sx={{ width: "100%" }}
-            >
-              This is a success message!
-            </Alert>
-          </Snackbar>
-        ) : null}
-      </Paper>
+            <EnhancedTableToolbar />
+            <TableContainer>
+              <Table
+                sx={{ minWidth: 750 }}
+                aria-labelledby="tableTitle"
+                size="small"
+              >
+                <EnhancedTableHead />
+                <TableBody>
+                  {contracts &&
+                    contracts.map((contract) => {
+                      return (
+                        <>
+                          {" "}
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            tabIndex={-1}
+                            sx={{ color: "#fff" }}
+                          >
+                            <TableCell padding="checkbox">
+                              <Checkbox color="primary" />
+                            </TableCell>
+
+                            <TableCell scope="row" padding="none">
+                              <Typography
+                                size="small"
+                                sx={{
+                                  overflow: "hidden",
+                                  whiteSpace: "nowrap",
+                                  maxWidth: "20ch",
+                                  textOverflow: "ellipsis",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                {contract.title}
+                              </Typography>
+                            </TableCell>
+
+                            <TableCell
+                              component="th"
+                              scope="row"
+                              padding="none"
+                              sx={{
+                                overflow: "hidden",
+                                whiteSpace: "nowrap",
+                                maxWidth: "20ch",
+                                minWidth: "15ch",
+                                textOverflow: "ellipsis",
+                              }}
+                            >
+                              {contract.return_terms}
+                            </TableCell>
+                            <TableCell align="left" sx={{}}>
+                              {contract.createdAt}
+                            </TableCell>
+                            <TableCell
+                              align="left"
+                              sx={{}}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                              }}
+                            >
+                              <IconButton
+                                aria-label="edit"
+                                size="small"
+                                onClick={() => {
+                                  navigate(
+                                    `/admin/editcontract/${contract.id}`
+                                  );
+                                }}
+                              >
+                                <EditTwoToneIcon />
+                              </IconButton>
+                              <IconButton
+                                aria-label="delete"
+                                size="small"
+                                onClick={() => {
+                                  deleteContract(contract.id);
+                                }}
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        </>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={100}
+              rowsPerPage={5}
+              page={0}
+              onPageChange={() => {}}
+            />
+            {deleteSnack === true ? (
+              <Snackbar
+                open={open}
+                autoHideDuration={3000}
+                position="bottom-right"
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                onClose={handleClose}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity="success"
+                  sx={{ width: "100%" }}
+                >
+                  This is a success message!
+                </Alert>
+              </Snackbar>
+            ) : null}
+          </Paper>
+        </>
+      )}
     </Box>
   );
 }

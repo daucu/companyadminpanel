@@ -262,7 +262,7 @@ export default function AddProduct() {
                   }}
                   disabled
                 >
-                  <CircularProgress size={20} color="inherit" />
+                  <CircularProgress size={20} color="success" />
                 </Button>
               ) : (
                 <Button

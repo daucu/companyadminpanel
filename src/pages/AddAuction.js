@@ -117,6 +117,13 @@ function AddAuction() {
 
     setOpen(false);
   };
+
+  // code to split the name of the product into two
+  const splitName = (name) => {
+    const splitName = name.split(" ");
+    return splitName[0] + " " + splitName[1];
+  };
+
   return (
     <div
       style={{
@@ -210,7 +217,6 @@ function AddAuction() {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "center",
               // media query for mobile
               "@media (max-width: 600px)": {
                 display: "block",
@@ -222,18 +228,23 @@ function AddAuction() {
                 width: "40%",
               }}
             >
-              <TextField
-                id="outlined-basic"
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={currency}
+                defaultChecked="USD"
                 label="Currency"
-                variant="outlined"
-                size="small"
-                name={currency}
-                onChange={(e) => setCurrency(e.target.value)}
                 style={{
                   width: "100%",
-                  marginBottom: "10px",
+                  textAlign: "left",
                 }}
-              />
+                size="small"
+                // code to select the product from the dropdown menu and set the state
+                onChange={(e) => setCurrency(e.target.value)}
+              >
+                <MenuItem value="USD">USD</MenuItem>
+                <MenuItem value="SAR">SAR</MenuItem>
+              </Select>
             </div>
             <div
               style={{
@@ -315,7 +326,9 @@ function AddAuction() {
             name={items}
             size="small"
             //  get optionlabel from array without using map
-            getOptionLabel={(option) => option.title}
+            // split option.name
+            getOptionLabel={(option) => splitName(option.name)}
+            // split fetched value
             onChange={(e, value) => {
               setItems(value.map((item) => item.id));
             }}

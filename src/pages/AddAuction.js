@@ -380,7 +380,6 @@ function AddAuction() {
 
           {/* dropdown menu */}
           <Autocomplete
-            multiple
             sx={{
               width: "100%",
             }}

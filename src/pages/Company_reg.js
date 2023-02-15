@@ -21,7 +21,8 @@ import axios from "axios";
 import { API } from "../constant/constant";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-const steps = ["Basic information", "Upload Documents", "Verification"];
+const steps = ["Address", "Upload Documents", "Verification"];
+
 
 export default function Company_reg() {
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -265,6 +266,14 @@ export default function Company_reg() {
 
     setSteptwoErr(false);
   };
+
+  // code to add address before submiting form
+  const [first_address, setFirst_address] = useState("");
+  const [sec_address, setSec_address] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+  const [zip_code, setZip_code] = useState("");
+  const [city, setCity] = useState("");
 
   return (
     <div

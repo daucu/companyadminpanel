@@ -107,14 +107,6 @@ export default function AddProduct() {
     let videoThumbnailUpload = await handleVideoUpload(video_thumbnail);
     let galleryUpload = await handleVideoUpload(gallery);
 
-    // const formdata = new FormData();
-    // formdata.append("name", name);
-    // formdata.append("description", description);
-    // formdata.append("category", category);
-
-    // formdata.append("tags", tags);
-    // formdata.append("slug", slug);
-
     const sendData = {
       name,
       description,
@@ -162,7 +154,6 @@ export default function AddProduct() {
       })
       .then((res) => {
         setProdLoading(false);
-
         setCompanyProfileData(res.data[0].data);
         setLoadingGif(false);
       })

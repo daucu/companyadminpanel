@@ -5,7 +5,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 
 import MuiDrawer from "@mui/material/Drawer";
@@ -21,15 +20,11 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Badge from "@mui/material/Badge";
-import Avatar from "@mui/material/Avatar";
 
 import "./Drawer.css";
 import LogoutIcon from "@mui/icons-material/Logout";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
   Link as RouterLink,
-  Route,
-  Routes,
   useLocation,
   Outlet,
   useNavigate,
@@ -40,7 +35,6 @@ import KeyboardDoubleArrowLeftTwoToneIcon from "@mui/icons-material/KeyboardDoub
 import NotificationsTwoToneIcon from "@mui/icons-material/NotificationsTwoTone";
 import menu_items from "./menu_items";
 import axios from "axios";
-import Loading from "../pages/Loading";
 import { useState } from "react";
 import { Button } from "@mui/material";
 
@@ -135,6 +129,7 @@ const handleLogout = async () => {
 };
 
 export default function MiniDrawer() {
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const location = useLocation();
@@ -179,9 +174,9 @@ export default function MiniDrawer() {
 
   // code to get logged in user data if logged in true
   // if (userLoginValue === true) {
-    // console.log("user is logged in");
+  // console.log("user is logged in");
   // } else {
-    // console.log("user is not logged in");
+  // console.log("user is not logged in");
   // }
 
   // alert popup
@@ -196,6 +191,26 @@ export default function MiniDrawer() {
   const handleClose = () => {
     setModalOpen(false);
   };
+
+  const checkCompanies = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/companies/my`, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        if (res.data.length === 0) {
+          navigate("/company_reg");
+        }
+      })
+      .catch((e) => {
+        // print the error
+        console.log(e);
+        console.log(e.response.data.message);
+      });
+  };
+
 
   // code to get profile data of company
   const [companyProfileData, setCompanyProfileData] = React.useState([]);
@@ -214,6 +229,7 @@ export default function MiniDrawer() {
   };
   React.useEffect(() => {
     getCompanyProfileData();
+    checkCompanies();
   }, []);
 
   // code to get user profile data

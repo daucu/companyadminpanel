@@ -306,22 +306,37 @@ export default function Bid() {
 
   const isSelected = (_id) => selected.indexOf(_id) !== -1;
 
+  // code to get -------------------------------------------------------------------------------------
+  const [getBid, setGetBid] = useState([]);
+  const fetchBids = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/bids`)
+      .then((res) => {
+        console.log(res.data);
+        setGetBid(res.data);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  };
+  useEffect(() => {
+    fetchBids();
+  }, []);
+
   const handleDelete = (id) => {
     setDeleting(id);
     axios
-      .delete(`${process.env.REACT_APP_BACKEND_URL}/auctions/${id}`)
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/bids/${id}`)
       .then((res) => {
         const removedBids = rows.filter((bid) => bid.id !== id);
         setCategories(removedBids);
-        // setAlert(res.data.message);
-        // setOpen(true);
+
         toast.success(res.data.message);
+        fetchBids();
         setStatus("success");
         console.log(res.data);
       })
       .catch((e) => {
-        // setAlert("Error deleting bid. Check your internet connection.");
-        // setOpen(true);
         toast.error("Error deleting bid. Check your internet connection.");
         setStatus("error");
       })
@@ -350,28 +365,11 @@ export default function Bid() {
     </React.Fragment>
   );
 
-  // code to get
-  const [getBid, setGetBid] = useState([]);
-  const fetchBids = async () => {
-    await axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/bids`)
-      .then((res) => {
-        console.log(res.data);
-        setGetBid(res.data);
-      })
-      .catch((res) => {
-        console.log(res);
-      });
-  };
-  useEffect(() => {
-    fetchBids();
-  }, []);
-
   return (
     <Box sx={{ flexGrow: 1, marginTop: 3 }}>
       <AppBar position="static">
         <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
-          <IconButton
+          {/* <IconButton
             edge="start"
             color="inherit"
             aria-label="menu"
@@ -379,7 +377,7 @@ export default function Bid() {
             onClick={() => navigate("/admin/addbids")}
           >
             <AddIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography variant="h6" color="inherit" component="div">
             Bids
           </Typography>
@@ -491,21 +489,10 @@ export default function Bid() {
                                     }}
                                   >
                                     <IconButton
-                                      aria-label="edit"
-                                      size="small"
-                                      onClick={() => {
-                                        navigate(
-                                          `/admin/editcontract/${item.id}`
-                                        );
-                                      }}
-                                    >
-                                      {/* <EditTwoToneIcon /> */}
-                                    </IconButton>
-                                    <IconButton
                                       aria-label="delete"
                                       size="small"
                                       onClick={() => {
-                                        // deleteContract(item.id);
+                                        handleDelete(item.id);
                                       }}
                                     >
                                       <DeleteIcon />

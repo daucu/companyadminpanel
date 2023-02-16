@@ -29,6 +29,7 @@ import MuiAlert from "@mui/material/Alert";
 import LinearProgress from "@mui/material/LinearProgress";
 import AppBar from "@mui/material/AppBar";
 import AddIcon from "@mui/icons-material/Add";
+import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 import {
   Alert,
   Button,
@@ -522,21 +523,30 @@ export default function Auctions() {
                                       alignItems: "center",
                                     }}
                                   >
-                                    <ModeEditOutlineOutlinedIcon
+                                    <IconButton
+                                      aria-label="edit"
+                                      size="small"
                                       onClick={() =>
                                         navigate(
                                           `/admin/editauctinos/${row.id}`
                                         )
                                       }
-                                      size={22}
-                                    />
+                                    >
+                                      <ModeEditOutlineTwoToneIcon size={22} />
+                                    </IconButton>
+
                                     {deleting === row.id ? (
                                       <CircularProgress size={22} />
                                     ) : (
-                                      <DeleteOutlineOutlinedIcon
-                                        onClick={() => handleDelete(row.id)}
-                                        size={22}
-                                      />
+                                      <>
+                                        <IconButton
+                                          aria-label="delete"
+                                          size="small"
+                                          onClick={() => handleDelete(row.id)}
+                                        >
+                                          <DeleteIcon size={22} />
+                                        </IconButton>
+                                      </>
                                     )}
                                   </Stack>
                                 </TableCell>

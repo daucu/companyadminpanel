@@ -4,6 +4,9 @@ import {
   Button,
   Divider,
   IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Toolbar,
@@ -409,26 +412,41 @@ function AddAuction() {
             )}
           /> */}
 
-          {/* code to map products into autocomplete and set into state */}
-          <Autocomplete
-            multiple
-            id="tags-standard"
-            options={products}
-            getOptionLabel={(option) => option.name}
-            onChange={(e, value) => {
-              setItems(value.map((item) => item.id));
+          {/* code to map product into select dropdown without multiple selector  */}
+          <InputLabel
+            id="demo-simple-select-label"
+            sx={{
+              width: "100%",
+                textAlign: "left",
+                paddingLeft: "10px",
             }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="standard"
-                label="Items"
-                placeholder="Items"
-                value={items}
-                name={items}
-              />
-            )}
-          />
+          >
+            Items
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={items}
+            size="small"
+            label="Items"
+            onChange={(e) => setItems(e.target.value)}
+            sx={{
+              width: "100%",
+              marginBottom: "10px",
+              textAlign: "left",
+            }}
+          >
+            {products.map((product) => (
+              <MenuItem
+                sx={{
+                  boxShadow: 0,
+                }}
+                value={product.id}
+              >
+                {product.name}
+              </MenuItem>
+            ))}
+          </Select>
         </Stack>
       </form>
     </div>

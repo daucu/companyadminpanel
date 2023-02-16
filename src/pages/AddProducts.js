@@ -7,6 +7,8 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import { toast } from "react-toastify";
+
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Alert,
@@ -129,14 +131,16 @@ export default function AddProduct() {
       .then((res) => {
         console.log(res);
         setBtnLoading(false);
-        setSuccessSnack(res.data.message);
-        handlesuccessOpen(true);
+        // setSuccessSnack(res.data.message);
+        // handlesuccessOpen(true);
+        toast.success(res.data.message);
         console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
         setBtnLoading(false);
-        setGeterror(true);
+        // setGeterror(true);
+        toast.error(err.response.data.message);
       });
   };
   // loading animation
@@ -155,13 +159,10 @@ export default function AddProduct() {
       .then((res) => {
         setProdLoading(false);
         setCompanyProfileData(res.data[0].data);
-        setLoadingGif(false);
       })
       .catch((e) => {
         console.log(e);
         setProdLoading(false);
-
-        setLoadingGif(false);
       });
   };
   React.useEffect(() => {

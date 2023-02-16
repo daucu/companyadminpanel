@@ -25,6 +25,7 @@ import slugify from "slugify";
 import TextField from "@mui/material/TextField";
 import Loading from "./Loading";
 import { useState } from "react";
+import { toast } from "react-toastify";
 const Item = styled(Paper)(({ theme }) => ({
   // backgroundColor: "#1A2027",
   ...theme.typography.body2,
@@ -146,15 +147,16 @@ export default function UpdateProduct() {
       .then((res) => {
         console.log(res);
         setBtnLoading(false);
-        setSuccessSnack(true);
-
-        handlesuccessOpen();
+        // setSuccessSnack(true);
+        toast.success("Product Updated Successfully");
+        // handlesuccessOpen();
         console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
         setBtnLoading(false);
-        setGeterror(true);
+        toast.error("Error in  Updating Product");
+        // setGeterror(true);
       });
   };
   // loading animation

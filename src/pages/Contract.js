@@ -44,6 +44,7 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 // import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { Stack } from "@mui/system";
 import axios from "axios";
+import { toast } from "react-toastify";
 const headCells = [
   {
     id: "1",
@@ -277,12 +278,14 @@ export default function Contract() {
       .delete(`${process.env.REACT_APP_BACKEND_URL}/contract/${id}`)
       .then((res) => {
         console.log(res.data);
-        setDeleteSnack(true);
-        handleClick();
+        toast.success("Contract Deleted Successfully");
+        // setDeleteSnack(true);
+        // handleClick();
         getAllContracts();
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Error in Deleting Contract");
       });
   };
 

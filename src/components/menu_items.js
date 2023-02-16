@@ -6,7 +6,23 @@ import ShowChartTwoToneIcon from "@mui/icons-material/ShowChartTwoTone";
 import PhonelinkSetupTwoToneIcon from "@mui/icons-material/PhonelinkSetupTwoTone";
 import AddCardTwoToneIcon from "@mui/icons-material/AddCardTwoTone";
 
-import { AccountCircleOutlined, ContactPhoneOutlined, DashboardOutlined, FaceRetouchingOffOutlined, GavelOutlined, HandshakeOutlined, Inventory2Outlined, LoyaltyOutlined, PermMediaOutlined, ProductionQuantityLimitsOutlined, SdCardOutlined, SettingsOutlined, TipsAndUpdatesOutlined, WalletOutlined, WorkOutlineOutlined } from "@mui/icons-material";
+import {
+  AccountCircleOutlined,
+  ContactPhoneOutlined,
+  DashboardOutlined,
+  FaceRetouchingOffOutlined,
+  GavelOutlined,
+  HandshakeOutlined,
+  Inventory2Outlined,
+  LoyaltyOutlined,
+  PermMediaOutlined,
+  ProductionQuantityLimitsOutlined,
+  SdCardOutlined,
+  SettingsOutlined,
+  TipsAndUpdatesOutlined,
+  WalletOutlined,
+  WorkOutlineOutlined,
+} from "@mui/icons-material";
 
 const menu_items = [
   {
@@ -77,7 +93,7 @@ const menu_items = [
   {
     name: "Offers",
     icon: <StarBorderPurple500TwoToneIcon />,
-    url: "/admin/offers",
+    url: "/admin/offer",
   },
   {
     name: "Wallet",

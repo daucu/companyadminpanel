@@ -44,6 +44,7 @@ import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 // import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { Stack } from "@mui/system";
 import axios from "axios";
+import { toast } from "react-toastify";
 const headCells = [
   {
     id: "1",
@@ -305,11 +306,13 @@ export default function EditContract() {
       .then((res) => {
         console.log(res.data);
         setBtnLoading(false);
-        handleOpen();
+        // handleOpen();
+        toast.success("Contract Updated Successfully");
       })
       .catch((err) => {
         console.log(err);
         setBtnLoading(false);
+        toast.error("Error in Updating Contract");
       });
   };
 

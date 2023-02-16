@@ -43,6 +43,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Link as RouterLink } from "react-router-dom";
 import { Stack } from "@mui/system";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -339,11 +340,13 @@ export default function Tags() {
         console.log(res.data);
         setTimeout(() => {
           setTags(tags.filter((tag) => tag.id !== id));
-          setOpenDelete(true);
+          // setOpenDelete(true);
+          toast.success("Tag Deleted Successfully");
         }, 400);
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Something went wrong");
       })
       .finally(() => {
         setTimeout(() => {

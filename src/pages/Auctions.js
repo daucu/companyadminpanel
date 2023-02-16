@@ -39,6 +39,7 @@ import {
   Stack,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 // import Loading from "../components/Loading";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -248,7 +249,7 @@ export default function Auctions() {
   const [prodLoading, setProdLoading] = React.useState(false);
 
   async function getCategoryData() {
-    setProdLoading(true);
+    // setProdLoading(true);
     const res = await axios.get(
       `${process.env.REACT_APP_BACKEND_URL}/auctions`
     );
@@ -306,14 +307,16 @@ export default function Auctions() {
       .then((res) => {
         const removedBids = rows.filter((bid) => bid.id !== id);
         setCategories(removedBids);
-        setAlert(res.data.message);
-        setOpen(true);
+        // setAlert(res.data.message);
+        // setOpen(true);
+        toast.success(res.data.message);
         setStatus("success");
         console.log(res.data);
       })
       .catch((e) => {
-        setAlert("Error deleting bid. Check your internet connection.");
-        setOpen(true);
+        // setAlert("Error deleting bid. Check your internet connection.");
+        // setOpen(true);
+        toast.error("Error deleting bid. Check your internet connection.");
         setStatus("error");
       })
       .finally(() => {

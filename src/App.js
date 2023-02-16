@@ -1,8 +1,8 @@
 import * as React from "react";
 import "./App.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import MiniDrawer from "./components/Drawer";
 import Login from "./pages/Login";
@@ -27,7 +27,6 @@ import AddPost from "./pages/AddPost";
 import Auctions from "./pages/Auctions";
 import Points from "./pages/Points";
 import Services from "./pages/Services";
-import Offers from "./pages/Offers";
 import Companies from "./pages/Companies";
 import Commission from "./pages/Commission";
 import Classifications from "./pages/Classifications";
@@ -63,6 +62,7 @@ import AddComplaints from "./pages/AddComplaints";
 import EditContract from "./pages/EditContract";
 import EditAuctino from "./pages/EditAuctino";
 import AddBankAccount from "./pages/AddBankAccount";
+import Offer from "./pages/Offer";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -83,20 +83,20 @@ function App() {
       .then((res) => {
         setLoadingif(false);
         if (res.data.islogin === true) {
-          navigate(window.location.pathname)
+          navigate(window.location.pathname);
           if (window.location.pathname === "/") {
-            navigate("/admin")
+            navigate("/admin");
           } else {
-            navigate(window.location.pathname)
+            navigate(window.location.pathname);
           }
         } else {
-          navigate("/")
+          navigate("/");
         }
       })
       .catch((e) => {
         console.log(e);
         setLoadingif(false);
-        navigate("/")
+        navigate("/");
       });
   };
 
@@ -256,8 +256,7 @@ function App() {
               path="services"
               element={<Protected Component={Services} />}
             />
-
-            <Route path="offers" element={<Protected Component={Offers} />} />
+            <Route path="offer" element={<Protected Component={Offer} />} />
 
             <Route
               path="companies"

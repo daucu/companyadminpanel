@@ -3,10 +3,11 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
@@ -18,32 +19,35 @@ import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import TablePagination from "@mui/material/TablePagination";
 import CloseIcon from "@mui/icons-material/Close";
 import MuiAlert from "@mui/material/Alert";
 import LinearProgress from "@mui/material/LinearProgress";
-import CardMedia from "@mui/material/CardMedia";
-import RemoveRedEyeTwoToneIcon from "@mui/icons-material/RemoveRedEyeTwoTone";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import Dialog from "@mui/material/Dialog";
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import AppBar from "@mui/material/AppBar";
 import AddIcon from "@mui/icons-material/Add";
-import { Divider } from "@mui/material";
-
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
+import {
+  Alert,
+  Button,
+  CircularProgress,
+  Divider,
+  Snackbar,
+  Stack,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+// import Loading from "../components/Loading";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "left",
-  color: "#ffffff",
-  backgroundColor: "#1A2027",
+  // backgroundColor: "#1A2027",
+  // color: "#ffffff",
 }));
 
 function descendingComparator(a, b, orderBy) {
@@ -78,46 +82,34 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "image",
+    id: "Title",
     numeric: false,
     disablePadding: true,
-    label: "Image",
+    label: "Title",
   },
   {
-    id: "product",
+    id: "Value",
     numeric: false,
-    disablePadding: true,
-    label: "Product",
+    disablePadding: false,
+    label: "Value",
   },
   {
-    id: "description",
+    id: "Description",
     numeric: false,
-    disablePadding: true,
+    disablePadding: false,
     label: "Description",
   },
   {
-    id: "category",
+    id: "Currency",
     numeric: false,
-    disablePadding: true,
-    label: "Category",
+    disablePadding: false,
+    label: "Currency",
   },
   {
-    id: "amount",
+    id: "Actions",
     numeric: false,
-    disablePadding: true,
-    label: "Amount",
-  },
-  {
-    id: "user",
-    numeric: false,
-    disablePadding: true,
-    label: "User",
-  },
-  {
-    id: "published",
-    numeric: false,
-    disablePadding: true,
-    label: "Published At",
+    disablePadding: false,
+    label: "Actions",
   },
 ];
 
@@ -137,7 +129,7 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <TableCell padding="checkbox" sx={{}}>
           <Checkbox
             color="primary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -146,7 +138,7 @@ function EnhancedTableHead(props) {
             inputProps={{
               "aria-label": "select all desserts",
             }}
-            sx={{ color: "#ffffff" }}
+            sx={{}}
           />
         </TableCell>
         {headCells.map((headCell) => (
@@ -155,12 +147,13 @@ function EnhancedTableHead(props) {
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ color: "#ffffff" }}
+            sx={{}}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
+              sx={{}}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
@@ -200,6 +193,8 @@ const EnhancedTableToolbar = (props) => {
               theme.palette.action.activatedOpacity
             ),
         }),
+        // backgroundColor: "#1A2027",
+        // color: "#ffffff",
       }}
     >
       {numSelected > 0 ? (
@@ -218,30 +213,20 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Bids List
+          Bid's List
         </Typography>
-      )}
-
-      {numSelected === 1 ? (
-        <Tooltip title="Delete">
-          <IconButton onClick={window.viewPost} sx={{ color: "#fff" }}>
-            <RemoveRedEyeTwoToneIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        ""
       )}
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton onClick={window.deletePost} sx={{ color: "#fff" }}>
-            <DeleteTwoToneIcon />
+          <IconButton>
+            <DeleteIcon sx={{}} />
           </IconButton>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
-            <FilterListIcon />
+            <FilterListIcon sx={{}} />
           </IconButton>
         </Tooltip>
       )}
@@ -252,82 +237,44 @@ const EnhancedTableToolbar = (props) => {
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
-
-//Html Tooltip
-const HtmlTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: "#f5f5f9",
-    color: "rgba(0, 0, 0, 0.87)",
-    maxWidth: 220,
-    fontSize: theme.typography.pxToRem(12),
-    border: "1px solid #dadde9",
-  },
-}));
-
-export default function Bids() {
-  const [server_alert, setAlert] = useState();
-  const [status, setStatus] = useState();
-  const [rows, setBlogs] = React.useState([]);
+export default function Bid() {
+  const [rows, setCategories] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(true);
-  const [orderById, setOrderById] = React.useState("");
+  const [deleting, setDeleting] = useState("");
+
+  const navigate = useNavigate();
 
   //Get all categories
-  function getBlogsData() {
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/blogs`).then((response) => {
-      setBlogs(response.data);
-    });
+  const [prodLoading, setProdLoading] = React.useState(false);
+
+  async function getCategoryData() {
+    // setProdLoading(true);
+    const res = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/auctions`
+    );
+    console.log(res.data);
+    setProdLoading(false);
+    setCategories(res.data);
   }
 
   React.useEffect(() => {
-    getBlogsData();
+    getCategoryData();
     setLoading(false);
   }, []);
 
-  //Delete category
-  window.deletePost = () => {
-    axios
-      .delete(`${process.env.REACT_APP_BACKEND_URL}/blogs/${selected}`)
-      .then((res) => {
-        setAlert("Post successfully deleted", res);
-        setStatus("success");
-        getBlogsData();
-        setSelected([]);
-      })
-      .catch((e) => {
-        setAlert(e.response.data.message);
-        setStatus(e.response.data.status);
-      });
-    setOpen(true);
-  };
-
-  //Get by id
-  function getOrderById() {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/blogs/${selected}`)
-      .then((response) => {
-        setOrderById(response.data);
-      });
-  }
-
-  window.viewPost = () => {
-    getOrderById();
-    handleClickOpenDialog();
-  };
-
-  // function createData(name, description, fat, carbs, published) {
-  //   return { name, description, fat, carbs, published };
-  // }
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("description");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense] = React.useState(true);
   const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
-  const handleRequestSort = (property) => {
+  const [erroralert, setErroralert] = React.useState(false);
+  const [errorOpen, setErrorOpen] = React.useState(false);
+  const [server_alert, setAlert] = React.useState();
+  const [status, setStatus] = React.useState();
+
+  const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -335,31 +282,11 @@ export default function Bids() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.id);
+      const newSelecteds = rows.map((n) => n._id);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -371,7 +298,31 @@ export default function Bids() {
     setPage(0);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (_id) => selected.indexOf(_id) !== -1;
+
+  const handleDelete = (id) => {
+    setDeleting(id);
+    axios
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/auctions/${id}`)
+      .then((res) => {
+        const removedBids = rows.filter((bid) => bid.id !== id);
+        setCategories(removedBids);
+        // setAlert(res.data.message);
+        // setOpen(true);
+        toast.success(res.data.message);
+        setStatus("success");
+        console.log(res.data);
+      })
+      .catch((e) => {
+        // setAlert("Error deleting bid. Check your internet connection.");
+        // setOpen(true);
+        toast.error("Error deleting bid. Check your internet connection.");
+        setStatus("error");
+      })
+      .finally(() => {
+        setDeleting("");
+      });
+  };
 
   const handleClose = (reason) => {
     if (reason === "clickaway") {
@@ -393,61 +344,6 @@ export default function Bids() {
     </React.Fragment>
   );
 
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-
-  // Dialog box
-  const [openDialog, setOpenDialog] = React.useState(false);
-
-  const handleClickOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleClickCloseDialog = () => {
-    setOpenDialog(false);
-  };
-
-  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    "& .MuiDialogContent-root": {
-      padding: theme.spacing(2),
-    },
-    "& .MuiDialogActions-root": {
-      padding: theme.spacing(1),
-    },
-  }));
-
-  const BootstrapDialogTitle = (props) => {
-    const { children, onClose, ...other } = props;
-
-    return (
-      <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-        {children}
-        {onClose ? (
-          <IconButton
-            aria-label="close"
-            onClick={onClose}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </DialogTitle>
-    );
-  };
-
-  BootstrapDialogTitle.propTypes = {
-    children: PropTypes.node,
-    onClose: PropTypes.func.isRequired,
-  };
-
-  const navigate = useNavigate();
-
   return (
     <Box sx={{ flexGrow: 1, marginTop: 3 }}>
       <AppBar position="static">
@@ -457,9 +353,8 @@ export default function Bids() {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={() => navigate("/add-post")}
+            onClick={() => navigate("/admin/addbids")}
           >
-            {/* <CloseIcon /> */}
             <AddIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
@@ -469,58 +364,23 @@ export default function Bids() {
         </Toolbar>
       </AppBar>
 
-      {/* Dialog for View Blogs */}
-      <div>
-        <BootstrapDialog
-          aria-labelledby="customized-dialog-title"
-          open={openDialog}
-        >
-          <BootstrapDialogTitle
-            id="customized-dialog-title"
-            onClose={handleClickCloseDialog}
-          >
-            #{orderById.id} - {orderById.publisher}
-          </BootstrapDialogTitle>
-          <DialogContent dividers>
-            {/* Produv=cts Information */}
-            <Typography variant="h6">{orderById.product}</Typography>
-            <Typography variant="body2">{orderById.description}</Typography>
-
-            <Typography variant="body2" sx={{ marginTop: 2 }}>
-              <b>Category</b> - {orderById.category}
-            </Typography>
-
-            <Typography variant="body2">
-              <b>Published At</b> - {orderById.created_at}
-            </Typography>
-
-            <Typography variant="body2">
-              <b>Updated At</b> - {orderById.updated_at}
-            </Typography>
-          </DialogContent>
-          <DialogActions>
-            <Typography sx={{ flexGrow: 1 }} />
-            <Button
-              size="small"
-              variant="contained"
-              sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                boxShadow: 0,
-                background: "#333333",
-              }}
-            >
-              Save changes
-            </Button>
-          </DialogActions>
-        </BootstrapDialog>
-      </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        resumeHideDuration={3000}
+        action={action}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity={status} sx={{ width: "100%" }}>
+          {server_alert}
+        </Alert>
+      </Snackbar>
 
       <Grid container spacing={1}>
-        {/* Start Table of Post */}
-        <Grid item xs={12} sx={{}}>
-          <Paper sx={{ boxShadow: 0, borderRadius: 0, background: "#1A2027" }}>
-            {loading ? (
+        <Grid item xs>
+          <Paper sx={{ boxShadow: 0, borderRadius: 1 }}>
+            {prodLoading === true ? (
               <Grid
                 container
                 spacing={2}
@@ -547,16 +407,14 @@ export default function Bids() {
                     boxShadow: 0,
                     borderRadius: 1,
                     zIndex: 1,
-                    background: "#1A2027",
-                    color: "#ffffff",
                   }}
                 >
                   <EnhancedTableToolbar numSelected={selected.length} />
-                  <TableContainer>
+                  <TableContainer sx={{}}>
                     <Table
                       sx={{ minWidth: 750 }}
                       aria-labelledby="tableTitle"
-                      size={dense ? "small" : "medium"}
+                      size="small"
                     >
                       <EnhancedTableHead
                         numSelected={selected.length}
@@ -567,6 +425,8 @@ export default function Bids() {
                         rowCount={rows.length}
                       />
                       <TableBody>
+                        {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+                 rows.slice().sort(getComparator(order, orderBy)) */}
                         {stableSort(rows, getComparator(order, orderBy))
                           .slice(
                             page * rowsPerPage,
@@ -575,17 +435,17 @@ export default function Bids() {
                           .slice()
                           .reverse()
                           .map((row, index) => {
-                            const isItemSelected = isSelected(row._d);
+                            const isItemSelected = isSelected(row._id);
                             const labelId = `enhanced-table-checkbox-${index}`;
 
                             return (
                               <TableRow
                                 hover
-                                onClick={(event) => handleClick(event, row.id)}
+                                // onClick={(event) => handleClick(event, row._id)}
                                 role="checkbox"
                                 aria-checked={isItemSelected}
                                 tabIndex={-1}
-                                key={row._id}
+                                key={row.id}
                                 selected={isItemSelected}
                               >
                                 <TableCell padding="checkbox">
@@ -595,43 +455,8 @@ export default function Bids() {
                                     inputProps={{
                                       "aria-labelledby": labelId,
                                     }}
-                                    sx={{ color: "#ffffff" }}
+                                    sx={{}}
                                   />
-                                </TableCell>
-
-                                <TableCell
-                                  component="th"
-                                  id={labelId}
-                                  scope="row"
-                                  padding="none"
-                                >
-                                  <HtmlTooltip
-                                    placement="right"
-                                    title={
-                                      <React.Fragment>
-                                        <CardMedia
-                                          component="img"
-                                          height="140"
-                                          image={row.image}
-                                          alt="green iguana"
-                                        />
-                                      </React.Fragment>
-                                    }
-                                  >
-                                    <Typography
-                                      size="small"
-                                      sx={{
-                                        overflow: "hidden",
-                                        whiteSpace: "nowrap",
-                                        maxWidth: "20ch",
-                                        textOverflow: "ellipsis",
-                                        cursor: "pointer",
-                                        color: "#ffffff",
-                                      }}
-                                    >
-                                      {row.image}
-                                    </Typography>
-                                  </HtmlTooltip>
                                 </TableCell>
 
                                 <TableCell
@@ -646,7 +471,7 @@ export default function Bids() {
                                       whiteSpace: "nowrap",
                                       maxWidth: "20ch",
                                       textOverflow: "ellipsis",
-                                      color: "#ffffff",
+                                      // color: "#ffffff",
                                     }}
                                   >
                                     {row.title}
@@ -660,7 +485,20 @@ export default function Bids() {
                                       whiteSpace: "nowrap",
                                       maxWidth: "50ch",
                                       textOverflow: "ellipsis",
-                                      color: "#ffffff",
+                                      // color: "#ffffff",
+                                    }}
+                                  >
+                                    {row.value}
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="left">
+                                  <Typography
+                                    sx={{
+                                      overflow: "hidden",
+                                      whiteSpace: "nowrap",
+                                      maxWidth: "50ch",
+                                      textOverflow: "ellipsis",
+                                      // color: "#ffffff",
                                     }}
                                   >
                                     {row.description}
@@ -672,66 +510,48 @@ export default function Bids() {
                                     sx={{
                                       overflow: "hidden",
                                       whiteSpace: "nowrap",
-                                      maxWidth: "40ch",
-                                      textOverflow: "ellipsis",
-                                      color: "#ffffff",
-                                      textTransform: "capitalize",
-                                    }}
-                                  >
-                                    {row.category}
-                                  </Typography>
-                                </TableCell>
-
-                                <TableCell
-                                  component="th"
-                                  id={labelId}
-                                  scope="row"
-                                  padding="none"
-                                >
-                                  <Typography
-                                    sx={{
-                                      overflow: "hidden",
-                                      whiteSpace: "nowrap",
                                       maxWidth: "20ch",
                                       textOverflow: "ellipsis",
-                                      color: "#ffffff",
+                                      // color: "#ffffff",
                                     }}
                                   >
-                                    $ 13.00 - $ 15.00
+                                    {row.currency}
                                   </Typography>
                                 </TableCell>
-
-                                <TableCell
-                                  component="th"
-                                  id={labelId}
-                                  scope="row"
-                                  padding="none"
-                                >
-                                  <Typography
-                                    sx={{
-                                      overflow: "hidden",
-                                      whiteSpace: "nowrap",
-                                      maxWidth: "20ch",
-                                      textOverflow: "ellipsis",
-                                      color: "#ffffff",
-                                    }}
-                                  >
-                                    Harsh Singh
-                                  </Typography>
-                                </TableCell>
-
                                 <TableCell align="left">
-                                  <Typography
+                                  <Stack
+                                    direction={"row"}
                                     sx={{
-                                      overflow: "hidden",
-                                      whiteSpace: "nowrap",
-                                      maxWidth: "20ch",
-                                      textOverflow: "ellipsis",
-                                      color: "#ffffff",
+                                      columnGap: "10px",
+                                      alignItems: "center",
                                     }}
                                   >
-                                    {row.created_at.slice(0, 10)}
-                                  </Typography>
+                                    <IconButton
+                                      aria-label="edit"
+                                      size="small"
+                                      onClick={() =>
+                                        navigate(
+                                          `/admin/editauctinos/${row.id}`
+                                        )
+                                      }
+                                    >
+                                      <ModeEditOutlineTwoToneIcon size={22} />
+                                    </IconButton>
+
+                                    {deleting === row.id ? (
+                                      <CircularProgress size={22} />
+                                    ) : (
+                                      <>
+                                        <IconButton
+                                          aria-label="delete"
+                                          size="small"
+                                          onClick={() => handleDelete(row.id)}
+                                        >
+                                          <DeleteIcon size={22} />
+                                        </IconButton>
+                                      </>
+                                    )}
+                                  </Stack>
                                 </TableCell>
                               </TableRow>
                             );
@@ -747,7 +567,7 @@ export default function Bids() {
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                    sx={{ color: "#ffffff" }}
+                    sx={{}}
                   />
                 </Paper>
               </Item>

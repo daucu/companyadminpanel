@@ -5,7 +5,7 @@ import AccountBalanceTwoToneIcon from "@mui/icons-material/AccountBalanceTwoTone
 import ShowChartTwoToneIcon from "@mui/icons-material/ShowChartTwoTone";
 import PhonelinkSetupTwoToneIcon from "@mui/icons-material/PhonelinkSetupTwoTone";
 import AddCardTwoToneIcon from "@mui/icons-material/AddCardTwoTone";
-
+import PriceChangeIcon from '@mui/icons-material/PriceChange';
 import {
   AccountCircleOutlined,
   ContactPhoneOutlined,
@@ -74,6 +74,11 @@ const menu_items = [
     name: "Auction",
     icon: <GavelOutlined />,
     url: "/admin/auctions",
+  },
+  {
+    name: "Bid",
+    icon: <PriceChangeIcon />,
+    url: "/admin/bids",
   },
   {
     name: "Report",

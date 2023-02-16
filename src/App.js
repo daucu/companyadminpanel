@@ -17,7 +17,6 @@ import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Support from "./pages/Support";
 import Posts from "./pages/Posts";
-import Bids from "./pages/Bids";
 import Info from "./pages/Info";
 import Account from "./pages/Account";
 import Notifications from "./pages/Notifications";
@@ -63,6 +62,8 @@ import EditContract from "./pages/EditContract";
 import EditAuctino from "./pages/EditAuctino";
 import AddBankAccount from "./pages/AddBankAccount";
 import Offer from "./pages/Offer";
+import Bid from "./pages/Bid";
+import AddBid from "./pages/AddBid";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -238,7 +239,8 @@ function App() {
 
             <Route path="invoice" element={<Protected Component={Invoice} />} />
 
-            <Route path="bids" element={<Protected Component={Bids} />} />
+            <Route path="bids" element={<Protected Component={Bid} />} />
+            <Route path="addbids" element={<Protected Component={AddBid} />} />
 
             <Route path="info" element={<Protected Component={Info} />} />
             <Route

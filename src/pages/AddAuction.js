@@ -1,5 +1,3 @@
-
-
 import {
   AppBar,
   Autocomplete,
@@ -13,10 +11,9 @@ import {
 import axios from "axios";
 import React, { useState } from "react";
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 function AddAuction() {
-
   const [value, setValue] = useState("");
   const [items, setItems] = useState([]);
   const [currency, setCurrency] = useState([]);
@@ -105,8 +102,14 @@ function AddAuction() {
       });
   }
 
-  const currency_array = [{ label: "USD", value: "usd" }, { label: "SAR", value: "sar" }];
-  const type_array = [{ label: "English", value: "en" }, { label: "Dutch", value: "du" }];
+  const currency_array = [
+    { label: "USD", value: "usd" },
+    { label: "SAR", value: "sar" },
+  ];
+  const type_array = [
+    { label: "English", value: "en" },
+    { label: "Dutch", value: "du" },
+  ];
   const contract_array = [{ label: "No Contract Found" }];
   const quick_start_array = [
     {
@@ -211,10 +214,12 @@ function AddAuction() {
         </Toolbar>
       </AppBar>
       <form>
-        <Stack spacing={3} sx={{
-          marginTop: "10px",
-        }}>
-
+        <Stack
+          spacing={3}
+          sx={{
+            marginTop: "10px",
+          }}
+        >
           <TextField
             id="outlined-basic"
             label="Title"
@@ -264,7 +269,7 @@ function AddAuction() {
               getOptionLabel={(e) => e.label}
               sx={{ width: 300 }}
               onChange={(e, value) => {
-                setCurrency(value.value)
+                setCurrency(value.value);
               }}
               style={{
                 width: "100%",
@@ -295,15 +300,13 @@ function AddAuction() {
               options={type_array}
               sx={{ width: 300 }}
               onChange={(e) => {
-                setType(e.target.value)
+                setType(e.target.value);
               }}
               style={{
                 width: "100%",
                 marginBottom: "10px",
               }}
-              renderInput={(params) => (
-                <TextField {...params} label="Type" />
-              )}
+              renderInput={(params) => <TextField {...params} label="Type" />}
             />
           </Stack>
 
@@ -315,7 +318,7 @@ function AddAuction() {
               getOptionLabel={(e) => e.label}
               sx={{ width: 300 }}
               onChange={(e, value) => {
-                setStart_date(value.value)
+                setStart_date(value.value);
               }}
               style={{
                 width: "100%",
@@ -379,7 +382,7 @@ function AddAuction() {
           </Select> */}
 
           {/* dropdown menu */}
-          <Autocomplete
+          {/* <Autocomplete
             sx={{
               width: "100%",
             }}
@@ -404,10 +407,31 @@ function AddAuction() {
                 value={items}
               />
             )}
+          /> */}
+
+          {/* code to map products into autocomplete and set into state */}
+          <Autocomplete
+            multiple
+            id="tags-standard"
+            options={products}
+            getOptionLabel={(option) => option.name}
+            onChange={(e, value) => {
+              setItems(value.map((item) => item.id));
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="standard"
+                label="Items"
+                placeholder="Items"
+                value={items}
+                name={items}
+              />
+            )}
           />
         </Stack>
       </form>
-    </div >
+    </div>
   );
 }
 

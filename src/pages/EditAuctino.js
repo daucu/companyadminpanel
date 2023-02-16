@@ -64,7 +64,7 @@ function EditAuctino() {
         setCurrency(res.data.currency);
         setMinimal_step(res.data.minimal_step);
         setDescription(res.data.description);
-        setToken(res.data.tkn);
+        setToken(localStorage.getItem("token"));
         setType(res.data.type);
         setContract(res.data.contract);
         setCreatedBy(res.data.createdBy);
@@ -115,7 +115,7 @@ function EditAuctino() {
       createdBy: createdBy,
       type: type,
     };
-    
+
     axios
       .put(`${process.env.REACT_APP_BACKEND_URL}/auctions/${id}`, data, {
         headers: {

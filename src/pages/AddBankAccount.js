@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import MuiAlert from "@mui/material/Alert";
+import { toast } from "react-toastify";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -65,13 +66,15 @@ function AddBankAccount() {
       .then((res) => {
         console.log(res);
         setBtnLoading(false);
-        setSuccessLoading(true);
-        handleClick();
+        // setSuccessLoading(true);
+        // handleClick();
+        toast.success("Bank Account Added Successfully");
         console.log(res.data);
       })
       .catch((e) => {
         setBtnLoading(false);
         console.log(e);
+        toast.error("Error in Adding Bank Account");
       });
   };
 

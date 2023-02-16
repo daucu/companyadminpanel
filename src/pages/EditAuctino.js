@@ -16,6 +16,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import MuiAlert from "@mui/material/Alert";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -125,12 +126,14 @@ function EditAuctino() {
       .then((res) => {
         console.log(res);
         setBtnLoading(false);
-        setSuccessLoading(true);
-        handleClick();
+        // setSuccessLoading(true);
+        // handleClick();
+        toast.success("Auction Updated Successfully");
         console.log(res.data);
       })
       .catch((e) => {
         setBtnLoading(false);
+        toast.error("Error in  Updating Auction");
         console.log(e);
       });
   };

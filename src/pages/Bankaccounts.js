@@ -38,6 +38,7 @@ import {
   Stack,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 // import Loading from "../components/Loading";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -321,13 +322,15 @@ export default function Bankaccounts() {
       .delete(`${process.env.REACT_APP_BACKEND_URL}/account/${id}`)
       .then((res) => {
         console.log(res.data);
-        handleDeleteOpen();
+        // handleDeleteOpen();
+        toast.success("Bank Account Deleted Successfully");
         setTimeout(() => {
           getAllBankAccount();
         }, [1000]);
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Error in Deleting Bank Account");
       });
   };
 

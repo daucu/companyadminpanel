@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -80,35 +80,35 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "Title",
+    id: "bankName",
     numeric: false,
     disablePadding: true,
-    label: "Title",
+    label: "Bank Name",
   },
   {
-    id: "Value",
+    id: "ifsc",
     numeric: false,
     disablePadding: false,
-    label: "Value",
+    label: "IFSC Code",
   },
   {
-    id: "Description",
+    id: "address",
     numeric: false,
     disablePadding: false,
-    label: "Description",
+    label: "Address",
   },
   {
-    id: "Currency",
+    id: "delete",
     numeric: false,
     disablePadding: false,
-    label: "Currency",
+    label: "Delete",
   },
-  {
-    id: "Actions",
-    numeric: false,
-    disablePadding: false,
-    label: "Actions",
-  },
+  // {
+  //   id: "Actions",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label: "Actions",
+  // },
 ];
 
 function EnhancedTableHead(props) {
@@ -294,25 +294,40 @@ export default function Bankaccounts() {
 
   const isSelected = (_id) => selected.indexOf(_id) !== -1;
 
-  const handleDelete = (id) => {
-    setDeleting(id);
-    axios
-      .delete(`${process.env.REACT_APP_BACKEND_URL}/auctions/${id}`)
+  // code to get all bank accounts
+  const [prodLoading, setProdLoading] = React.useState(false);
+
+  const [allBankAccount, setAllBankAccount] = useState([]);
+  const getAllBankAccount = async () => {
+    setProdLoading(true);
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/account`)
       .then((res) => {
-        const removedBids = rows.filter((bid) => bid.id !== id);
-        setCategories(removedBids);
-        setAlert(res.data.message);
-        setOpen(true);
-        setStatus("success");
         console.log(res.data);
+        setProdLoading(false);
+        setAllBankAccount(res.data);
       })
-      .catch((e) => {
-        setAlert("Error deleting bid. Check your internet connection.");
-        setOpen(true);
-        setStatus("error");
+      .catch((err) => {
+        console.log(err);
+        setProdLoading(false);
+      });
+  };
+  useEffect(() => {
+    getAllBankAccount();
+  }, []);
+
+  const deleteBankAccount = async (id) => {
+    axios
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/account/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        handleDeleteOpen();
+        setTimeout(() => {
+          getAllBankAccount();
+        }, [1000]);
       })
-      .finally(() => {
-        setDeleting("");
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -321,6 +336,17 @@ export default function Bankaccounts() {
       return;
     }
     setOpen(false);
+  };
+
+  const handleDeleteOpen = () => {
+    setErrorOpen(true);
+  };
+
+  const handleDeleteClose = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setErrorOpen(false);
   };
 
   const action = (
@@ -376,7 +402,7 @@ export default function Bankaccounts() {
         {/* Start Table of Post */}
         <Grid item xs>
           <Paper sx={{ boxShadow: 0, borderRadius: 1 }}>
-            {loading ? (
+            {prodLoading === true ? (
               <Grid
                 container
                 spacing={2}
@@ -401,161 +427,114 @@ export default function Bankaccounts() {
                     width: "100%",
                     mb: 2,
                     boxShadow: 0,
-                    borderRadius: 1,
-                    zIndex: 1,
+                    overflow: "scroll",
                   }}
                 >
-                  <EnhancedTableToolbar numSelected={selected.length} />
-                  <TableContainer sx={{}}>
+                  <EnhancedTableToolbar />
+                  <TableContainer>
                     <Table
                       sx={{ minWidth: 750 }}
                       aria-labelledby="tableTitle"
                       size="small"
                     >
-                      <EnhancedTableHead
-                        numSelected={selected.length}
-                        order={order}
-                        orderBy={orderBy}
-                        onSelectAllClick={handleSelectAllClick}
-                        onRequestSort={handleRequestSort}
-                        rowCount={rows.length}
-                      />
+                      <EnhancedTableHead />
                       <TableBody>
-                        {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
-                        {stableSort(rows, getComparator(order, orderBy))
-                          .slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                          )
-                          .slice()
-                          .reverse()
-                          .map((row, index) => {
-                            const isItemSelected = isSelected(row._id);
-                            const labelId = `enhanced-table-checkbox-${index}`;
-
+                        {allBankAccount &&
+                          allBankAccount.map((item) => {
                             return (
-                              <TableRow
-                                hover
-                                // onClick={(event) => handleClick(event, row._id)}
-                                role="checkbox"
-                                aria-checked={isItemSelected}
-                                tabIndex={-1}
-                                key={row.id}
-                                selected={isItemSelected}
-                              >
-                                <TableCell padding="checkbox">
-                                  <Checkbox
-                                    color="primary"
-                                    checked={isItemSelected}
-                                    inputProps={{
-                                      "aria-labelledby": labelId,
-                                    }}
-                                    sx={{}}
-                                  />
-                                </TableCell>
-
-                                <TableCell
-                                  component="th"
-                                  id={labelId}
-                                  scope="row"
-                                  padding="none"
+                              <>
+                                <TableRow
+                                  hover
+                                  role="checkbox"
+                                  tabIndex={-1}
+                                  sx={{ color: "#fff" }}
                                 >
-                                  <Typography
+                                  <TableCell padding="checkbox">
+                                    <Checkbox color="primary" />
+                                  </TableCell>
+
+                                  <TableCell scope="row" padding="none">
+                                    <Typography
+                                      size="small"
+                                      sx={{
+                                        overflow: "hidden",
+                                        whiteSpace: "nowrap",
+                                        maxWidth: "20ch",
+                                        textOverflow: "ellipsis",
+                                        cursor: "pointer",
+                                      }}
+                                    >
+                                      {item.bank_name}
+                                    </Typography>
+                                  </TableCell>
+
+                                  <TableCell
+                                    component="th"
+                                    scope="row"
+                                    padding="none"
                                     sx={{
                                       overflow: "hidden",
                                       whiteSpace: "nowrap",
                                       maxWidth: "20ch",
+                                      minWidth: "15ch",
                                       textOverflow: "ellipsis",
-                                      // color: "#ffffff",
                                     }}
                                   >
-                                    {row.title}
-                                  </Typography>
-                                </TableCell>
-
-                                <TableCell align="left">
-                                  <Typography
-                                    sx={{
-                                      overflow: "hidden",
-                                      whiteSpace: "nowrap",
-                                      maxWidth: "50ch",
-                                      textOverflow: "ellipsis",
-                                      // color: "#ffffff",
-                                    }}
-                                  >
-                                    {row.value}
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="left">
-                                  <Typography
-                                    sx={{
-                                      overflow: "hidden",
-                                      whiteSpace: "nowrap",
-                                      maxWidth: "50ch",
-                                      textOverflow: "ellipsis",
-                                      // color: "#ffffff",
-                                    }}
-                                  >
-                                    {row.description}
-                                  </Typography>
-                                </TableCell>
-
-                                <TableCell align="left">
-                                  <Typography
-                                    sx={{
-                                      overflow: "hidden",
-                                      whiteSpace: "nowrap",
-                                      maxWidth: "20ch",
-                                      textOverflow: "ellipsis",
-                                      // color: "#ffffff",
-                                    }}
-                                  >
-                                    {row.currency}
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="left">
-                                  <Stack
-                                    direction={"row"}
-                                    sx={{
-                                      columnGap: "10px",
+                                    {item.ifsc_code}
+                                  </TableCell>
+                                  <TableCell align="left" sx={{}}>
+                                    {item.address}
+                                  </TableCell>
+                                  <TableCell
+                                    align="left"
+                                    sx={{}}
+                                    style={{
+                                      display: "flex",
                                       alignItems: "center",
                                     }}
                                   >
-                                    <ModeEditOutlineOutlinedIcon
-                                      onClick={() =>
-                                        navigate(
-                                          `/admin/editauctinos/${row.id}`
-                                        )
-                                      }
-                                      size={22}
-                                    />
-                                    {deleting === row.id ? (
-                                      <CircularProgress size={22} />
-                                    ) : (
-                                      <DeleteOutlineOutlinedIcon
-                                        onClick={() => handleDelete(row.id)}
-                                        size={22}
-                                      />
-                                    )}
-                                  </Stack>
-                                </TableCell>
-                              </TableRow>
+                                    <IconButton
+                                      aria-label="delete"
+                                      size="small"
+                                      onClick={() => deleteBankAccount(item.id)}
+                                    >
+                                      <DeleteIcon />
+                                    </IconButton>
+                                  </TableCell>
+                                </TableRow>
+                              </>
                             );
                           })}
                       </TableBody>
                     </Table>
                   </TableContainer>
                   <TablePagination
-                    rowsPerPageOptions={[15, 30, 40]}
+                    rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    sx={{}}
+                    count={100}
+                    rowsPerPage={5}
+                    page={0}
+                    onPageChange={() => {}}
                   />
+                  {errorOpen === true ? (
+                    <Snackbar
+                      open={handleDeleteOpen}
+                      autoHideDuration={1000}
+                      position="bottom-right"
+                      variant="filled"
+                      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                      onClose={handleDeleteClose}
+                    >
+                      <Alert
+                        onClose={handleDeleteClose}
+                        severity="success"
+                        variant="filled"
+                        sx={{ width: "100%" }}
+                      >
+                        Bank Account Deleted Successfully
+                      </Alert>
+                    </Snackbar>
+                  ) : null}
                 </Paper>
               </Item>
             )}

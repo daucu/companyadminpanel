@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -82,34 +82,40 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: "Title",
+    id: "createdBy",
     numeric: false,
     disablePadding: true,
-    label: "Title",
+    label: "Created By",
   },
   {
-    id: "Value",
-    numeric: false,
-    disablePadding: false,
-    label: "Value",
-  },
-  {
-    id: "Description",
-    numeric: false,
-    disablePadding: false,
-    label: "Description",
-  },
-  {
-    id: "Currency",
+    id: "currency",
     numeric: false,
     disablePadding: false,
     label: "Currency",
   },
   {
-    id: "Actions",
+    id: "amount",
     numeric: false,
     disablePadding: false,
-    label: "Actions",
+    label: "Amount",
+  },
+  {
+    id: "description",
+    numeric: false,
+    disablePadding: false,
+    label: "Description",
+  },
+  {
+    id: "createdAt",
+    numeric: false,
+    disablePadding: false,
+    label: "Created At",
+  },
+  {
+    id: "action",
+    numeric: false,
+    disablePadding: false,
+    label: "Action",
   },
 ];
 
@@ -344,6 +350,23 @@ export default function Bid() {
     </React.Fragment>
   );
 
+  // code to get
+  const [getBid, setGetBid] = useState([]);
+  const fetchBids = async () => {
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/bids`)
+      .then((res) => {
+        console.log(res.data);
+        setGetBid(res.data);
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  };
+  useEffect(() => {
+    fetchBids();
+  }, []);
+
   return (
     <Box sx={{ flexGrow: 1, marginTop: 3 }}>
       <AppBar position="static">
@@ -405,169 +428,103 @@ export default function Bid() {
                     width: "100%",
                     mb: 2,
                     boxShadow: 0,
-                    borderRadius: 1,
-                    zIndex: 1,
+                    overflow: "scroll",
                   }}
                 >
-                  <EnhancedTableToolbar numSelected={selected.length} />
-                  <TableContainer sx={{}}>
+                  <EnhancedTableToolbar />
+                  <TableContainer>
                     <Table
                       sx={{ minWidth: 750 }}
                       aria-labelledby="tableTitle"
                       size="small"
                     >
-                      <EnhancedTableHead
-                        numSelected={selected.length}
-                        order={order}
-                        orderBy={orderBy}
-                        onSelectAllClick={handleSelectAllClick}
-                        onRequestSort={handleRequestSort}
-                        rowCount={rows.length}
-                      />
+                      <EnhancedTableHead />
                       <TableBody>
-                        {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-                 rows.slice().sort(getComparator(order, orderBy)) */}
-                        {stableSort(rows, getComparator(order, orderBy))
-                          .slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                          )
-                          .slice()
-                          .reverse()
-                          .map((row, index) => {
-                            const isItemSelected = isSelected(row._id);
-                            const labelId = `enhanced-table-checkbox-${index}`;
-
+                        {getBid &&
+                          getBid.map((item) => {
                             return (
-                              <TableRow
-                                hover
-                                // onClick={(event) => handleClick(event, row._id)}
-                                role="checkbox"
-                                aria-checked={isItemSelected}
-                                tabIndex={-1}
-                                key={row.id}
-                                selected={isItemSelected}
-                              >
-                                <TableCell padding="checkbox">
-                                  <Checkbox
-                                    color="primary"
-                                    checked={isItemSelected}
-                                    inputProps={{
-                                      "aria-labelledby": labelId,
-                                    }}
-                                    sx={{}}
-                                  />
-                                </TableCell>
-
-                                <TableCell
-                                  component="th"
-                                  id={labelId}
-                                  scope="row"
-                                  padding="none"
+                              <>
+                                {" "}
+                                <TableRow
+                                  hover
+                                  role="checkbox"
+                                  tabIndex={-1}
+                                  sx={{ color: "#fff" }}
                                 >
-                                  <Typography
-                                    sx={{
-                                      overflow: "hidden",
-                                      whiteSpace: "nowrap",
-                                      maxWidth: "20ch",
-                                      textOverflow: "ellipsis",
-                                      // color: "#ffffff",
-                                    }}
-                                  >
-                                    {row.title}
-                                  </Typography>
-                                </TableCell>
+                                  <TableCell padding="checkbox">
+                                    <Checkbox color="primary" />
+                                  </TableCell>
 
-                                <TableCell align="left">
-                                  <Typography
-                                    sx={{
-                                      overflow: "hidden",
-                                      whiteSpace: "nowrap",
-                                      maxWidth: "50ch",
-                                      textOverflow: "ellipsis",
-                                      // color: "#ffffff",
-                                    }}
-                                  >
-                                    {row.value}
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="left">
-                                  <Typography
-                                    sx={{
-                                      overflow: "hidden",
-                                      whiteSpace: "nowrap",
-                                      maxWidth: "50ch",
-                                      textOverflow: "ellipsis",
-                                      // color: "#ffffff",
-                                    }}
-                                  >
-                                    {row.description}
-                                  </Typography>
-                                </TableCell>
+                                  <TableCell scope="row" padding="none">
+                                    <Typography
+                                      size="small"
+                                      sx={{
+                                        overflow: "hidden",
+                                        whiteSpace: "nowrap",
+                                        maxWidth: "20ch",
+                                        textOverflow: "ellipsis",
+                                        cursor: "pointer",
+                                      }}
+                                    >
+                                      {item.createdBy}
+                                    </Typography>
+                                  </TableCell>
 
-                                <TableCell align="left">
-                                  <Typography
-                                    sx={{
-                                      overflow: "hidden",
-                                      whiteSpace: "nowrap",
-                                      maxWidth: "20ch",
-                                      textOverflow: "ellipsis",
-                                      // color: "#ffffff",
-                                    }}
-                                  >
-                                    {row.currency}
-                                  </Typography>
-                                </TableCell>
-                                <TableCell align="left">
-                                  <Stack
-                                    direction={"row"}
-                                    sx={{
-                                      columnGap: "10px",
+                                  <TableCell align="left" sx={{}}>
+                                    {item.currency}
+                                  </TableCell>
+                                  <TableCell align="left" sx={{}}>
+                                    {item.amount}
+                                  </TableCell>
+                                  <TableCell align="left" sx={{}}>
+                                    {item.description}
+                                  </TableCell>
+                                  <TableCell align="left" sx={{}}>
+                                    {item.createdAt}
+                                  </TableCell>
+                                  <TableCell
+                                    align="left"
+                                    sx={{}}
+                                    style={{
+                                      display: "flex",
                                       alignItems: "center",
                                     }}
                                   >
                                     <IconButton
                                       aria-label="edit"
                                       size="small"
-                                      onClick={() =>
+                                      onClick={() => {
                                         navigate(
-                                          `/admin/editauctinos/${row.id}`
-                                        )
-                                      }
+                                          `/admin/editcontract/${item.id}`
+                                        );
+                                      }}
                                     >
-                                      <ModeEditOutlineTwoToneIcon size={22} />
+                                      {/* <EditTwoToneIcon /> */}
                                     </IconButton>
-
-                                    {deleting === row.id ? (
-                                      <CircularProgress size={22} />
-                                    ) : (
-                                      <>
-                                        <IconButton
-                                          aria-label="delete"
-                                          size="small"
-                                          onClick={() => handleDelete(row.id)}
-                                        >
-                                          <DeleteIcon size={22} />
-                                        </IconButton>
-                                      </>
-                                    )}
-                                  </Stack>
-                                </TableCell>
-                              </TableRow>
+                                    <IconButton
+                                      aria-label="delete"
+                                      size="small"
+                                      onClick={() => {
+                                        // deleteContract(item.id);
+                                      }}
+                                    >
+                                      <DeleteIcon />
+                                    </IconButton>
+                                  </TableCell>
+                                </TableRow>
+                              </>
                             );
                           })}
                       </TableBody>
                     </Table>
                   </TableContainer>
                   <TablePagination
-                    rowsPerPageOptions={[15, 30, 40]}
+                    rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    sx={{}}
+                    count={100}
+                    rowsPerPage={5}
+                    page={0}
+                    onPageChange={() => {}}
                   />
                 </Paper>
               </Item>

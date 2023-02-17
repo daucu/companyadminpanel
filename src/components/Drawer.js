@@ -133,9 +133,13 @@ export default function MiniDrawer() {
   //  code to remove cookie
   const handleLogout = async () => {
     await axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}/login/logout`, {
-        withCredentials: true,
-      })
+      .post(
+        `${process.env.REACT_APP_BACKEND_URL}/login/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         console.log(res);
         localStorage.removeItem("token");

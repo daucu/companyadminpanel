@@ -130,12 +130,22 @@ export default function MiniDrawer() {
   };
 
   const navigate = useNavigate();
+  //  code to remove cookie
   const handleLogout = async () => {
-    localStorage.clear();
-    setTimeout(() => {
-      navigate("/");
-    }, [1000]);
-    toast.success("Logged out successfully");
+    await axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/login/logout`)
+      .then((res) => {
+        console.log(res);
+        localStorage.removeItem("token");
+        toast.success("Logout Successfully");
+        setTimeout(() => {
+          navigate("/");
+        }, [1000]);
+      })
+      .catch((e) => {
+        console.log(e);
+        toast.error("Something went wrong");
+      });
   };
   // code to check login
   const [loadinggif, setLoadinggif] = useState(false);

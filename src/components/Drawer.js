@@ -37,6 +37,7 @@ import menu_items from "./menu_items";
 import axios from "axios";
 import { useState } from "react";
 import { Button } from "@mui/material";
+import { toast } from "react-toastify";
 
 const drawerWidth = 250;
 
@@ -112,24 +113,9 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     padding: "0 4px",
   },
 }));
-// code to remove token from cookies and redirect to login page on logout
-const handleLogout = async () => {
-  await axios
-    .post(`${process.env.REACT_APP_BACKEND_URL}/login/logout`, {
-      withCredentials: true,
-    })
-    .then((res) => {
-      if (res.data.status === "success") {
-        window.location.href = "/login";
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+// code to clear token from loacl storage and redirect to login page
 
 export default function MiniDrawer() {
-
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const location = useLocation();
@@ -144,6 +130,13 @@ export default function MiniDrawer() {
   };
 
   const navigate = useNavigate();
+  const handleLogout = async () => {
+    localStorage.clear();
+    setTimeout(() => {
+      navigate("/");
+    }, [1000]);
+    toast.success("Logged out successfully");
+  };
   // code to check login
   const [loadinggif, setLoadinggif] = useState(false);
   const [userLoginValue, setUserLoginValue] = useState(false);
@@ -210,7 +203,6 @@ export default function MiniDrawer() {
         console.log(e.response.data.message);
       });
   };
-
 
   // code to get profile data of company
   const [companyProfileData, setCompanyProfileData] = React.useState([]);

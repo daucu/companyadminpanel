@@ -115,7 +115,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     right: -3,
     top: 13,
-    padding: "0 4px",
+    padding: "  0 4px",
   },
 }));
 // code to clear token from loacl storage and redirect to login page
@@ -265,7 +265,11 @@ export default function MiniDrawer() {
   }, []);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+      }}
+    >
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -491,13 +495,22 @@ export default function MiniDrawer() {
         </List>
       </Drawer>
 
-      <Box component="main" sx={{ flexGrow: 1, p: 1, pt: 5 }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 1,
+          pt: 5,
+        }}
+      >
         <DrawerHeader />
         <Outlet />
       </Box>
       {modalOpen === true ? (
         <>
-          <Box>
+          <Box
+              
+          >
             <Dialog
               open={handleClickOpen}
               TransitionComponent={Transition}

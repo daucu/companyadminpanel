@@ -167,6 +167,8 @@ export default function Register() {
             minHeight: "75vh",
             height: "auto",
           },
+          direction:
+            localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
         }}
       >
         <Container component="main">
@@ -313,9 +315,13 @@ export default function Register() {
                         alignItems: "center",
                       }}
                     >
-                      <CircularProgress size={18} sx={{
-                        marginRight: "10px"
-                      }} />    Loading...
+                      <CircularProgress
+                        size={18}
+                        sx={{
+                          marginRight: "10px",
+                        }}
+                      />{" "}
+                      Loading...
                     </Button>
                   ) : (
                     <Button

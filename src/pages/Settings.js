@@ -30,6 +30,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
+import { toast } from "react-toastify";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -96,6 +97,7 @@ export default function CustomizedList() {
   const handlechange = (e) => {
     console.log(language);
     localStorage.setItem("language", language);
+    toast.success("Language Changed Successfully");
   };
 
   return (

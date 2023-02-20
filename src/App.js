@@ -64,6 +64,7 @@ import AddBankAccount from "./pages/AddBankAccount";
 import Offer from "./pages/Offer";
 import Bid from "./pages/Bid";
 import AddBid from "./pages/AddBid";
+import New_Drawer from "./components/New_Drawer";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -117,6 +118,7 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/company_reg" element={<Company_reg />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/newdrawer" element={<New_Drawer />} />
             <Route path="/company_login" element={<Company_Login />} />
 
             <Route path="/protected" element={<Protected />} />

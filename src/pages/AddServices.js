@@ -188,7 +188,15 @@ export default function AddServices() {
   // code to post video , video thumbnail and gallery images
 
   return (
-    <Box sx={{ flexGrow: 1, marginTop: 3 }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        marginTop: 3,
+
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+      }}
+    >
       {companyProfileData.isVerified !== true ? (
         <>
           {loadingGif === true ? <Loading /> : null}
@@ -242,6 +250,12 @@ export default function AddServices() {
                     placeholder="service name"
                     label="service name"
                     size="small"
+                    // change location of the label according to the language
+                    // direction={
+                    //   localStorage.getItem("language") === "arabic"
+                    //     ? "rtl"
+                    //     : "ltr"
+                    // }
                     name={name}
                     onChange={(e) => setName(e.target.value)}
                     minRows={6}

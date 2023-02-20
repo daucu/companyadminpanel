@@ -226,7 +226,9 @@ export default function Services() {
 
   //Get all categories
   async function getCategoryData() {
-    const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/services`);
+    const res = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/services`
+    );
     console.log(res.data);
     setCategories(res.data);
   }
@@ -356,7 +358,14 @@ export default function Services() {
   });
 
   return (
-    <Box sx={{ flexGrow: 1, marginTop: 3 }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        marginTop: 3,
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+      }}
+    >
       <AppBar position="static">
         <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
           <IconButton

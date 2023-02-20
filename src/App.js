@@ -105,204 +105,226 @@ function App() {
     checkLogin();
   }, []);
 
+  // code to get langage from the local storage and store into state variabel and then write a code to change the language of the website
+
   return (
     <div className="App">
       {loadingif != false ? (
         <Loading />
       ) : (
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/company_reg" element={<Company_reg />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/company_login" element={<Company_Login />} />
+        <>
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/company_reg" element={<Company_reg />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/company_login" element={<Company_Login />} />
 
-          <Route path="/protected" element={<Protected />} />
+            <Route path="/protected" element={<Protected />} />
 
-          <Route path="/admin" element={<MiniDrawer />}>
-            <Route path="" element={<Protected Component={Dashboard} />} />
+            <Route path="/admin" element={<MiniDrawer />}>
+              <Route path="" element={<Protected Component={Dashboard} />} />
 
-            <Route path="account" element={<Account />} />
-            <Route path="new-account" element={<AddProduct />} />
-            <Route
-              path="categories"
-              element={<Protected Component={Categories} />}
-            />
-            <Route
-              path="new-category"
-              element={<Protected Component={NewCategory} />}
-            />
+              <Route path="account" element={<Account />} />
+              <Route path="new-account" element={<AddProduct />} />
+              <Route
+                path="categories"
+                element={<Protected Component={Categories} />}
+              />
+              <Route
+                path="new-category"
+                element={<Protected Component={NewCategory} />}
+              />
 
-            <Route
-              path="products"
-              element={<Protected Component={Products} />}
-            />
-            <Route
-              path="new-product"
-              element={<Protected Component={AddProduct} />}
-            />
-            <Route
-              path="viewproduct/:id"
-              element={<Protected Component={ViewProduct} />}
-            />
-            <Route path="update/:id" element={<UpdateProduct />} />
-            <Route path="editcontract/:id" element={<EditContract />} />
+              <Route
+                path="products"
+                element={<Protected Component={Products} />}
+              />
+              <Route
+                path="new-product"
+                element={<Protected Component={AddProduct} />}
+              />
+              <Route
+                path="viewproduct/:id"
+                element={<Protected Component={ViewProduct} />}
+              />
+              <Route path="update/:id" element={<UpdateProduct />} />
+              <Route path="editcontract/:id" element={<EditContract />} />
 
-            <Route path="media" element={<Protected Component={Storage} />} />
-            <Route
-              path="viewmedia"
-              element={<Protected Component={ViewMedia} />}
-            />
-            <Route
-              path="addbank"
-              element={<Protected Component={AddBankAccount} />}
-            />
-            <Route
-              path="withdraw"
-              element={<Protected Component={Withdraw} />}
-            />
-            {/*  */}
-            <Route
-              path="chatbotservice"
-              element={<Protected Component={CharbotServices} />}
-            />
-            <Route
-              path="pservices"
-              element={<Protected Component={PServices} />}
-            />
-            <Route
-              path="contract"
-              element={<Protected Component={Contract} />}
-            />
-            <Route path="deals" element={<Protected Component={Deals} />} />
-            <Route path="wallets" element={<Protected Component={Wallets} />} />
-            <Route
-              path="bankaccounts"
-              element={<Protected Component={Bankaccounts} />}
-            />
-            <Route
-              path="loyalitypoints"
-              element={<Protected Component={Loyality_Points} />}
-            />
-            <Route path="ads" element={<Protected Component={Ads} />} />
-            <Route path="traders" element={<Protected Component={Traders} />} />
-            <Route path="jobs" element={<Protected Component={Jobs} />} />
-            <Route
-              path="addservices"
-              element={<Protected Component={AddServices} />}
-            />
-            <Route
-              path="createcontract"
-              element={<Protected Component={CreateContract} />}
-            />
-            <Route
-              path="addauctinos"
-              element={<Protected Component={AddAuction} />}
-            />
-            <Route
-              path="editauctinos/:id"
-              element={<Protected Component={EditAuctino} />}
-            />
-            <Route
-              path="compilance"
-              element={<Protected Component={Compilance} />}
-            />
+              <Route path="media" element={<Protected Component={Storage} />} />
+              <Route
+                path="viewmedia"
+                element={<Protected Component={ViewMedia} />}
+              />
+              <Route
+                path="addbank"
+                element={<Protected Component={AddBankAccount} />}
+              />
+              <Route
+                path="withdraw"
+                element={<Protected Component={Withdraw} />}
+              />
+              {/*  */}
+              <Route
+                path="chatbotservice"
+                element={<Protected Component={CharbotServices} />}
+              />
+              <Route
+                path="pservices"
+                element={<Protected Component={PServices} />}
+              />
+              <Route
+                path="contract"
+                element={<Protected Component={Contract} />}
+              />
+              <Route path="deals" element={<Protected Component={Deals} />} />
+              <Route
+                path="wallets"
+                element={<Protected Component={Wallets} />}
+              />
+              <Route
+                path="bankaccounts"
+                element={<Protected Component={Bankaccounts} />}
+              />
+              <Route
+                path="loyalitypoints"
+                element={<Protected Component={Loyality_Points} />}
+              />
+              <Route path="ads" element={<Protected Component={Ads} />} />
+              <Route
+                path="traders"
+                element={<Protected Component={Traders} />}
+              />
+              <Route path="jobs" element={<Protected Component={Jobs} />} />
+              <Route
+                path="addservices"
+                element={<Protected Component={AddServices} />}
+              />
+              <Route
+                path="createcontract"
+                element={<Protected Component={CreateContract} />}
+              />
+              <Route
+                path="addauctinos"
+                element={<Protected Component={AddAuction} />}
+              />
+              <Route
+                path="editauctinos/:id"
+                element={<Protected Component={EditAuctino} />}
+              />
+              <Route
+                path="compilance"
+                element={<Protected Component={Compilance} />}
+              />
 
-            <Route path="profile" element={<Protected Component={Profile} />} />
+              <Route
+                path="profile"
+                element={<Protected Component={Profile} />}
+              />
 
-            {/*  */}
-            <Route path="pages" element={<Protected Component={Pages} />} />
-            <Route
-              path="new-page"
-              element={<Protected Component={AddPage} />}
-            />
+              {/*  */}
+              <Route path="pages" element={<Protected Component={Pages} />} />
+              <Route
+                path="new-page"
+                element={<Protected Component={AddPage} />}
+              />
 
-            <Route path="tags" element={<Protected Component={Tags} />} />
-            <Route
-              path="new-tag"
-              element={<Protected Component={AddProduct} />}
-            />
+              <Route path="tags" element={<Protected Component={Tags} />} />
+              <Route
+                path="new-tag"
+                element={<Protected Component={AddProduct} />}
+              />
 
-            <Route path="users" element={<Protected Component={Users} />} />
-            <Route
-              path="settings"
-              element={<Protected Component={Settings} />}
-            />
-            <Route path="support" element={<Protected Component={Support} />} />
+              <Route path="users" element={<Protected Component={Users} />} />
+              <Route
+                path="settings"
+                element={<Protected Component={Settings} />}
+              />
+              <Route
+                path="support"
+                element={<Protected Component={Support} />}
+              />
 
-            <Route path="posts" element={<Protected Component={Posts} />} />
-            <Route
-              path="new-post"
-              element={<Protected Component={AddPost} />}
-            />
+              <Route path="posts" element={<Protected Component={Posts} />} />
+              <Route
+                path="new-post"
+                element={<Protected Component={AddPost} />}
+              />
 
-            <Route path="orders" element={<Protected Component={Posts} />} />
+              <Route path="orders" element={<Protected Component={Posts} />} />
 
-            <Route path="invoice" element={<Protected Component={Invoice} />} />
+              <Route
+                path="invoice"
+                element={<Protected Component={Invoice} />}
+              />
 
-            <Route path="bids" element={<Protected Component={Bid} />} />
-            <Route path="addbids" element={<Protected Component={AddBid} />} />
+              <Route path="bids" element={<Protected Component={Bid} />} />
+              <Route
+                path="addbids"
+                element={<Protected Component={AddBid} />}
+              />
 
-            <Route path="info" element={<Protected Component={Info} />} />
-            <Route
-              path="notifications"
-              element={<Protected Component={Notifications} />}
-            />
+              <Route path="info" element={<Protected Component={Info} />} />
+              <Route
+                path="notifications"
+                element={<Protected Component={Notifications} />}
+              />
 
-            <Route
-              path="auctions"
-              element={<Protected Component={Auctions} />}
-            />
-            <Route path="points" element={<Protected Component={Points} />} />
+              <Route
+                path="auctions"
+                element={<Protected Component={Auctions} />}
+              />
+              <Route path="points" element={<Protected Component={Points} />} />
 
-            <Route
-              path="services"
-              element={<Protected Component={Services} />}
-            />
-            <Route path="offer" element={<Protected Component={Offer} />} />
+              <Route
+                path="services"
+                element={<Protected Component={Services} />}
+              />
+              <Route path="offer" element={<Protected Component={Offer} />} />
 
-            <Route
-              path="companies"
-              element={<Protected Component={Companies} />}
-            />
+              <Route
+                path="companies"
+                element={<Protected Component={Companies} />}
+              />
 
-            <Route
-              path="commission"
-              element={<Protected Component={Commission} />}
-            />
+              <Route
+                path="commission"
+                element={<Protected Component={Commission} />}
+              />
 
-            <Route
-              path="classifications"
-              element={<Protected Component={Classifications} />}
-            />
+              <Route
+                path="classifications"
+                element={<Protected Component={Classifications} />}
+              />
 
-            <Route path="search" element={<Protected Component={Search} />} />
-            <Route
-              path="addcomplaints"
-              element={<Protected Component={AddComplaints} />}
-            />
-            <Route
-              path="complaints"
-              element={<Protected Component={Complaints} />}
-            />
+              <Route path="search" element={<Protected Component={Search} />} />
+              <Route
+                path="addcomplaints"
+                element={<Protected Component={AddComplaints} />}
+              />
+              <Route
+                path="complaints"
+                element={<Protected Component={Complaints} />}
+              />
 
-            {/* 404 page */}
-            <Route
-              path="*"
-              element={
-                <div
-                  className="text-center"
-                  style={{
-                    marginTop: "20%",
-                    color: "white",
-                  }}
-                >
-                  <h1 className="text-5xl font-bold">404</h1>
-                  <p className="text-2xl">Page not found</p>
-                </div>
-              }
-            />
-          </Route>
-        </Routes>
+              {/* 404 page */}
+              <Route
+                path="*"
+                element={
+                  <div
+                    className="text-center"
+                    style={{
+                      marginTop: "20%",
+                      color: "white",
+                    }}
+                  >
+                    <h1 className="text-5xl font-bold">404</h1>
+                    <p className="text-2xl">Page not found</p>
+                  </div>
+                }
+              />
+            </Route>
+          </Routes>
+        </>
       )}
 
       <ToastContainer

@@ -417,8 +417,8 @@ function AddAuction() {
             id="demo-simple-select-label"
             sx={{
               width: "100%",
-                textAlign: "left",
-                paddingLeft: "10px",
+              textAlign: "left",
+              paddingLeft: "10px",
             }}
           >
             Items

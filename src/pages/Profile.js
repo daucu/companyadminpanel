@@ -62,6 +62,8 @@ function Profile() {
     <div
       style={{
         marginTop: "20px",
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <AppBar position="static">
@@ -379,7 +381,6 @@ function Profile() {
           <TextField
             id="outlined-basic"
             value={userprofileData.phone}
-
             placeholder="Mobile
             "
             size="small"
@@ -415,7 +416,6 @@ function Profile() {
           <TextField
             id="outlined-basic"
             value={userprofileData.email}
-
             placeholder="Email
             "
             size="small"
@@ -449,7 +449,6 @@ function Profile() {
           <TextField
             id="outlined-basic"
             value={userprofileData.role}
-
             placeholder="Role
             "
             size="small"

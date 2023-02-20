@@ -90,7 +90,12 @@ function EnhancedTableHead(props) {
   };
 
   return (
-    <TableHead>
+    <TableHead
+      style={{
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+      }}
+    >
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
@@ -306,6 +311,8 @@ export default function CreateContract() {
         boxShadow: 0,
         animation: "fadeIn 0.5s ease-in-out",
         transition: "box-shadow 1s ease-in-out",
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <AppBar position="static">
@@ -379,6 +386,7 @@ export default function CreateContract() {
               style={{
                 width: "24%",
                 textAlign: "left",
+                margin: "auto",
               }}
             >
               <InputLabel
@@ -451,6 +459,8 @@ export default function CreateContract() {
               style={{
                 width: "24%",
                 textAlign: "left",
+                margin: "auto",
+
               }}
             >
               <InputLabel

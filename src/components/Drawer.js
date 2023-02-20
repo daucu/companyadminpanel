@@ -49,6 +49,8 @@ const openedMixin = (theme) => ({
   }),
   overflowX: "hidden",
   background: "#fff",
+  // code to get langugae from local storage and set it to rtl
+  direction: localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
 });
 
 const closedMixin = (theme) => ({
@@ -69,6 +71,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-start",
   padding: theme.spacing(0, 0),
+  // code to get langugae from local storage and set it to rtl
+  direction: localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
 }));
 
 const AppBar = styled(MuiAppBar, {
@@ -82,6 +86,7 @@ const AppBar = styled(MuiAppBar, {
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
+
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,

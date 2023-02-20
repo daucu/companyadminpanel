@@ -56,6 +56,7 @@ function Protected({ Component }) {
   React.useEffect(() => {
     getCompanyProfileData();
   }, []);
+
   return (
     <div>
       <Component />

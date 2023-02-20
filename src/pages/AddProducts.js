@@ -207,7 +207,14 @@ export default function AddProduct() {
   // code to post video , video thumbnail and gallery images
 
   return (
-    <Box sx={{ flexGrow: 1, marginTop: 3 }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        marginTop: 3,
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+      }}
+    >
       {companyProfileData.isVerified !== true ? (
         <>
           <AppBar position="static">

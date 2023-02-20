@@ -45,6 +45,8 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "left",
+  // direction: localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+
   // backgroundColor: "#1A2027",
   // color: "#ffffff",
 }));
@@ -366,7 +368,14 @@ export default function Bankaccounts() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1, marginTop: 3 }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        marginTop: 3,
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+      }}
+    >
       <AppBar position="static">
         <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
           <IconButton
@@ -490,9 +499,9 @@ export default function Bankaccounts() {
                                   </TableCell>
                                   <TableCell
                                     align="left"
-                                    sx={{}}
                                     style={{
                                       display: "flex",
+                                      justifyContent: "center",
                                       alignItems: "center",
                                     }}
                                   >

@@ -83,9 +83,31 @@ export default function CustomizedList() {
   };
 
   const navigate = useNavigate();
+
+  const [language, setLanguage] = useState("en");
+
+  // code to save the language in local storage
+  const handleLanguage = (e) => {
+    setLanguage(e.target.value);
+    // localStorage.setItem("language", e.target.value);
+    console.log("language", e.target.value);
+  };
+
+  const handlechange = (e) => {
+    console.log(language);
+    localStorage.setItem("language", language);
+  };
+
   return (
     <>
-      <Box sx={{ flexGrow: 1, marginTop: 3 }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          marginTop: 3,
+          direction:
+            localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+        }}
+      >
         <AppBar position="static">
           <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
             <Typography variant="h6" color="inherit" component="div">
@@ -99,12 +121,14 @@ export default function CustomizedList() {
               sx={{
                 boxShadow: 0,
               }}
+              onClick={() => handlechange()}
             >
               Save
             </Button>
           </Toolbar>
         </AppBar>
         {/* dropdown */}
+        <form onSubmit={() => handlechange()}></form>
         <InputLabel
           id="demo-simple-select-label"
           style={{
@@ -117,19 +141,19 @@ export default function CustomizedList() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
+          value={language}
           label="Language"
           size="small"
-          onChange={handleChange}
+          onChange={handleLanguage}
           style={{
             width: "100%",
             textAlign: "left",
           }}
         >
-          <MenuItem value={10}>English</MenuItem>
-          <MenuItem value={20}>العربية</MenuItem>
+          <MenuItem value={"english"}>English</MenuItem>
+          <MenuItem value={"arabic"}>العربية</MenuItem>
         </Select>
-        <InputLabel
+        {/* <InputLabel
           id="demo-simple-select-label"
           style={{
             marginTop: "20px",
@@ -179,7 +203,7 @@ export default function CustomizedList() {
           <MenuItem value={30}>Yellow</MenuItem>
           <MenuItem value={40}>Red</MenuItem>
           <MenuItem value={50}>Black</MenuItem>
-        </Select>
+        </Select> */}
       </Box>
     </>
   );

@@ -49,6 +49,8 @@ function AddComplaints() {
     <div
       style={{
         marginTop: "20px",
+        direction:localStorage.getItem("language")==="arabic"?"rtl":"ltr",
+
       }}
     >
       <AppBar position="static">

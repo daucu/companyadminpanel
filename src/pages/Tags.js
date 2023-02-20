@@ -136,6 +136,7 @@ function EnhancedTableHead(props) {
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
+
             // sx={{ color: "white" }}
           >
             <TableSortLabel
@@ -412,12 +413,18 @@ export default function Tags() {
         boxShadow: 0,
         animation: "fadeIn 0.5s ease-in-out",
         transition: "box-shadow 1s ease-in-out",
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <Dialog
         open={open}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        style={{
+          direction:
+            localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+        }}
       >
         <DialogTitle id="alert-dialog-title">{"Add Tag"}</DialogTitle>
         <DialogContent>
@@ -601,7 +608,10 @@ export default function Tags() {
                             <TableCell align="left" sx={{}}>
                               {new Date(row.createdAt).toLocaleDateString()}
                             </TableCell>
-                            <TableCell align="left" sx={{}} style={{}}>
+                            <TableCell
+                              align="left"
+                              // text align="left" when direction is rtl
+                            >
                               <Stack
                                 direction={"row"}
                                 sx={{
@@ -619,6 +629,7 @@ export default function Tags() {
                                   size="small"
                                   sx={{
                                     boxShadow: 0,
+                                    margin: "auto",
                                   }}
                                 >
                                   <DeleteIcon />

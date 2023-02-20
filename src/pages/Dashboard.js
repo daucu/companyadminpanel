@@ -216,6 +216,7 @@ export default function Dashboard() {
           boxShadow: 0,
           animation: "fadeIn 0.5s ease-in-out",
           transition: "box-shadow 1s ease-in-out",
+          direction:localStorage.getItem("language")==="arabic"?"rtl":"ltr"
         }}
       >
         <Grid container spacing={1}>

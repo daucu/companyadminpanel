@@ -139,7 +139,16 @@ export default function FileManager() {
   });
 
   return (
-    <Grid container spacing={1} sx={{ marginBottom: 1, marginTop: 1 }}>
+    <Grid
+      container
+      spacing={1}
+      sx={{
+        marginBottom: 1,
+        marginTop: 1,
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+      }}
+    >
       <Snackbar
         open={open}
         autoHideDuration={3000}

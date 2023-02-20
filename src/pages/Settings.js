@@ -98,6 +98,9 @@ export default function CustomizedList() {
     console.log(language);
     localStorage.setItem("language", language);
     toast.success("Language Changed Successfully");
+    setTimeout(() => {
+      window.location.reload();
+    }, [1000]);
   };
 
   return (

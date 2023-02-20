@@ -162,7 +162,7 @@ export default function MiniDrawer() {
   const [loadinggif, setLoadinggif] = useState(false);
   const [userLoginValue, setUserLoginValue] = useState(false);
   const [userdata, setUserdata] = useState("username");
-   
+
   // alert popup
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -399,7 +399,8 @@ export default function MiniDrawer() {
                 <ListItemText
                   primary={item.name}
                   primaryTypographyProps={{
-                    fontSize: 18,
+                    fontSize:
+                      localStorage.getItem("language") === "arabic" ? 30 : 18,
                     fontWeight: "semibold",
                   }}
                   sx={{
@@ -413,6 +414,7 @@ export default function MiniDrawer() {
                   }}
                 />
               )}
+
               {!item.header && (
                 <ListItemButton
                   key={item.label}
@@ -440,7 +442,8 @@ export default function MiniDrawer() {
                   <ListItemText
                     primary={item.name}
                     primaryTypographyProps={{
-                      fontSize: 14,
+                      fontSize:
+                        localStorage.getItem("language") === "arabic" ? 20 : 14,
                       fontWeight: "medium",
                     }}
                     sx={{
@@ -478,9 +481,7 @@ export default function MiniDrawer() {
       </Box>
       {modalOpen === true ? (
         <>
-          <Box
-
-          >
+          <Box>
             <Dialog
               open={handleClickOpen}
               TransitionComponent={Transition}

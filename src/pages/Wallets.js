@@ -8,13 +8,19 @@ import {
   Toolbar,
 } from "@mui/material";
 import React from "react";
+// what should i import to convet text to arabic?
+import { useTranslation } from "react-i18next";
 
 function Wallets() {
+  const { t } = useTranslation();
+      
+
   return (
     <div
       style={{
         marginTop: "20px",
-        direction:localStorage.getItem("language")==="arabic"?"rtl":"ltr",
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <AppBar position="static">
@@ -25,6 +31,10 @@ function Wallets() {
             aria-label="menu"
             sx={{ mr: 2 }}
           ></IconButton>
+          {/* if localstorage language is arabic then text should convert into arabic language */}
+          {localStorage.getItem("language") === "arabic"
+            ? t("Wallets")
+            : "Wallets"}
           Wallets
           <Divider sx={{ flexGrow: 1 }} />
           {/* <IconButton edge="start" color="inherit" aria-label="menu">

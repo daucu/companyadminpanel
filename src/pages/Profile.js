@@ -74,7 +74,9 @@ function Profile() {
             aria-label="menu"
             sx={{ mr: 2 }}
           ></IconButton>
-          Profile
+          {localStorage.getItem("language") === "arabic"
+            ? "حساب تعريفي"
+            : "Profile"}
           <Divider sx={{ flexGrow: 1 }} />
         </Toolbar>
       </AppBar>
@@ -93,7 +95,9 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">Name</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-amount">
+            {localStorage.getItem("language") === "arabic" ? "اسم" : "Name"}
+          </InputLabel>
         </div>
         <div
           style={{
@@ -124,7 +128,9 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">Logo</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-amount">
+            {localStorage.getItem("language") === "arabic" ? "شعار" : "Logo"}
+          </InputLabel>
         </div>
         <div
           style={{
@@ -156,7 +162,9 @@ function Profile() {
           }}
         >
           <InputLabel htmlFor="outlined-adornment-amount">
-            Discription
+            {localStorage.getItem("language") === "arabic"
+              ? "وصف"
+              : "Discription"}
           </InputLabel>
         </div>
         <div
@@ -190,7 +198,9 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">Country</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-amount">
+            {localStorage.getItem("language") === "arabic" ? "دولة" : "Country"}
+          </InputLabel>
         </div>
         <div
           style={{
@@ -229,7 +239,9 @@ function Profile() {
           }}
         >
           <InputLabel htmlFor="outlined-adornment-amount">
-            Google Map
+            {localStorage.getItem("language") === "arabic"
+              ? "خرائط جوجل"
+              : "Google Map"}
           </InputLabel>
         </div>
         <div
@@ -265,7 +277,9 @@ function Profile() {
           }}
         >
           <InputLabel htmlFor="outlined-adornment-amount">
-            License number
+            {localStorage.getItem("language") === "arabic"
+              ? "رقم الرخصة"
+              : "License Number"}
           </InputLabel>
         </div>
         <div

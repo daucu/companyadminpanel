@@ -6,6 +6,7 @@ import ShowChartTwoToneIcon from "@mui/icons-material/ShowChartTwoTone";
 import PhonelinkSetupTwoToneIcon from "@mui/icons-material/PhonelinkSetupTwoTone";
 import AddCardTwoToneIcon from "@mui/icons-material/AddCardTwoTone";
 import PriceChangeIcon from "@mui/icons-material/PriceChange";
+import SearchIcon from '@mui/icons-material/Search';
 import {
   AccountCircleOutlined,
   ContactPhoneOutlined,
@@ -38,6 +39,15 @@ const menu_items = [
     icon: <LoyaltyOutlined />,
     url: "/admin/tags",
   },
+  // {
+  //   name: localStorage.getItem("language") === "arabic" ? "عمل" : "Search",
+  //   header: true,
+  // },
+  // {
+  //   name: localStorage.getItem("language") === "arabic" ? "منتجات" : "Search Here",
+  //   icon: <SearchIcon />,
+  //   url: "/admin/products",
+  // },
   {
     name: localStorage.getItem("language") === "arabic" ? "عمل" : "Work",
     header: true,

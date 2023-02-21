@@ -106,6 +106,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/company_reg" element={<Company_reg />} />
+            <Route path="/search" element={<Search />} />
+
             <Route path="/register" element={<Register />} />
             <Route path="/newdrawer" element={<New_Drawer />} />
             <Route path="/company_login" element={<Company_Login />} />
@@ -287,7 +289,6 @@ function App() {
                 element={<Protected Component={Classifications} />}
               />
 
-              <Route path="search" element={<Protected Component={Search} />} />
               <Route
                 path="addcomplaints"
                 element={<Protected Component={AddComplaints} />}

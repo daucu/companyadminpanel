@@ -6,7 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import Slide from "@mui/material/Slide";
-
+import CloseIcon from "@mui/icons-material/Close";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -36,8 +36,9 @@ import NotificationsTwoToneIcon from "@mui/icons-material/NotificationsTwoTone";
 import menu_items from "./menu_items";
 import axios from "axios";
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { toast } from "react-toastify";
+import SearchIcon from "@mui/icons-material/Search";
 
 const drawerWidth = 250;
 
@@ -260,6 +261,10 @@ export default function MiniDrawer() {
     getUserProfileData();
   }, []);
 
+  const [closeSearch, setCloseSearch] = useState(false);
+  const [displaySearchBox, setDisplaySearchBox] = useState(false);
+  const [searchText, setSearchText] = useState(false);
+
   return (
     <Box
       sx={{
@@ -314,6 +319,62 @@ export default function MiniDrawer() {
             {/* Dashboard */}
           </Typography>
           <Typography sx={{ flexGrow: 1 }}></Typography>
+
+          {displaySearchBox === true ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginRight: 10,
+                border: "1px solid #d9d9d9",
+                borderRadius: 5,
+              }}
+            >
+              <input
+                type="text"
+                style={{
+                  padding: 8,
+                  fontSize: 16,
+                  border: "none",
+                  outline: "none",
+                }}
+                placeholder="Search Products.."
+              />
+              <div>
+                <Button
+                  style={{
+                    backgroundColor: "#FFFFFF",
+                    outline: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 6,
+                  }}
+                >
+                  <SearchIcon />
+                </Button>
+              </div>
+            </div>
+          ) : null}
+          <IconButton
+            onClick={() => setDisplaySearchBox(!displaySearchBox)}
+            to="account"
+            sx={{
+              backgroundColor: "white",
+              color: "#000",
+              marginRight: 2,
+
+              borderRadius: "50%",
+            }}
+          >
+            {displaySearchBox === true ? (
+              <CloseIcon sx={{ color: "#000" }} />
+            ) : (
+              <SearchIcon sx={{ color: "#000" }} />
+            )}
+          </IconButton>
           <IconButton
             aria-label="account of current user"
             aria-controls="menu-appbar"
@@ -322,7 +383,7 @@ export default function MiniDrawer() {
             sx={{
               color: "#000",
               marginLeft: "auto",
-              marginRight: 5,
+              marginRight: 3,
             }}
           >
             <StyledBadge

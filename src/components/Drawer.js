@@ -371,10 +371,18 @@ export default function MiniDrawer() {
                 color: "#000",
               }}
             /> */}
-            <img
-              src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
-              style={{ height: "90px", width: "90px", borderRadius: "50%" }}
-            />
+            {open && (
+              <div
+                style={{
+                  color: "#000",
+                }}
+              >
+                <img
+                  src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHw%3D&w=1000&q=80"
+                  style={{ height: "90px", width: "90px", borderRadius: "50%" }}
+                />
+              </div>
+            )}
 
             {open && (
               <div
@@ -463,10 +471,6 @@ export default function MiniDrawer() {
                           : "left",
                       alignItems: "center",
                       display: "flex",
-                      justifyContent:
-                        localStorage.getItem("language") === "arabic"
-                          ? "right"
-                          : "left",
                       marginBottom: 1,
                     }}
                   />
@@ -509,7 +513,9 @@ export default function MiniDrawer() {
                     padding: "20px",
                   }}
                 >
-                  Are you sure you want to logout?
+                  {localStorage.getItem("language") === "arabic"
+                    ? "هل أنت متأكد أنك تريد تسجيل الخروج؟"
+                    : "Are you sure you want to logout?"}
                 </DialogContentText>
               </DialogContent>
               <DialogActions>

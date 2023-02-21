@@ -200,7 +200,9 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Tags Details
+          {localStorage.getItem("language") === "arabic"
+            ? " تفاصيل العلامات  "
+            : "Tags Details"}
         </Typography>
       )}
 
@@ -426,7 +428,11 @@ export default function Tags() {
             localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
         }}
       >
-        <DialogTitle id="alert-dialog-title">{"Add Tag"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {localStorage.getItem("language") === "arabic"
+            ? "إضافة علامة"
+            : "Add Tag"}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             <TextField
@@ -491,7 +497,7 @@ export default function Tags() {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, ml: 3 }}
             onClick={() => {
               setOpen(true);
               setIsEdit(false);
@@ -500,7 +506,9 @@ export default function Tags() {
             <AddIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
-            Manage Tags
+            {localStorage.getItem("language") === "arabic"
+              ? "إدارة العلامات"
+              : "Manage Tags"}
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Toolbar>

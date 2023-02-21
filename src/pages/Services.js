@@ -73,19 +73,23 @@ const headCells = [
     id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Name",
+    label: localStorage.getItem("language") === "arabic" ? "اسم" : "Name",
   },
   {
     id: "description",
     numeric: false,
     disablePadding: false,
-    label: "Description",
+    label:
+      localStorage.getItem("language") === "arabic" ? "وصف" : "Description",
   },
   {
     id: "published",
     numeric: false,
     disablePadding: false,
-    label: "Published At",
+    label:
+      localStorage.getItem("language") === "arabic"
+        ? "نشرت في"
+        : "Published At",
   },
 ];
 
@@ -103,7 +107,12 @@ function EnhancedTableHead(props) {
   };
 
   return (
-    <TableHead>
+    <TableHead
+      style={{
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+      }}
+    >
       <TableRow>
         <TableCell padding="checkbox" sx={{ color: "#ffffff" }}>
           <Checkbox

@@ -445,7 +445,11 @@ export default function Tags() {
               onChange={(e) => setTagData({ ...tagData, name: e.target.value })}
               size="small"
               type="text"
-              placeholder="Tag"
+              placeholder={
+                localStorage.getItem("language") === "arabic"
+                  ? "العلامات"
+                  : "Tags"
+              }
               sx={{ margin: "10px 0", width: "100%" }}
             />
 
@@ -457,7 +461,11 @@ export default function Tags() {
               multiline
               type="text"
               variant="outlined"
-              placeholder="Description.."
+              placeholder={
+                localStorage.getItem("language") === "arabic"
+                  ? "الوصف"
+                  : "Description"
+              }
               minRows={8}
               sx={{ margin: "5px 0 20px 0", width: "100%" }}
             />

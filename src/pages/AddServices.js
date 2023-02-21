@@ -218,7 +218,9 @@ export default function AddServices() {
                 <CloseIcon />
               </IconButton> */}
               <Typography variant="h6" color="inherit" component="div">
-                Add Service
+                {localStorage.getItem("language") === "arabic"
+                  ? "إضافة خدمة"
+                  : "Add Service"}
               </Typography>
               <Divider sx={{ flexGrow: 1 }} />
 
@@ -248,7 +250,11 @@ export default function AddServices() {
                   <TextField
                     id="outlined-basic"
                     placeholder="service name"
-                    label="service name"
+                    label={
+                      localStorage.getItem("language") === "arabic"
+                        ? "اسم الخدمة"
+                        : "Service Name"
+                    }
                     size="small"
                     // change location of the label according to the language
                     // direction={
@@ -280,7 +286,9 @@ export default function AddServices() {
                     }}
                     id="demo-simple-select-outlined-label"
                   >
-                    Video
+                    {
+                      localStorage.getItem("language") === "arabic" ? "فيديو" : "Video"
+                    }
                   </InputLabel>
                   <TextField
                     id="outlined-basic"
@@ -300,7 +308,9 @@ export default function AddServices() {
                     }}
                     id="demo-simple-select-outlined-label"
                   >
-                    Video Thumbnail
+                   {
+                      localStorage.getItem("language") === "arabic" ? "صورة الفيديو" : "Video Thumbnail"
+                   }
                   </InputLabel>
                   <TextField
                     id="outlined-basic"
@@ -320,7 +330,9 @@ export default function AddServices() {
                     }}
                     id="demo-simple-select-outlined-label"
                   >
-                    Gallery
+                    {
+                      localStorage.getItem("language") === "arabic" ? "صورة الخدمة" : "Gallery"
+                    }
                   </InputLabel>
                   <TextField
                     id="outlined-basic"
@@ -341,7 +353,9 @@ export default function AddServices() {
                     }}
                     id="demo-simple-select-outlined-label"
                   >
-                    Tags
+                  {
+                      localStorage.getItem("language") === "arabic" ? "العلامات" : "Tags"
+                  }
                   </InputLabel>
                   {/* map tags in autocomplete selct menu option with chip  */}
                   <Autocomplete

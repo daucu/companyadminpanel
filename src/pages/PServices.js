@@ -40,28 +40,33 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { Stack } from "@mui/system";
 const headCells = [
   {
-    id: "1",
+    id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Name",
+    label: localStorage.getItem("language") === "arabic" ? "اسم" : "Name",
   },
   {
-    id: "2",
-    numeric: false,
-    disablePadding: true,
-    label: "Description",
-  },
-  {
-    id: "3",
+    id: "description",
     numeric: false,
     disablePadding: false,
-    label: "Published At",
+    label:
+      localStorage.getItem("language") === "arabic" ? "وصف" : "Description",
+  },
+  {
+    id: "published",
+    numeric: false,
+    disablePadding: false,
+    label:
+      localStorage.getItem("language") === "arabic"
+        ? "نشرت في"
+        : "Published At",
   },
   {
     id: "4",
     numeric: false,
     disablePadding: false,
-    label: "Actions",
+    label:
+      localStorage.getItem("language") === "arabic" ? "العمليات" : "Actions",
   },
 ];
 
@@ -78,7 +83,12 @@ function EnhancedTableHead(props) {
     onRequestSort(event, property);
   };
   return (
-    <TableHead>
+    <TableHead
+      style={{
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+      }}
+    >
       <TableRow>
         <TableCell padding="checkbox">
           <Checkbox
@@ -144,6 +154,8 @@ const EnhancedTableToolbar = (props) => {
               theme.palette.action.activatedOpacity
             ),
         }),
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       {numSelected > 0 ? (
@@ -162,7 +174,9 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Services Details
+         {
+            localStorage.getItem("language") === "arabic" ? "تفاصيل الخدمات" : " Services Details"
+         }
         </Typography>
       )}
 
@@ -235,6 +249,7 @@ export default function Tags() {
         boxShadow: 0,
         animation: "fadeIn 0.5s ease-in-out",
         transition: "box-shadow 1s ease-in-out",
+        direction: localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <AppBar position="static">
@@ -243,13 +258,15 @@ export default function Tags() {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2,ml:3 }}
             onClick={() => navigate("/admin/addservices")}
           >
             <AddIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
-            Services
+            {
+              localStorage.getItem("language") === "arabic" ? "الخدمات" : "Services"
+            }
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Toolbar>

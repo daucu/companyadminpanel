@@ -359,7 +359,11 @@ export default function CreateContract() {
           {/* title */}
           <TextField
             id="outlined-basic"
-            label="Title"
+            label={
+              localStorage.getItem("language") === "arabic"
+                ? "العنوان"
+                : "Title"
+            }
             name={title}
             onChange={(e) => setTitle(e.target.value)}
             size="small"
@@ -369,7 +373,9 @@ export default function CreateContract() {
           {/* terms */}
           <TextField
             id="outlined-basic"
-            label="Terms"
+            label={
+              localStorage.getItem("language") === "arabic" ? "الشروط" : "Terms"
+            }
             name={terms}
             onChange={(e) => setTerms(e.target.value)}
             size="small"
@@ -395,7 +401,9 @@ export default function CreateContract() {
                 id="demo-simple-select-label"
                 sx={{ marginTop: 2, marginRight: 2 }}
               >
-                Local Terms
+                {localStorage.getItem("language") === "arabic"
+                  ? "الشحن المحلي"
+                  : "  Local Terms"}
               </InputLabel>
             </div>
             <div
@@ -412,7 +420,11 @@ export default function CreateContract() {
               >
                 <TextField
                   id="outlined-basic"
-                  label="Price"
+                  label={
+                    localStorage.getItem("language") === "arabic"
+                      ? "السعر"
+                      : "Price"
+                  }
                   type={"number"}
                   name={local_ship_terms.price}
                   onChange={(e) =>
@@ -433,7 +445,11 @@ export default function CreateContract() {
               >
                 <TextField
                   id="outlined-basic"
-                  label="Days"
+                  label={
+                    localStorage.getItem("language") === "arabic"
+                      ? "الأيام"
+                      : "Days"
+                  }
                   type={"number"}
                   name={local_ship_terms.days}
                   onChange={(e) =>
@@ -468,7 +484,9 @@ export default function CreateContract() {
                 id="demo-simple-select-label"
                 sx={{ marginTop: 2, marginRight: 2 }}
               >
-                International Terms
+              {
+                localStorage.getItem("language") === "arabic" ? "الشحن الدولي" : "International Terms"
+              }
               </InputLabel>
             </div>
             <div
@@ -485,7 +503,9 @@ export default function CreateContract() {
               >
                 <TextField
                   id="outlined-basic"
-                  label="Price"
+                  label={
+                    localStorage.getItem("language") === "arabic" ? "السعر" : "Price"
+                  }
                   type={"number"}
                   name={international_ship_terms.price}
                   onChange={(e) =>
@@ -506,7 +526,9 @@ export default function CreateContract() {
               >
                 <TextField
                   id="outlined-basic"
-                  label="Days"
+                  label={
+                    localStorage.getItem("language") === "arabic" ? "الأيام" : "Days"
+                  }
                   type={"number"}
                   name={international_ship_terms.days}
                   onChange={(e) =>
@@ -525,7 +547,9 @@ export default function CreateContract() {
           <div>
             <TextField
               id="outlined-basic"
-              label="Return Term"
+              label={
+                localStorage.getItem("language") === "arabic" ? "الشروط العودة" : "Return Terms"
+              }
               size="small"
               name={return_terms}
               onChange={(e) => setReturn_terms(e.target.value)}
@@ -538,7 +562,9 @@ export default function CreateContract() {
               id="demo-simple-select-label"
               sx={{ marginTop: 2, marginRight: 2, textAlign: "left" }}
             >
-              Signature Profile
+             {
+                localStorage.getItem("language") === "arabic" ? "التوقيع" : "Signature Profile"
+             }
             </InputLabel>
           </div>
           <div>
@@ -557,7 +583,9 @@ export default function CreateContract() {
               id="demo-simple-select-label"
               sx={{ marginTop: 2, marginRight: 2, textAlign: "left" }}
             >
-              Stamp Profile
+            {
+                localStorage.getItem("language") === "arabic" ? "الختم" : "Stamp Profile"
+            }
             </InputLabel>
           </div>
           <div>

@@ -243,6 +243,7 @@ export default function MiniDrawer() {
       <CssBaseline />
       <AppBar
         position="fixed"
+        
         open={open}
         sx={{
           boxShadow: 0,
@@ -364,13 +365,6 @@ export default function MiniDrawer() {
               margin: "20px auto",
             }}
           >
-            {/* <AccountCircleIcon
-              style={{
-                height: "50px",
-                width: "50px",
-                color: "#000",
-              }}
-            /> */}
             {open && (
               <div
                 style={{

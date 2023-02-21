@@ -246,7 +246,9 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Products Details
+          {localStorage.getItem("language") === "arabic"
+            ? "تفاصيل المنتجات"
+            : "Products Details"}
         </Typography>
       )}
 
@@ -559,8 +561,8 @@ export default function Products() {
         boxShadow: 0,
         animation: "fadeIn 0.5s ease-in-out",
         transition: "box-shadow 1s ease-in-out",
-        direction:localStorage.getItem("language")==="arabic"?"rtl":"ltr",
-
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <AppBar position="static">
@@ -569,14 +571,16 @@ export default function Products() {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, ml: 3 }}
             onClick={() => navigate("/admin/new-product")}
           >
             {/* <CloseIcon /> */}
             <AddIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
-            Manage Products
+            {localStorage.getItem("language") === "arabic"
+              ? "إدارة المنتجات"
+              : "Manage Products"}
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Toolbar>

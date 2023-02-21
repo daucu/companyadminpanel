@@ -187,7 +187,9 @@ export default function FileManager() {
               <Add />
             </IconButton> */}
             <Typography variant="h6" color="inherit" component="div">
-              File Manager
+            {
+              localStorage.getItem("language") === "arabic" ? "مدير الملفات" : "File Manager"
+            }
             </Typography>
             <Divider sx={{ flexGrow: 1 }} />
           </Toolbar>

@@ -169,7 +169,9 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Contract Details
+          {localStorage.getItem("language") === "arabic"
+            ? "تفاصيل العقد"
+            : "Contract Details"}
         </Typography>
       )}
 
@@ -297,8 +299,8 @@ export default function Contract() {
         boxShadow: 0,
         animation: "fadeIn 0.5s ease-in-out",
         transition: "box-shadow 1s ease-in-out",
-        direction:localStorage.getItem("language")==="arabic"?"rtl":"ltr",
-
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <AppBar position="static">
@@ -307,13 +309,15 @@ export default function Contract() {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, ml: 3 }}
             onClick={() => navigate("/admin/createcontract")}
           >
             <AddIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
-            Contracts
+            {localStorage.getItem("language") === "arabic"
+              ? "انكماش"
+              : "Contracts"}
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Toolbar>

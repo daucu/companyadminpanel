@@ -576,7 +576,9 @@ export default function AddProduct() {
                 fontWeight: "semibold",
               }}
             >
-              Please Verify you company details before adding products
+              {localStorage.getItem("language") === "arabic"
+                ? " يرجى التحقق من تفاصيل الشركة قبل إضافة المنتجات "
+                : "Please Verify you company details before adding products"}
             </div>
           </div>
         </>

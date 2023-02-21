@@ -318,7 +318,9 @@ export default function CreateContract() {
       <AppBar position="static">
         <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
           <Typography variant="h6" color="inherit" component="div">
-            Create Contracts
+            {localStorage.getItem("language") === "arabic"
+              ? "إنشاء العقود"
+              : "Create Contract"}
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
           {btnLoading === true ? (
@@ -460,7 +462,6 @@ export default function CreateContract() {
                 width: "24%",
                 textAlign: "left",
                 margin: "auto",
-
               }}
             >
               <InputLabel

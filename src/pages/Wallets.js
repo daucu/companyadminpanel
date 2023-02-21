@@ -13,7 +13,6 @@ import { useTranslation } from "react-i18next";
 
 function Wallets() {
   const { t } = useTranslation();
-      
 
   return (
     <div
@@ -32,10 +31,7 @@ function Wallets() {
             sx={{ mr: 2 }}
           ></IconButton>
           {/* if localstorage language is arabic then text should convert into arabic language */}
-          {localStorage.getItem("language") === "arabic"
-            ? t("Wallets")
-            : "Wallets"}
-          Wallets
+          {localStorage.getItem("language") === "arabic" ? "محافظ" : "Wallets"}
           <Divider sx={{ flexGrow: 1 }} />
           {/* <IconButton edge="start" color="inherit" aria-label="menu">
             <AddIcon />
@@ -55,7 +51,9 @@ function Wallets() {
             width: "30%",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-amount">
+            {localStorage.getItem("language") === "arabic" ? "كمية" : "Amount"}
+          </InputLabel>
         </div>
         <div
           style={{

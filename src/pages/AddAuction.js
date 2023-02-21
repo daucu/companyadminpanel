@@ -1,6 +1,7 @@
 import {
   AppBar,
   Autocomplete,
+  Box,
   Button,
   Divider,
   IconButton,
@@ -187,9 +188,11 @@ function AddAuction() {
   }, []);
 
   return (
-    <div
+    <Box
       style={{
         marginTop: "20px",
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <AppBar position="static">
@@ -200,7 +203,9 @@ function AddAuction() {
             aria-label="menu"
             sx={{ mr: 2 }}
           ></IconButton>
-          Add Auction
+          {localStorage.getItem("language") === "arabic"
+            ? "أضف مزاد"
+            : "Add Auction"}
           <Divider sx={{ flexGrow: 1 }} />
           <Button
             variant="contained"
@@ -449,7 +454,7 @@ function AddAuction() {
           </Select>
         </Stack>
       </form>
-    </div>
+    </Box>
   );
 }
 

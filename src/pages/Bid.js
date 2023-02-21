@@ -214,12 +214,19 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: "1 1 100%" }}
+          sx={{
+            alignItems:
+              localStorage.getItem("language") === "arabic"
+                ? "flex-end"
+                : "flex-start",
+          }}
           variant="h6"
           id="tableTitle"
           component="div"
         >
-          Bid's List
+          {localStorage.getItem("language") === "arabic"
+            ? "قائمة العطاءات"
+            : "Bid's List "}
         </Typography>
       )}
 
@@ -386,7 +393,7 @@ export default function Bid() {
             <AddIcon />
           </IconButton> */}
           <Typography variant="h6" color="inherit" component="div">
-            Bids
+            {localStorage.getItem("language") === "arabic" ? "العطاءات" : "Bid"}
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Toolbar>

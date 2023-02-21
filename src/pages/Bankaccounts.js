@@ -209,12 +209,19 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: "1 1 100%" }}
+          sx={{
+            alignItems:
+              localStorage.getItem("language") === "arabic"
+                ? "flex-end"
+                : "flex-start",
+          }}
           variant="h6"
           id="tableTitle"
           component="div"
         >
-          Bank Account List
+          {localStorage.getItem("language") === "arabic"
+            ? "قائمة الحساب المصرفي  "
+            : "Bank Account List"}
         </Typography>
       )}
 
@@ -382,13 +389,15 @@ export default function Bankaccounts() {
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, ml: 3 }}
             onClick={() => navigate("/admin/addbank")}
           >
             <AddIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" component="div">
-            Bank Accounts
+            {localStorage.getItem("language") === "arabic"
+              ? "حسابات بنكية"
+              : "Bank Accounts"}
           </Typography>
           <Divider sx={{ flexGrow: 1 }} />
         </Toolbar>

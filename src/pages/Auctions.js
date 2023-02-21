@@ -185,8 +185,6 @@ const EnhancedTableToolbar = (props) => {
     <Box
       sx={{
         flexGrow: 1,
-        direction:
-          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <Toolbar
@@ -216,12 +214,20 @@ const EnhancedTableToolbar = (props) => {
           </Typography>
         ) : (
           <Typography
-            sx={{ flex: "1 1 100%" }}
+            sx={{
+              display: "flex",
+              alignItems:
+                localStorage.getItem("language") === "arabic"
+                  ? "flex-end"
+                  : "flex-start",
+            }}
             variant="h6"
             id="tableTitle"
             component="div"
           >
-            Auctions List
+            {localStorage.getItem("language") === "arabic"
+              ? "قائمة المزادات"
+              : "Auctions List "}
           </Typography>
         )}
 

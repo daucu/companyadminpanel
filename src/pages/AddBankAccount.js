@@ -1,6 +1,7 @@
 import {
   AppBar,
   Autocomplete,
+  Box,
   Button,
   CircularProgress,
   Divider,
@@ -92,15 +93,19 @@ function AddBankAccount() {
     setOpen(false);
   };
   return (
-    <div
+    <Box
       style={{
         marginTop: "20px",
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <form>
         <AppBar position="static">
           <Toolbar variant="dense" sx={{ background: "#333" }}>
-            Add Bankaccounts
+            {localStorage.getItem("language") === "arabic"
+              ? "إضافة حسابات بنكية"
+              : "Add Bankaccounts"}
             <Divider sx={{ flexGrow: 1 }} />
             {btnLoading === true ? (
               <Button
@@ -144,8 +149,18 @@ function AddBankAccount() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              Bank Name
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "17px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "اسم البنك"
+                : "Bank Name"}
             </InputLabel>
           </div>
           <div
@@ -179,8 +194,18 @@ function AddBankAccount() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              Branch Name
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "17px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "اسم الفرع"
+                : "Branch Name"}
             </InputLabel>
           </div>
           <div
@@ -214,8 +239,18 @@ function AddBankAccount() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              Account Type
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "17px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "نوع الحساب"
+                : "Account Type"}
             </InputLabel>
           </div>
           <div
@@ -249,8 +284,18 @@ function AddBankAccount() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              Account Number
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "17px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "رقم حساب"
+                : "Account Number"}
             </InputLabel>
           </div>
           <div
@@ -284,7 +329,19 @@ function AddBankAccount() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">Address</InputLabel>
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "17px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "عنوان"
+                : "Address"}
+            </InputLabel>
           </div>
           <div
             style={{
@@ -317,8 +374,18 @@ function AddBankAccount() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              IFSC Code
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "17px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "كود IFSC"
+                : "IFSC code "}
             </InputLabel>
           </div>
           <div
@@ -352,8 +419,18 @@ function AddBankAccount() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              SWIFT Code
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "17px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "شفرة SWIFT"
+                : "SWIFT code "}
             </InputLabel>
           </div>
           <div
@@ -398,7 +475,7 @@ function AddBankAccount() {
           </Alert>
         </Snackbar>
       ) : null}
-    </div>
+    </Box>
   );
 }
 

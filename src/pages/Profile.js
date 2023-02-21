@@ -95,7 +95,12 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
             {localStorage.getItem("language") === "arabic" ? "اسم" : "Name"}
           </InputLabel>
         </div>
@@ -128,7 +133,12 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
             {localStorage.getItem("language") === "arabic" ? "شعار" : "Logo"}
           </InputLabel>
         </div>
@@ -161,7 +171,12 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
             {localStorage.getItem("language") === "arabic"
               ? "وصف"
               : "Discription"}
@@ -198,7 +213,12 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
             {localStorage.getItem("language") === "arabic" ? "دولة" : "Country"}
           </InputLabel>
         </div>
@@ -238,7 +258,12 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
             {localStorage.getItem("language") === "arabic"
               ? "خرائط جوجل"
               : "Google Map"}
@@ -276,7 +301,12 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
             {localStorage.getItem("language") === "arabic"
               ? "رقم الرخصة"
               : "License Number"}
@@ -314,8 +344,15 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">
-            Company Owner
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
+            {localStorage.getItem("language") === "arabic"
+              ? "صاحب شركة"
+              : "Company Owner"}
           </InputLabel>
         </div>
         <div
@@ -350,7 +387,16 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">User name</InputLabel>
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
+            {localStorage.getItem("language") === "arabic"
+              ? "اسم المستخدم"
+              : "User name"}
+          </InputLabel>
         </div>
         <div
           style={{
@@ -383,8 +429,15 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">
-            User mobile
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
+            {localStorage.getItem("language") === "arabic"
+              ? "المستخدم المحمول"
+              : "User Mobile"}
           </InputLabel>
         </div>
         <div
@@ -418,8 +471,15 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">
-            User Email
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
+            {localStorage.getItem("language") === "arabic"
+              ? "البريد الالكتروني للمستخدم"
+              : "User Email"}
           </InputLabel>
         </div>
         <div
@@ -453,7 +513,16 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">User Role</InputLabel>
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
+            {localStorage.getItem("language") === "arabic"
+              ? "دور المستخدم"
+              : "User Role"}
+          </InputLabel>
         </div>
         <div
           style={{
@@ -486,8 +555,15 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">
-            User signature
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
+            {localStorage.getItem("language") === "arabic"
+              ? "توقيع المستخدم"
+              : "User signature"}
           </InputLabel>
         </div>
         <div
@@ -519,8 +595,15 @@ function Profile() {
             alignItems: "center",
           }}
         >
-          <InputLabel htmlFor="outlined-adornment-amount">
-            Company Stamp
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{
+              fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
+            }}
+          >
+            {localStorage.getItem("language") === "arabic"
+              ? "ختم الشركة"
+              : "Company Stamp"}
           </InputLabel>
         </div>
         <div

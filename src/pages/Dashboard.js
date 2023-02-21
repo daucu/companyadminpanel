@@ -216,7 +216,8 @@ export default function Dashboard() {
           boxShadow: 0,
           animation: "fadeIn 0.5s ease-in-out",
           transition: "box-shadow 1s ease-in-out",
-          direction:localStorage.getItem("language")==="arabic"?"rtl":"ltr"
+          direction:
+            localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
         }}
       >
         <Grid container spacing={1}>
@@ -234,7 +235,9 @@ export default function Dashboard() {
                     color: "#1A2027",
                   }}
                 >
-                  Total Products
+                {
+                    localStorage.getItem("language") === "arabic" ? "إجمالي المنتجات" : "Total Products"
+                  }
                 </Typography>
 
                 {productLoading === true ? (
@@ -288,7 +291,9 @@ export default function Dashboard() {
                     color: "#1A2027",
                   }}
                 >
-                  Total Auctions
+                   {
+                    localStorage.getItem("language") === "arabic" ? "إجمالي المزادات" : "Total Auctions"
+                  }
                 </Typography>
                 {auctionLoading === true ? (
                   <Typography
@@ -341,7 +346,9 @@ export default function Dashboard() {
                     color: "#1A2027",
                   }}
                 >
-                  Total Contracts
+                  {localStorage.getItem("language") === "arabic"
+                    ? "إجمالي العقود"
+                    : "Total Contracts"}
                 </Typography>
                 {contractLoading === true ? (
                   <Typography
@@ -394,7 +401,9 @@ export default function Dashboard() {
                     color: "#1A2027",
                   }}
                 >
-                  Total Tags
+                  {localStorage.getItem("language") === "arabic"
+                    ? "مجموع العلامات"
+                    : "Total Tags"}
                 </Typography>
                 {tagsLoading === true ? (
                   <Typography
@@ -449,7 +458,9 @@ export default function Dashboard() {
                     color: "#1A2027",
                   }}
                 >
-                  Total Services
+                  {localStorage.getItem("language") === "arabic"
+                    ? "إجمالي الخدمات"
+                    : "Total Services"}
                 </Typography>
                 <Typography
                   sx={{

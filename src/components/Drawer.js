@@ -48,9 +48,9 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
+  direction: localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
   background: "#fff",
   // code to get langugae from local storage and set it to rtl
-  direction: localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
 });
 
 const closedMixin = (theme) => ({
@@ -406,10 +406,16 @@ export default function MiniDrawer() {
                   sx={{
                     color: "rgb(85,85,85)",
                     padding: "5px 10px",
-                    textAlign: "left",
+                    textAlign:
+                      localStorage.getItem("language") === "arabic"
+                        ? "right"
+                        : "left",
                     alignItems: "center",
                     display: "flex",
-                    justifyContent: "left",
+                    justifyContent:
+                      localStorage.getItem("language") === "arabic"
+                        ? "right"
+                        : "left",
                     marginBottom: 1,
                   }}
                 />
@@ -451,10 +457,16 @@ export default function MiniDrawer() {
                         location.pathname === item.url
                           ? "white"
                           : "rgb(33,33,33)",
-                      textAlign: "left",
+                      textAlign:
+                        localStorage.getItem("language") === "arabic"
+                          ? "right"
+                          : "left",
                       alignItems: "center",
                       display: "flex",
-                      justifyContent: "left",
+                      justifyContent:
+                        localStorage.getItem("language") === "arabic"
+                          ? "right"
+                          : "left",
                       marginBottom: 1,
                     }}
                   />

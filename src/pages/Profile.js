@@ -188,7 +188,11 @@ function Profile() {
           }}
         >
           <TextField
-            label="Discription"
+            label={
+              localStorage.getItem("language") === "arabic"
+                ? "وصف"
+                : "Discription"
+            }
             multiline
             rows={4}
             id="outlined-basic"
@@ -276,10 +280,12 @@ function Profile() {
         >
           <TextField
             id="outlined-basic"
-            label="Google map url location
-            "
-            placeholder="Google map url location
-            "
+            label={
+              localStorage.getItem("language") === "arabic"
+                ? "خرائط جوجل"
+                : "Google Map"
+            }
+            placeholder="خرائط جوجل"
             size="small"
             variant="outlined"
             sx={{ width: "100%", marginTop: 1 }}
@@ -319,9 +325,12 @@ function Profile() {
         >
           <TextField
             id="outlined-basic"
-            label="License Number registered in selected country
-            "
-            placeholder="License Number registered in selected country
+            label={
+              localStorage.getItem("language") === "arabic"
+                ? "رقم الرخصة"
+                : "License Number"
+            }
+            placeholder="License Number 
             "
             size="small"
             variant="outlined"
@@ -362,10 +371,12 @@ function Profile() {
         >
           <TextField
             id="outlined-basic"
-            label="Company
-            "
-            placeholder="Owner
-            "
+            label={
+              localStorage.getItem("language") === "arabic"
+                ? "صاحب شركة"
+                : "Company Owner"
+            }
+            placeholder="صاحب شركة"
             size="small"
             variant="outlined"
             sx={{ width: "100%", marginTop: 1 }}
@@ -392,6 +403,11 @@ function Profile() {
             style={{
               fontSize: localStorage.getItem("language") === "arabic" ? 25 : 17,
             }}
+            label={
+              localStorage.getItem("language") === "arabic"
+                ? "اسم المستخدم"
+                : "User name"
+            }
           >
             {localStorage.getItem("language") === "arabic"
               ? "اسم المستخدم"
@@ -406,8 +422,7 @@ function Profile() {
           <TextField
             id="outlined-basic"
             value={userprofileData.username}
-            placeholder="User name
-            "
+            placeholder="User name"
             size="small"
             variant="outlined"
             sx={{ width: "100%", marginTop: 1 }}

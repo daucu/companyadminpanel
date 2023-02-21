@@ -41,6 +41,19 @@ import { toast } from "react-toastify";
 
 const drawerWidth = 250;
 
+// code to make mui drawer position right side of the screen when language is arabic
+
+// how to give condition to check if language is arabic then drawer position right side of the screen
+// and if language is english then drawer position left side of the screen
+
+if (localStorage.getItem("language") === "arabic") {
+  // alert("arabic");
+  // code to make mui drawer position right side of the screen when language is arabic
+  // alert("arabic");
+} else {
+  // alert("english");
+}
+
 const openedMixin = (theme) => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -59,6 +72,8 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
+  // code to calculate width of drawer if language is arabic
+
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(7)} + 1px)`,
@@ -79,16 +94,27 @@ const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
+  direction: localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
+    direction: localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
   }),
   ...(open && {
     marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    //  code to calculate width of drawer if language is arabic
+    // width: `calc(100% - ${drawerWidth}px)`,
+    // set width of drawer into 100% if language is arabic
+    width:
+      localStorage.getItem("language") !== "arabic"
+        ? `calc(100% - ${drawerWidth}px)`
+        : "100%",
 
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
+      direction: localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
@@ -238,12 +264,13 @@ export default function MiniDrawer() {
     <Box
       sx={{
         display: "flex",
+        flexDirection:
+          localStorage.getItem("language") === "arabic" ? "row-reverse" : "row",
       }}
     >
       <CssBaseline />
       <AppBar
         position="fixed"
-        
         open={open}
         sx={{
           boxShadow: 0,
@@ -322,7 +349,15 @@ export default function MiniDrawer() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open} sx={{ background: "#fff" }}>
+      <Drawer
+        variant="permanent"
+        open={open}
+        sx={{ background: "#fff" }}
+        // set anchor to right if language is arabic
+        anchor={
+          localStorage.getItem("language") === "arabic" ? "right" : "left"
+        }
+      >
         <AppBar position="static" color="default" elevation={0}>
           <Toolbar
             variant="dense"

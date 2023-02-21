@@ -84,21 +84,10 @@ function App() {
       })
       .then((res) => {
         setLoadingif(false);
-        // if (res.data.islogin === true) {
-        //   navigate(window.location.pathname);
-        //   if (window.location.pathname === "/") {
-        //     navigate("/admin");
-        //   } else {
-        //     navigate(window.location.pathname);
-        //   }
-        // } else {
-        //   navigate("/");
-        // }
       })
       .catch((e) => {
         console.log(e);
         setLoadingif(false);
-        // navigate("/");
       });
   };
 

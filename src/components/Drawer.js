@@ -437,7 +437,7 @@ export default function MiniDrawer() {
                   primary={item.name}
                   primaryTypographyProps={{
                     fontSize:
-                      localStorage.getItem("language") === "arabic" ? 30 : 18,
+                      localStorage.getItem("language") === "arabic" ? 25 : 18,
                     fontWeight: "semibold",
                   }}
                   sx={{

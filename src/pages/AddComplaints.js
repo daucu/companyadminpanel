@@ -49,8 +49,8 @@ function AddComplaints() {
     <div
       style={{
         marginTop: "20px",
-        direction:localStorage.getItem("language")==="arabic"?"rtl":"ltr",
-
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <AppBar position="static">
@@ -61,7 +61,9 @@ function AddComplaints() {
             aria-label="menu"
             sx={{ mr: 2 }}
           ></IconButton>
-          Add Complaints
+          {localStorage.getItem("language") === "arabic"
+            ? "أضف الشكاوى"
+            : "Add Complaints"}
           <Divider sx={{ flexGrow: 1 }} />
           <Button
             variant="contained"
@@ -92,8 +94,18 @@ function AddComplaints() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              Contract
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "16px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "عقد"
+                : "Contract"}
             </InputLabel>
           </div>
           <div
@@ -127,7 +139,17 @@ function AddComplaints() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">Value</InputLabel>
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "16px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic" ? "قيمة" : "Value"}
+            </InputLabel>
           </div>
           <div
             style={{
@@ -160,7 +182,19 @@ function AddComplaints() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">Items</InputLabel>
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "16px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "أغراض"
+                : "Items"}
+            </InputLabel>
           </div>
           <div
             style={{
@@ -193,8 +227,18 @@ function AddComplaints() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              Currency
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "16px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "عملة"
+                : "Currency"}
             </InputLabel>
           </div>
           <div
@@ -228,8 +272,18 @@ function AddComplaints() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              Minimal_step
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "16px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "أدنى_خطوة"
+                : "Minimal_step"}
             </InputLabel>
           </div>
           <div
@@ -263,8 +317,18 @@ function AddComplaints() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">
-              Description
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "16px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "وصف"
+                : "Description"}
             </InputLabel>
           </div>
           <div
@@ -298,7 +362,19 @@ function AddComplaints() {
               alignItems: "center",
             }}
           >
-            <InputLabel htmlFor="outlined-adornment-amount">Title</InputLabel>
+            <InputLabel
+              htmlFor="outlined-adornment-amount"
+              style={{
+                fontSize:
+                  localStorage.getItem("language") === "arabic"
+                    ? "20px"
+                    : "16px",
+              }}
+            >
+              {localStorage.getItem("language") === "arabic"
+                ? "عنوان"
+                : "Title"}
+            </InputLabel>
           </div>
           <div
             style={{

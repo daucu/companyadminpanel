@@ -116,7 +116,9 @@ export default function CustomizedList() {
         <AppBar position="static">
           <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
             <Typography variant="h6" color="inherit" component="div">
-              Settings
+              {localStorage.getItem("language") === "arabic"
+                ? "إعدادات"
+                : "Settings"}
             </Typography>
             <Divider sx={{ flexGrow: 1 }} />
             <Button
@@ -139,9 +141,10 @@ export default function CustomizedList() {
           style={{
             marginTop: "20px",
             textAlign: "left",
+            fontSize:localStorage.getItem("language") === "arabic" ? "20px" : "16px",
           }}
         >
-          Language
+          {localStorage.getItem("language") === "arabic" ? "لغة" : "Language"}
         </InputLabel>
         <Select
           labelId="demo-simple-select-label"

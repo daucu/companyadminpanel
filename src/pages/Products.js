@@ -96,13 +96,14 @@ const headCells = [
     id: "1",
     numeric: false,
     disablePadding: true,
-    label: "Image",
+    label:  localStorage.getItem("language") === "arabic" ? "الصورة" : "Image",
+
   },
   {
     id: "2",
     numeric: false,
     disablePadding: true,
-    label: "Products Name",
+    label: localStorage.getItem("language") === "arabic" ? "اسم المنتجات" : "Products Name",
   },
   // {
   //   id: "3",
@@ -132,13 +133,13 @@ const headCells = [
     id: "6",
     numeric: false,
     disablePadding: false,
-    label: "Description",
+    label: localStorage.getItem("language") === "arabic" ? "وصف" : "Description",
   },
   {
     id: "7",
     numeric: false,
     disablePadding: false,
-    label: "Published At",
+    label:  localStorage.getItem("language") === "arabic" ? "نشرت في" : "Published At",
   },
   // {
   //   id: "8",

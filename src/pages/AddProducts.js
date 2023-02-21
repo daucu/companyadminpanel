@@ -313,8 +313,16 @@ export default function AddProduct() {
                       {/* Product title */}
                       <TextField
                         id="outlined-basic"
-                        placeholder="Product name"
-                        label="Product name"
+                        placeholder={
+                          localStorage.getItem("language") === "arabic"
+                            ? "اسم المنتج"
+                            : "Product name"
+                        }
+                        label={
+                          localStorage.getItem("language") === "arabic"
+                            ? "اسم المنتج"
+                            : "Product name"
+                        }
                         size="small"
                         name={name}
                         onChange={(e) => setName(e.target.value)}
@@ -334,8 +342,16 @@ export default function AddProduct() {
                       {/* Product Description */}
                       <TextField
                         id="outlined-basic"
-                        placeholder="Product content"
-                        label="Product Description"
+                        placeholder={
+                          localStorage.getItem("language") === "arabic"
+                            ? "وصف المنتج"
+                            : "Product Description"
+                        }
+                        label={
+                          localStorage.getItem("language") === "arabic"
+                            ? "وصف المنتج"
+                            : "Product Description"
+                        }
                         multiline={true}
                         name={description}
                         onChange={(e) => setDescription(e.target.value)}
@@ -362,7 +378,9 @@ export default function AddProduct() {
                         }}
                         id="demo-simple-select-outlined-label"
                       >
-                        Category
+                        {localStorage.getItem("language") === "arabic"
+                          ? "فئة"
+                          : "Category"}
                       </InputLabel>
                       <Select
                         labelId="demo-simple-select-outlined-label"
@@ -375,7 +393,11 @@ export default function AddProduct() {
                           textAlign: "left",
                         }}
                         onChange={(e) => setCategory(e.target.value)}
-                        label="Category"
+                        label={
+                          localStorage.getItem("language") === "arabic"
+                            ? "فئة"
+                            : "Category"
+                        }
                       >
                         {categories.map((category) => (
                           <MenuItem value={category.id}>
@@ -391,7 +413,11 @@ export default function AddProduct() {
                         }}
                         id="demo-simple-select-outlined-label"
                       >
-                        Video
+                       {
+                        localStorage.getItem("language") === "arabic"
+                        ? "فيديو"
+                        : "Video"
+                       }
                       </InputLabel>
                       <TextField
                         id="outlined-basic"
@@ -411,7 +437,11 @@ export default function AddProduct() {
                         }}
                         id="demo-simple-select-outlined-label"
                       >
-                        Video Thumbnail
+                        {
+                        localStorage.getItem("language") === "arabic"
+                        ? "صورة مصغرة للفيديو"
+                        : "Video Thumbnail"
+                       }
                       </InputLabel>
                       <TextField
                         id="outlined-basic"
@@ -431,7 +461,11 @@ export default function AddProduct() {
                         }}
                         id="demo-simple-select-outlined-label"
                       >
-                        Gallery
+                       {
+                        localStorage.getItem("language") === "arabic"
+                        ? "صالة عرض"
+                        : "Gallery"
+                       }
                       </InputLabel>
                       <TextField
                         id="outlined-basic"
@@ -452,7 +486,9 @@ export default function AddProduct() {
                         }}
                         id="demo-simple-select-outlined-label"
                       >
-                        Tags
+                       {
+                        localStorage.getItem("language") === "arabic" ? "العلامات" : "Tags"
+                       }
                       </InputLabel>
                       {/* map tags in autocomplete selct menu option with chip  */}
                       <Autocomplete

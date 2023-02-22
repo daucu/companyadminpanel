@@ -115,7 +115,11 @@ function AddComplaints() {
           >
             <TextField
               id="outlined-basic"
-              label="Contract"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "عقد"
+                  : "Contract"
+              }
               name={contract}
               onChange={(e) => setContract(e.target.value)}
               size="small"
@@ -158,7 +162,9 @@ function AddComplaints() {
           >
             <TextField
               id="outlined-basic"
-              label="Value"
+              label={
+                localStorage.getItem("language") === "arabic" ? "قيمة" : "Value"
+              }
               name={value}
               onChange={(e) => setValue(e.target.value)}
               size="small"
@@ -203,7 +209,11 @@ function AddComplaints() {
           >
             <TextField
               id="outlined-basic"
-              label="Items"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "أغراض"
+                  : "Items"
+              }
               size="small"
               name={items}
               onChange={(e) => setItems(e.target.value)}
@@ -248,7 +258,11 @@ function AddComplaints() {
           >
             <TextField
               id="outlined-basic"
-              label="Currency"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "عملة"
+                  : "Currency"
+              }
               size="small"
               name={currency}
               onChange={(e) => setCurrency(e.target.value)}
@@ -293,7 +307,11 @@ function AddComplaints() {
           >
             <TextField
               id="outlined-basic"
-              label="Minimal_step"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "أدنى_خطوة"
+                  : "Minimal_step"
+              }
               size="small"
               name={minimal_step}
               onChange={(e) => setMinimal_step(e.target.value)}
@@ -338,7 +356,11 @@ function AddComplaints() {
           >
             <TextField
               id="outlined-basic"
-              label="Description"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "وصف"
+                  : "Description"
+              }
               size="small"
               name={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -383,7 +405,11 @@ function AddComplaints() {
           >
             <TextField
               id="outlined-basic"
-              label="Title"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "عنوان"
+                  : "Title"
+              }
               size="small"
               name={title}
               onChange={(e) => setTitle(e.target.value)}

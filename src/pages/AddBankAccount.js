@@ -170,7 +170,11 @@ function AddBankAccount() {
           >
             <TextField
               id="outlined-basic"
-              label="Bank Name"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "اسم البنك"
+                  : "Bank Name"
+              }
               size="small"
               name={bank_name}
               onChange={(e) => setBank_name(e.target.value)}
@@ -215,7 +219,11 @@ function AddBankAccount() {
           >
             <TextField
               id="outlined-basic"
-              label="Branch Name"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "اسم الفرع"
+                  : "Branch Name"
+              }
               name={branch_name}
               onChange={(e) => setBranch_name(e.target.value)}
               size="small"
@@ -260,7 +268,11 @@ function AddBankAccount() {
           >
             <TextField
               id="outlined-basic"
-              label="Account Type"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "نوع الحساب"
+                  : "Account Type"
+              }
               name={account_type}
               onChange={(e) => setAccount_type(e.target.value)}
               size="small"
@@ -305,7 +317,11 @@ function AddBankAccount() {
           >
             <TextField
               id="outlined-basic"
-              label="Account Number"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "رقم حساب"
+                  : "Account Number"
+              }
               name={account_number}
               onChange={(e) => setAccount_number(e.target.value)}
               size="small"
@@ -350,7 +366,11 @@ function AddBankAccount() {
           >
             <TextField
               id="outlined-basic"
-              label="Address"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "عنوان"
+                  : "Address"
+              }
               name={address}
               onChange={(e) => setAddress(e.target.value)}
               size="small"
@@ -395,7 +415,11 @@ function AddBankAccount() {
           >
             <TextField
               id="outlined-basic"
-              label="IFSC"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "كود IFSC"
+                  : "IFSC code "
+              }
               name={ifsc_code}
               onChange={(e) => setIfsc_code(e.target.value)}
               size="small"
@@ -440,7 +464,9 @@ function AddBankAccount() {
           >
             <TextField
               id="outlined-basic"
-              label="SWIFT"
+              label={
+                localStorage.getItem("language") === "arabic" ? "شفرة" : "SWIFT"
+              }
               name={swift_code}
               onChange={(e) => setSwift_code(e.target.value)}
               size="small"

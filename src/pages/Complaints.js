@@ -43,25 +43,25 @@ const headCells = [
     id: "1",
     numeric: false,
     disablePadding: true,
-    label: "Name",
+    label: localStorage.getItem("language") === "arabic" ? "العنوان" : "Title",
   },
   {
     id: "2",
     numeric: false,
     disablePadding: true,
-    label: "Description",
+    label:  localStorage.getItem("language") === "arabic" ? "الوصف" : "Description",
   },
   {
     id: "3",
     numeric: false,
     disablePadding: false,
-    label: "Published At",
+    label:  localStorage.getItem("language") === "arabic" ? "التاريخ" : "Date",
   },
   {
     id: "4",
     numeric: false,
     disablePadding: false,
-    label: "Actions",
+    label:  localStorage.getItem("language") === "arabic" ? "أجراءات" : "Actions",
   },
 ];
 

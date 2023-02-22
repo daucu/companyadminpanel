@@ -230,7 +230,9 @@ function AddAuction() {
         >
           <TextField
             id="outlined-basic"
-            label="Title"
+            label={
+              localStorage.getItem("language") === "arabic" ? "عنوان" : "Title"
+            }
             variant="outlined"
             size="small"
             name={title}
@@ -242,7 +244,11 @@ function AddAuction() {
           />
           <TextField
             id="outlined-basic"
-            label="Description"
+            label={
+              localStorage.getItem("language") === "arabic"
+                ? "وصف"
+                : "Description"
+            }
             multiline
             rows={6}
             variant="outlined"
@@ -258,7 +264,11 @@ function AddAuction() {
           <Stack direction="row" spacing={2}>
             <TextField
               id="outlined-basic"
-              label="Value"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "القيمة"
+                  : "Value"
+              }
               variant="outlined"
               size="small"
               type={"number"}
@@ -290,7 +300,11 @@ function AddAuction() {
           <Stack direction="row" spacing={2}>
             <TextField
               id="outlined-basic"
-              label="Minimal Step"
+              label={
+                localStorage.getItem("language") === "arabic"
+                  ? "الخطوة الأدنى"
+                  : "Minimal Step"
+              }
               variant="outlined"
               size="small"
               type={"number"}
@@ -333,7 +347,14 @@ function AddAuction() {
                 marginBottom: "10px",
               }}
               renderInput={(params) => (
-                <TextField {...params} label="Quick start time" />
+                <TextField
+                  {...params}
+                  label={
+                    localStorage.getItem("language") === "arabic"
+                      ? "بدء البيع"
+                      : "Start time"
+                  }
+                />
               )}
             />
 
@@ -365,7 +386,16 @@ function AddAuction() {
               width: "100%",
               marginBottom: "10px",
             }}
-            renderInput={(params) => <TextField {...params} label="Contract" />}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label={
+                  localStorage.getItem("language") === "arabic"
+                    ? "عقد"
+                    : "Contract"
+                }
+              />
+            )}
           />
 
           {/* <Select
@@ -422,11 +452,16 @@ function AddAuction() {
             id="demo-simple-select-label"
             sx={{
               width: "100%",
-              textAlign: "left",
+              textAlign:
+                localStorage.getItem("language") === "arabic"
+                  ? "right"
+                  : "left",
               paddingLeft: "10px",
             }}
           >
-            Items
+            {localStorage.getItem("language") === "arabic"
+              ? "المنتجات"
+              : "Items"}
           </InputLabel>
           <Select
             labelId="demo-simple-select-label"

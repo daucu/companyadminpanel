@@ -86,25 +86,26 @@ const headCells = [
     id: "bankName",
     numeric: false,
     disablePadding: true,
-    label: "Bank Name",
+    label:
+      localStorage.getItem("language") === "arabic" ? "اسم البنك" : "Bank Name",
   },
   {
     id: "ifsc",
     numeric: false,
     disablePadding: false,
-    label: "IFSC Code",
+    label:  localStorage.getItem("language") === "arabic" ? "كود IFSC" : "IFSC",
   },
   {
     id: "address",
     numeric: false,
     disablePadding: false,
-    label: "Address",
+    label:  localStorage.getItem("language") === "arabic" ? "العنوان" : "Address",
   },
   {
     id: "delete",
     numeric: false,
     disablePadding: false,
-    label: "Delete",
+    label:  localStorage.getItem("language") === "arabic" ? "حذف" : "Delete",
   },
   // {
   //   id: "Actions",

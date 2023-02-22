@@ -140,8 +140,11 @@ export default function CustomizedList() {
           id="demo-simple-select-label"
           style={{
             marginTop: "20px",
-            textAlign: "left",
-            fontSize:localStorage.getItem("language") === "arabic" ? "20px" : "16px",
+
+            textAlign:
+              localStorage.getItem("language") === "arabic" ? "right" : "left",
+            fontSize:
+              localStorage.getItem("language") === "arabic" ? "24px" : "16px",
           }}
         >
           {localStorage.getItem("language") === "arabic" ? "لغة" : "Language"}

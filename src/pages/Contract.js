@@ -50,25 +50,28 @@ const headCells = [
     id: "1",
     numeric: false,
     disablePadding: true,
-    label: "Name",
+    label: localStorage.getItem("language") === "arabic" ? "اسم" : "Name",
   },
   {
     id: "2",
     numeric: false,
     disablePadding: true,
-    label: "Return Terms",
+    label:
+      localStorage.getItem("language") === "arabic"
+        ? "شروط الاسترجاع"
+        : "Return Terms",
   },
   {
     id: "3",
     numeric: false,
     disablePadding: false,
-    label: "Published At",
+    label: localStorage.getItem("language") === "arabic" ? "حالة" : "Status",
   },
   {
     id: "4",
     numeric: false,
     disablePadding: false,
-    label: "Actions",
+    label:  localStorage.getItem("language") === "arabic" ? "أجراءات" : "Actions",
   },
 ];
 

@@ -1,11 +1,12 @@
-import { AppBar, Divider, IconButton, Toolbar } from "@mui/material";
+import { AppBar, Box, Divider, IconButton, Toolbar } from "@mui/material";
 import React from "react";
 
 function Ads() {
   return (
-    <div
+    <Box
       style={{
         marginTop: "20px",
+        direction: localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <AppBar position="static">
@@ -16,14 +17,16 @@ function Ads() {
             aria-label="menu"
             sx={{ mr: 2 }}
           ></IconButton>
-          Ads
+          {
+            localStorage.getItem("language") === "arabic" ? "إعلانات" : "Ads"
+          }
           <Divider sx={{ flexGrow: 1 }} />
           {/* <IconButton edge="start" color="inherit" aria-label="menu">
             <AddIcon />
           </IconButton> */}
         </Toolbar>
       </AppBar>
-    </div>
+    </Box>
   );
 }
 

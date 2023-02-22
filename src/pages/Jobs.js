@@ -6,6 +6,8 @@ function Jobs() {
     <div
       style={{
         marginTop: "20px",
+        direction:
+          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
       }}
     >
       <AppBar position="static">
@@ -16,7 +18,7 @@ function Jobs() {
             aria-label="menu"
             sx={{ mr: 2 }}
           ></IconButton>
-          Jobs
+          {localStorage.getItem("language") === "arabic" ? "وظائف" : "Jobs"}
           <Divider sx={{ flexGrow: 1 }} />
           {/* <IconButton edge="start" color="inherit" aria-label="menu">
             <AddIcon />

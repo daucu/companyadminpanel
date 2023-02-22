@@ -85,37 +85,42 @@ const headCells = [
     id: "createdBy",
     numeric: false,
     disablePadding: true,
-    label: "Created By",
+    label:
+      localStorage.getItem("language") === "arabic" ? "المنشئ" : "Created By",
   },
   {
     id: "currency",
     numeric: false,
     disablePadding: false,
-    label: "Currency",
+    label: localStorage.getItem("language") === "arabic" ? "عملة" : "Currency",
   },
   {
     id: "amount",
     numeric: false,
     disablePadding: false,
-    label: "Amount",
+    label: localStorage.getItem("language") === "arabic" ? "المبلغ" : "Amount",
   },
   {
     id: "description",
     numeric: false,
     disablePadding: false,
-    label: "Description",
+    label:
+      localStorage.getItem("language") === "arabic" ? "الوصف" : "Description",
   },
   {
     id: "createdAt",
     numeric: false,
     disablePadding: false,
-    label: "Created At",
+    label:
+      localStorage.getItem("language") === "arabic"
+        ? "تاريخ الإنشاء"
+        : "Created At",
   },
   {
     id: "action",
     numeric: false,
     disablePadding: false,
-    label: "Action",
+    label: localStorage.getItem("language") === "arabic" ? "الإجراء" : "Action",
   },
 ];
 

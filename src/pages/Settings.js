@@ -158,7 +158,8 @@ export default function CustomizedList() {
           onChange={handleLanguage}
           style={{
             width: "100%",
-            textAlign: "left",
+            textAlign:
+              localStorage.getItem("language") === "arabic" ? "right" : "left",
           }}
         >
           <MenuItem value={"english"}>English</MenuItem>

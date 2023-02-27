@@ -38,6 +38,9 @@ import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTo
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 // import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { Stack } from "@mui/system";
+import { useState } from "react";
+import axios from "axios";
+import { useEffect } from "react";
 const headCells = [
   {
     id: "1",
@@ -49,20 +52,22 @@ const headCells = [
     id: "2",
     numeric: false,
     disablePadding: true,
-    label:  localStorage.getItem("language") === "arabic" ? "الوصف" : "Description",
+    label:
+      localStorage.getItem("language") === "arabic" ? "الوصف" : "Description",
   },
   {
     id: "3",
     numeric: false,
     disablePadding: false,
-    label:  localStorage.getItem("language") === "arabic" ? "التاريخ" : "Date",
+    label: localStorage.getItem("language") === "arabic" ? "التاريخ" : "Date",
   },
-  {
-    id: "4",
-    numeric: false,
-    disablePadding: false,
-    label:  localStorage.getItem("language") === "arabic" ? "أجراءات" : "Actions",
-  },
+  // {
+  //   id: "4",
+  //   numeric: false,
+  //   disablePadding: false,
+  //   label:
+  //     localStorage.getItem("language") === "arabic" ? "أجراءات" : "Actions",
+  // },
 ];
 
 function EnhancedTableHead(props) {
@@ -229,6 +234,23 @@ export default function Complaints() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  // code to get all complaints
+  const [complaints, setComplaints] = useState([]);
+  const getAllComplaints = () => {
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/complaints`)
+      .then((res) => {
+        console.log(res.data);
+        setComplaints(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getAllComplaints();
+  }, []);
+
   return (
     <Box
       sx={{
@@ -289,52 +311,63 @@ export default function Complaints() {
           >
             <EnhancedTableHead />
             <TableBody>
-              <TableRow
-                hover
-                role="checkbox"
-                tabIndex={-1}
-                sx={{ color: "#fff" }}
-              >
-                <TableCell padding="checkbox">
-                  <Checkbox color="primary" />
-                </TableCell>
+              {complaints &&
+                complaints.map((item, key) => {
+                  return (
+                    <>
+                      {" "}
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        sx={{ color: "#fff" }}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox color="primary" />
+                        </TableCell>
 
-                <TableCell scope="row" padding="none">
-                  <Typography
-                    size="small"
-                    sx={{
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      maxWidth: "20ch",
-                      textOverflow: "ellipsis",
-                      cursor: "pointer",
-                    }}
-                  >
-                    SDFDG
-                  </Typography>
-                </TableCell>
+                        <TableCell scope="row" padding="none">
+                          <Typography
+                            size="small"
+                            sx={{
+                              overflow: "hidden",
+                              whiteSpace: "nowrap",
+                              maxWidth: "20ch",
+                              textOverflow: "ellipsis",
+                              cursor: "pointer",
+                            }}
+                          >
+                            {item.title}
+                          </Typography>
+                        </TableCell>
 
-                <TableCell
-                  component="th"
-                  scope="row"
-                  padding="none"
-                  sx={{
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    maxWidth: "20ch",
-                    minWidth: "15ch",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  gjfgj
-                </TableCell>
-                <TableCell align="left" sx={{}}>
-                  4 USD
-                </TableCell>
-                <TableCell align="left" sx={{}} style={{}}>
-                  <Stack direction={"row"} sx={{ columnGap: "10px" }}></Stack>
-                </TableCell>
-              </TableRow>
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          padding="none"
+                          sx={{
+                            overflow: "hidden",
+                            whiteSpace: "nowrap",
+                            maxWidth: "20ch",
+                            minWidth: "15ch",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {item.description}
+                        </TableCell>
+                        <TableCell align="left" sx={{}}>
+                          {item.createAt}
+                        </TableCell>
+                        {/* <TableCell align="left" sx={{}} style={{}}>
+                          <Stack
+                            direction={"row"}
+                            sx={{ columnGap: "10px" }}
+                          ></Stack>
+                        </TableCell> */}
+                      </TableRow>
+                    </>
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>

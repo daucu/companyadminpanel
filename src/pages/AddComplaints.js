@@ -9,13 +9,9 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 function AddComplaints() {
-  const [contract, setContract] = useState("");
-  const [value, setValue] = useState("");
-  const [items, setItems] = useState("");
-  const [currency, setCurrency] = useState("");
-  const [minimal_step, setMinimal_step] = useState("");
   const [description, setDescription] = useState("");
   const [token, setToken] = useState("token");
   const [title, setTitle] = useState("");
@@ -24,24 +20,23 @@ function AddComplaints() {
     e.preventDefault();
 
     const data = {
-      contract: contract,
-      value: value,
-      items: items,
-      currency: currency,
-      minimal_step: minimal_step,
       description: description,
-      token: token,
       title: title,
     };
 
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/bids`, data)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/complaints`, data, {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      })
       .then((res) => {
         console.log(res);
-        console.log(res.data);
+        toast.success("Complaints Added Successfully");
       })
       .catch((e) => {
         console.log(e);
+        toast.error("Something went wrong");
       });
   };
 
@@ -104,8 +99,8 @@ function AddComplaints() {
               }}
             >
               {localStorage.getItem("language") === "arabic"
-                ? "عقد"
-                : "Contract"}
+                ? "عنوان"
+                : "Title"}
             </InputLabel>
           </div>
           <div
@@ -117,204 +112,12 @@ function AddComplaints() {
               id="outlined-basic"
               label={
                 localStorage.getItem("language") === "arabic"
-                  ? "عقد"
-                  : "Contract"
-              }
-              name={contract}
-              onChange={(e) => setContract(e.target.value)}
-              size="small"
-              variant="outlined"
-              sx={{ width: "100%", marginTop: 2 }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "25%",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <InputLabel
-              htmlFor="outlined-adornment-amount"
-              style={{
-                fontSize:
-                  localStorage.getItem("language") === "arabic"
-                    ? "20px"
-                    : "16px",
-              }}
-            >
-              {localStorage.getItem("language") === "arabic" ? "قيمة" : "Value"}
-            </InputLabel>
-          </div>
-          <div
-            style={{
-              width: "75%",
-            }}
-          >
-            <TextField
-              id="outlined-basic"
-              label={
-                localStorage.getItem("language") === "arabic" ? "قيمة" : "Value"
-              }
-              name={value}
-              onChange={(e) => setValue(e.target.value)}
-              size="small"
-              variant="outlined"
-              sx={{ width: "100%", marginTop: 1 }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "25%",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <InputLabel
-              htmlFor="outlined-adornment-amount"
-              style={{
-                fontSize:
-                  localStorage.getItem("language") === "arabic"
-                    ? "20px"
-                    : "16px",
-              }}
-            >
-              {localStorage.getItem("language") === "arabic"
-                ? "أغراض"
-                : "Items"}
-            </InputLabel>
-          </div>
-          <div
-            style={{
-              width: "75%",
-            }}
-          >
-            <TextField
-              id="outlined-basic"
-              label={
-                localStorage.getItem("language") === "arabic"
-                  ? "أغراض"
-                  : "Items"
+                  ? "عنوان"
+                  : "Title"
               }
               size="small"
-              name={items}
-              onChange={(e) => setItems(e.target.value)}
-              variant="outlined"
-              sx={{ width: "100%", marginTop: 1 }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "25%",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <InputLabel
-              htmlFor="outlined-adornment-amount"
-              style={{
-                fontSize:
-                  localStorage.getItem("language") === "arabic"
-                    ? "20px"
-                    : "16px",
-              }}
-            >
-              {localStorage.getItem("language") === "arabic"
-                ? "عملة"
-                : "Currency"}
-            </InputLabel>
-          </div>
-          <div
-            style={{
-              width: "75%",
-            }}
-          >
-            <TextField
-              id="outlined-basic"
-              label={
-                localStorage.getItem("language") === "arabic"
-                  ? "عملة"
-                  : "Currency"
-              }
-              size="small"
-              name={currency}
-              onChange={(e) => setCurrency(e.target.value)}
-              variant="outlined"
-              sx={{ width: "100%", marginTop: 1 }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "25%",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <InputLabel
-              htmlFor="outlined-adornment-amount"
-              style={{
-                fontSize:
-                  localStorage.getItem("language") === "arabic"
-                    ? "20px"
-                    : "16px",
-              }}
-            >
-              {localStorage.getItem("language") === "arabic"
-                ? "أدنى_خطوة"
-                : "Minimal_step"}
-            </InputLabel>
-          </div>
-          <div
-            style={{
-              width: "75%",
-            }}
-          >
-            <TextField
-              id="outlined-basic"
-              label={
-                localStorage.getItem("language") === "arabic"
-                  ? "أدنى_خطوة"
-                  : "Minimal_step"
-              }
-              size="small"
-              name={minimal_step}
-              onChange={(e) => setMinimal_step(e.target.value)}
+              name={title}
+              onChange={(e) => setTitle(e.target.value)}
               variant="outlined"
               sx={{ width: "100%", marginTop: 1 }}
             />
@@ -364,55 +167,6 @@ function AddComplaints() {
               size="small"
               name={description}
               onChange={(e) => setDescription(e.target.value)}
-              variant="outlined"
-              sx={{ width: "100%", marginTop: 1 }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "25%",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <InputLabel
-              htmlFor="outlined-adornment-amount"
-              style={{
-                fontSize:
-                  localStorage.getItem("language") === "arabic"
-                    ? "20px"
-                    : "16px",
-              }}
-            >
-              {localStorage.getItem("language") === "arabic"
-                ? "عنوان"
-                : "Title"}
-            </InputLabel>
-          </div>
-          <div
-            style={{
-              width: "75%",
-            }}
-          >
-            <TextField
-              id="outlined-basic"
-              label={
-                localStorage.getItem("language") === "arabic"
-                  ? "عنوان"
-                  : "Title"
-              }
-              size="small"
-              name={title}
-              onChange={(e) => setTitle(e.target.value)}
               variant="outlined"
               sx={{ width: "100%", marginTop: 1 }}
             />

@@ -111,13 +111,13 @@ const menu_items = [
     url: "/admin",
   },
   {
-    name: localStorage.getItem("language") === "arabic" ? "صفقات" : "Users",
+    name: localStorage.getItem("language") === "arabic" ? "صفقات" : "Deals",
     icon: <TipsAndUpdatesOutlined />,
     url: "/admin/deals",
   },
 
   {
-    name: localStorage.getItem("language") === "arabic" ? "عروض" : "Users",
+    name: localStorage.getItem("language") === "arabic" ? "عروض" : "Offers",
     icon: <StarBorderPurple500TwoToneIcon />,
     url: "/admin/offer",
   },
@@ -126,7 +126,7 @@ const menu_items = [
     header: true,
   },
   {
-    name: localStorage.getItem("language") === "arabic" ? "محافظ" : "Users",
+    name: localStorage.getItem("language") === "arabic" ? "محافظ" : "Wallets",
     icon: <WalletOutlined />,
     url: "/admin/wallets",
   },

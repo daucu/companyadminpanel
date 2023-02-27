@@ -65,6 +65,7 @@ import Offer from "./pages/Offer";
 import Bid from "./pages/Bid";
 import AddBid from "./pages/AddBid";
 import New_Drawer from "./components/New_Drawer";
+import LoginWithOtp from "./pages/LoginWithOtp";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -105,6 +106,7 @@ function App() {
         <>
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/loginwithOtp" element={<LoginWithOtp />} />
             <Route path="/company_reg" element={<Company_reg />} />
             <Route path="/search" element={<Search />} />
 

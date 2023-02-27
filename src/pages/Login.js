@@ -1,4 +1,3 @@
-
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -216,6 +215,20 @@ export default function Login() {
                 </Link>
               </Grid>
             </Grid>
+            {/* <Grid container>
+              <Grid item xs>
+                <h4 href="/register" variant="body2">
+                  OR
+                </h4>
+              </Grid>
+            </Grid> */}
+            {/* <Grid container>
+              <Grid item xs>
+                <Link href="/loginwithOtp" variant="body2">
+                  Login With OTP
+                </Link>
+              </Grid>
+            </Grid> */}
           </Box>
         </Box>
       </Container>

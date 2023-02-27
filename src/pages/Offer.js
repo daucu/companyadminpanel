@@ -540,10 +540,10 @@ export default function Offer() {
                           {item.createdAt}
                         </TableCell>
                         <TableCell align="left" sx={{}} style={{}}>
-                          {item.offerPrice}
+                          {item.offerPrice ? item.offerPrice : "N/A"}
                         </TableCell>
                         <TableCell align="left" sx={{}} style={{}}>
-                          {item.currency}
+                          {item.currency ? item.currency : "N/A"}
                         </TableCell>
                         <TableCell align="left" sx={{}} style={{}}>
                           <Button

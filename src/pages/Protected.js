@@ -40,10 +40,9 @@ function Protected({ Component }) {
         },
       })
       .then((res) => {
-        console.log(res.data);
         console.log(res.data.length);
 
-        setVerified(res.data);
+        setVerified(res.data[0].status);
         if (res.data.length === 0) {
           navigate("/company_reg");
         }
@@ -59,7 +58,25 @@ function Protected({ Component }) {
 
   return (
     <div>
-      <Component />
+      {verified == "active" ? (
+        <Component />
+      ) : (
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="text-center">
+                <h1>Verification</h1>
+                <h3>
+                  Your account is not verified yet. Please verify your account
+                </h3>
+                <div>
+                  <img src={verify} alt="verify" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

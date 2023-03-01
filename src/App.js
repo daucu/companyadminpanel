@@ -66,6 +66,7 @@ import Bid from "./pages/Bid";
 import AddBid from "./pages/AddBid";
 import New_Drawer from "./components/New_Drawer";
 import LoginWithOtp from "./pages/LoginWithOtp";
+import Add_jobs from "./pages/Add_jobs";
 
 //Axios allow auth
 axios.defaults.withCredentials = true;
@@ -298,6 +299,10 @@ function App() {
               <Route
                 path="complaints"
                 element={<Protected Component={Complaints} />}
+              />
+              <Route
+                path="add_jobs"
+                element={<Protected Component={Add_jobs} />}
               />
 
               {/* 404 page */}

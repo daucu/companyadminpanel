@@ -16,6 +16,10 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import QrCodeIcon from '@mui/icons-material/QrCode';
+import QRCode from "react-qr-code";
+
+
 
 import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
@@ -72,6 +76,12 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label:  localStorage.getItem("language") === "arabic" ? "أجراءات" : "Actions",
+  },
+  {
+    id: "5",
+    numeric: false,
+    disablePadding: false,
+    label:  localStorage.getItem("language") === "arabic" ? "أجراءات" : "QrCode",
   },
 ];
 
@@ -244,6 +254,7 @@ export default function Contract() {
   const [contracts, setContracts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [prodLoading, setProdLoading] = React.useState(false);
+  const [ishovering, setIshovering]= useState("");
 
   const getAllContracts = async () => {
     setProdLoading(true);
@@ -400,6 +411,7 @@ export default function Contract() {
                                   textOverflow: "ellipsis",
                                   cursor: "pointer",
                                 }}
+                             
                               >
                                 {contract.title}
                               </Typography>
@@ -419,7 +431,8 @@ export default function Contract() {
                             >
                               {contract.return_terms}
                             </TableCell>
-                            <TableCell align="left" sx={{}}>
+                            <TableCell align="left" sx={{}}
+                            >
                               {contract.createdAt}
                             </TableCell>
                             <TableCell
@@ -449,8 +462,24 @@ export default function Contract() {
                                   deleteContract(contract.id);
                                 }}
                               >
+
                                 <DeleteIcon />
                               </IconButton>
+                            </TableCell>
+                            
+                            <TableCell align="center">
+                              <a href="" onMouseOver={()=>setIshovering(contract.id)} onMouseOut={()=>setIshovering("")} style={{position:"relative"}}>
+                              <QrCodeIcon/>
+                              </a>
+                              {ishovering === contract.id ? (
+                                  <div style={{ width: "150px", height: "150px", marginTop: "50px", zIndex: "60", position: "absolute"}}>
+                                  <QRCode
+                                    size={256}
+                                    value="hello world"
+                                    style={{ height: "100px", width: "100px"}} />
+                                </div> 
+                                ) : null}
+                              
                             </TableCell>
                           </TableRow>
                         </>

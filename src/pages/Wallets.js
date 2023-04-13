@@ -7,12 +7,35 @@ import {
   TextField,
   Toolbar,
 } from "@mui/material";
+import axios from "axios";
 import React from "react";
 // what should i import to convet text to arabic?
 import { useTranslation } from "react-i18next";
 
 function Wallets() {
   const { t } = useTranslation();
+
+  const deposit_money =()=>{
+    
+    var postData = {
+      ivp_method: "create",
+      ivp_currency: "INR",
+      ivp_amount: "1.00",
+      ivp_test: "1",
+      ivp_authkey: "rz9N-G7Tgs^n42PG",
+      ivp_store: "28142",
+      return_auth:"https://www.google.com/",
+      return_decl:"https://www.google.com/",
+      return_can:"https://www.google.com/"
+  };
+
+    axios.post("https://secure.telr.com/gateway/order.json",postData)
+    .then((res)=>{
+      console.log(res);
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
 
   return (
     <div
@@ -94,18 +117,42 @@ function Wallets() {
           </div>
         </div>
       </div>
-      <div>
-        <Button
-          variant="contained"
-          size="small"
-          color="success"
-          sx={{
-            boxShadow: 0,
-            marginTop: "50px",
-          }}
-        >
-          Withdraw money
-        </Button>
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div ></div>
+        <div style={{ display: "flex", justifyContent:"space-between", width:"350px" }}> 
+          <div >
+            <Button
+              variant="contained"
+              size="small"
+              color="success"
+              sx={{
+                boxShadow: 0,
+                marginTop: "50px",
+              }}
+              style={{padding:"10px 20px"}}
+            >
+              Withdraw money
+            </Button>
+          </div>
+          <div >
+            <Button
+              variant="contained"
+              size="small"
+              color="success"
+              onClick={deposit_money}
+              sx={{
+                boxShadow: 0,
+                marginTop: "50px",
+              }}
+              style={{padding:"10px 20px"}}
+              
+            >
+              Deposit money
+            </Button>
+          </div>
+        </div>
+
+
       </div>
     </div>
   );

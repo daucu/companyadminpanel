@@ -15,7 +15,7 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
-
+import QrCodeIcon from '@mui/icons-material/QrCode';
 import Tooltip from "@mui/material/Tooltip";
 import { visuallyHidden } from "@mui/utils";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -26,6 +26,7 @@ import Snackbar from "@mui/material/Snackbar";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import AppBar from "@mui/material/AppBar";
 import AddIcon from "@mui/icons-material/Add";
+import QRCode from "react-qr-code";
 import {
   Dialog,
   Divider,
@@ -38,6 +39,7 @@ import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTo
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 // import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { Stack } from "@mui/system";
+import { useState } from "react";
 const headCells = [
   {
     id: "name",
@@ -68,6 +70,13 @@ const headCells = [
     label:
       localStorage.getItem("language") === "arabic" ? "العمليات" : "Actions",
   },
+  {
+    id: "QrCode",
+    numeric: false,
+    disablePadding: false,
+    label:
+      localStorage.getItem("language") === "arabic" ? "نشرت في": "QrCode",
+  }
 ];
 
 function EnhancedTableHead(props) {
@@ -235,6 +244,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function Tags() {
+  const [ishovering, setHovering] = useState(false);
   const navigate = useNavigate();
   // Alert
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -300,7 +310,8 @@ export default function Tags() {
           >
             <EnhancedTableHead />
             <TableBody>
-              <TableRow
+                
+                 <TableRow
                 hover
                 role="checkbox"
                 tabIndex={-1}
@@ -345,7 +356,25 @@ export default function Tags() {
                 <TableCell align="left" sx={{}} style={{}}>
                   <Stack direction={"row"} sx={{ columnGap: "10px" }}></Stack>
                 </TableCell>
+
+             
+                <TableCell>
+                  <a href="" onMouseOver={()=>setHovering(true)} onMouseOut={()=>setHovering(false)} style={{position:"relative"}}>
+                   <QrCodeIcon/> 
+                  </a>
+                  {ishovering ? (
+                                        <div style={{ width: "150px", height: "150px", marginTop: "50px", zIndex: "60", position: "absolute"}}>
+                                          <QRCode
+                                            size={256}
+                                            value="hello world"
+                                            style={{ height: "100px", width: "100px"}} />
+                                        </div>
+                                      ) : null}
+                </TableCell> 
+               
               </TableRow>
+             
+             
             </TableBody>
           </Table>
         </TableContainer>

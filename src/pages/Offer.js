@@ -46,6 +46,9 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import QRCode from "react-qr-code";
+import QrCodeIcon from '@mui/icons-material/QrCode';
+
 const headCells = [
   {
     id: "name",
@@ -87,6 +90,13 @@ const headCells = [
     disablePadding: false,
     label:
       localStorage.getItem("language") === "arabic" ? "العمليات" : "Actions",
+  },
+  {
+    id: "7",
+    numeric: false,
+    disablePadding: false,
+    label:
+      localStorage.getItem("language") === "arabic" ? "العمليات" : "QrCode",
   },
 ];
 const style = {
@@ -266,6 +276,7 @@ EnhancedTableToolbar.propTypes = {
 
 export default function Offer() {
   const navigate = useNavigate();
+  const [ishovering, setIshovering]= useState()
 
   // Alert
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -553,6 +564,20 @@ export default function Offer() {
                             <EditIcon />
                           </Button>
                         </TableCell>
+                        <TableCell >
+                              <a href="" onMouseOver={()=>setIshovering(item.id)} onMouseOut={()=>setIshovering("")} style={{position:"relative"}}>
+                              <QrCodeIcon/>
+                              </a>
+                              {ishovering === item.id ? (
+                                  <div style={{ width: "150px", height: "150px", marginTop: "50px", zIndex: "60", position: "absolute"}}>
+                                  <QRCode
+                                    size={256}
+                                    value="hello world"
+                                    style={{ height: "100px", width: "100px"}} />
+                                </div> 
+                                ) : null}
+                              
+                            </TableCell>
                       </TableRow>
                     </>
                   );

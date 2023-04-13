@@ -30,6 +30,9 @@ import LinearProgress from "@mui/material/LinearProgress";
 import AppBar from "@mui/material/AppBar";
 import AddIcon from "@mui/icons-material/Add";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
+import QRCode from "react-qr-code";
+import QrCodeIcon from '@mui/icons-material/QrCode';
+
 import {
   Alert,
   Button,
@@ -113,6 +116,13 @@ const headCells = [
     disablePadding: false,
     label:
       localStorage.getItem("language") === "arabic" ? "العمليات" : "Actions",
+  },
+  {
+    id: "QRCode",
+    numeric: false,
+    disablePadding: false,
+    label:
+      localStorage.getItem("language") === "arabic" ? "العمليات" : "QRCode",
   },
 ];
 
@@ -260,6 +270,7 @@ export default function Auctions() {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState("");
+  const [ishovering, setHovering] = useState("");
 
   const navigate = useNavigate();
 
@@ -579,6 +590,19 @@ export default function Auctions() {
                                       </>
                                     )}
                                   </Stack>
+                                </TableCell>
+                                <TableCell>
+                                  <a href="" onMouseOver={() => setHovering(row.id)} onMouseOut={() => setHovering("")} style={{ position: "relative" }}>
+                                    <QrCodeIcon />
+                                  </a>
+                                  {ishovering == row.id ? (
+                                    <div style={{ width: "150px", height: "150px", marginTop: "50px", zIndex: "60", position: "absolute" }}>
+                                      <QRCode
+                                        size={256}
+                                        value="hello world"
+                                        style={{ height: "100px", width: "100px" }} />
+                                    </div>
+                                  ) : null}
                                 </TableCell>
                               </TableRow>
                             );

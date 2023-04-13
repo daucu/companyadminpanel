@@ -26,6 +26,8 @@ import Snackbar from "@mui/material/Snackbar";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import AppBar from "@mui/material/AppBar";
 import AddIcon from "@mui/icons-material/Add";
+import QRCode from "react-qr-code";
+import QrCodeIcon from '@mui/icons-material/QrCode';
 import {
   Dialog,
   Divider,
@@ -60,6 +62,12 @@ const headCells = [
     numeric: false,
     disablePadding: false,
     label: localStorage.getItem("language") === "arabic" ? "التاريخ" : "Date",
+  },
+  {
+    id: "4",
+    numeric: false,
+    disablePadding: false,
+    label: localStorage.getItem("language") === "arabic" ? "التاريخ" : "QrCode",
   },
   // {
   //   id: "4",
@@ -229,6 +237,7 @@ EnhancedTableToolbar.propTypes = {
 
 export default function Complaints() {
   const navigate = useNavigate();
+  const [ishovering, setIshovering] = useState("");
   // Alert
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -364,6 +373,20 @@ export default function Complaints() {
                             sx={{ columnGap: "10px" }}
                           ></Stack>
                         </TableCell> */}
+                            <TableCell >
+                              <a href="" onMouseOver={()=>setIshovering(item.id)} onMouseOut={()=>setIshovering("")} style={{position:"relative"}}>
+                              <QrCodeIcon/>
+                              </a>
+                              {ishovering === item.id ? (
+                                  <div style={{ width: "150px", height: "150px", marginTop: "50px", zIndex: "60", position: "absolute"}}>
+                                  <QRCode
+                                    size={256}
+                                    value="hello world"
+                                    style={{ height: "100px", width: "100px"}} />
+                                </div> 
+                                ) : null}
+                              
+                            </TableCell>
                       </TableRow>
                     </>
                   );

@@ -41,6 +41,8 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { Stack } from "@mui/system";
 import axios from "axios";
 import { toast } from "react-toastify";
+import QRCode from "react-qr-code";
+import QrCodeIcon from '@mui/icons-material/QrCode';
 const headCells = [
   {
     id: "Title",
@@ -74,6 +76,13 @@ const headCells = [
     disablePadding: false,
     label:
       localStorage.getItem("language") === "arabic" ? "العمليات" : "Actions",
+  },
+  {
+    id: "QrCode",
+    numeric: false,
+    disablePadding: false,
+    label:
+      localStorage.getItem("language") === "arabic" ? "العمليات" : "QrCode",
   },
 ];
 
@@ -243,6 +252,7 @@ EnhancedTableToolbar.propTypes = {
 
 export default function Jobs() {
   const navigate = useNavigate();
+  const [ishovering, setIshovering] = React.useState("");
   // Alert
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -436,6 +446,20 @@ export default function Jobs() {
                             <DeleteIcon />
                           </IconButton>
                         </TableCell>
+                        <TableCell >
+                              <a href="" onMouseOver={()=>setIshovering(data.id)} onMouseOut={()=>setIshovering("")} style={{position:"relative"}}>
+                              <QrCodeIcon/>
+                              </a>
+                              {ishovering === data.id ? (
+                                  <div style={{ width: "150px", height: "150px", marginTop: "50px", zIndex: "60", position: "absolute"}}>
+                                  <QRCode
+                                    size={256}
+                                    value="hello world"
+                                    style={{ height: "100px", width: "100px"}} />
+                                </div> 
+                                ) : null}
+                              
+                            </TableCell>
                       </TableRow>
                     </>
                   );

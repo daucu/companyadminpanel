@@ -29,6 +29,7 @@ import MuiAlert from "@mui/material/Alert";
 import LinearProgress from "@mui/material/LinearProgress";
 import AppBar from "@mui/material/AppBar";
 import AddIcon from "@mui/icons-material/Add";
+import QrCodeIcon from '@mui/icons-material/QrCode';
 import {
   Alert,
   Button,
@@ -39,6 +40,8 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import QRCode from "react-qr-code";
+
 // import Loading from "../components/Loading";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -93,20 +96,25 @@ const headCells = [
     id: "ifsc",
     numeric: false,
     disablePadding: false,
-    label:  localStorage.getItem("language") === "arabic" ? "كود IFSC" : "IFSC",
+    label: localStorage.getItem("language") === "arabic" ? "كود IFSC" : "IFSC",
   },
   {
     id: "address",
     numeric: false,
     disablePadding: false,
-    label:  localStorage.getItem("language") === "arabic" ? "العنوان" : "Address",
+    label: localStorage.getItem("language") === "arabic" ? "العنوان" : "Address",
   },
   {
     id: "delete",
     numeric: false,
     disablePadding: false,
-    label:  localStorage.getItem("language") === "arabic" ? "حذف" : "Delete",
+    label: localStorage.getItem("language") === "arabic" ? "حذف" : "Delete",
   },
+  {
+    id: "QrCode",
+    label: localStorage.getItem("language") === "arabic" ? "رمز QR" : "QrCode",
+
+  }
   // {
   //   id: "Actions",
   //   numeric: false,
@@ -144,6 +152,7 @@ function EnhancedTableHead(props) {
           />
         </TableCell>
         {headCells.map((headCell) => (
+
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
@@ -361,7 +370,7 @@ export default function Bankaccounts() {
     }
     setErrorOpen(false);
   };
-
+ 
   const action = (
     <React.Fragment>
       <IconButton
@@ -375,195 +384,231 @@ export default function Bankaccounts() {
     </React.Fragment>
   );
 
+  const [ishovering, setIshovering] = useState("");
+
+  // const handleMouseHover = () => {
+  //   setIshovering(true);
+  // };
+  // const handleMouseOut = () => {
+  //   setIshovering(false);
+  // };
+
+
   return (
-    <Box
-      sx={{
-        flexGrow: 1,
-        marginTop: 3,
-        direction:
-          localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
-      }}
-    >
-      <AppBar position="static">
-        <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2, ml: 3 }}
-            onClick={() => navigate("/admin/addbank")}
-          >
-            <AddIcon />
-          </IconButton>
-          <Typography variant="h6" color="inherit" component="div">
-            {localStorage.getItem("language") === "arabic"
-              ? "حسابات بنكية"
-              : "Bank Accounts"}
-          </Typography>
-          <Divider sx={{ flexGrow: 1 }} />
-        </Toolbar>
-      </AppBar>
-
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        resumeHideDuration={3000}
-        action={action}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        onClose={handleClose}
+    <>
+      {/* <div style={{ width: "200px", height: "200px", marginTop: "50px" }}>
+        <QRCode
+          size={256}
+          value="hello world"
+          style={{ height: "100px", width: "100px" }} />
+      </div> */}
+      <Box
+        sx={{
+          flexGrow: 1,
+          marginTop: 3,
+          direction:
+            localStorage.getItem("language") === "arabic" ? "rtl" : "ltr",
+        }}
       >
-        <Alert onClose={handleClose} severity={status} sx={{ width: "100%" }}>
-          {server_alert}
-        </Alert>
-      </Snackbar>
+        <AppBar position="static">
+          <Toolbar variant="dense" sx={{ background: "#333", color: "#fff" }}>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2, ml: 3 }}
+              onClick={() => navigate("/admin/addbank")}
+            >
+              <AddIcon />
+            </IconButton>
+            <Typography variant="h6" color="inherit" component="div">
+              {localStorage.getItem("language") === "arabic"
+                ? "حسابات بنكية"
+                : "Bank Accounts"}
+            </Typography>
+            <Divider sx={{ flexGrow: 1 }} />
+          </Toolbar>
+        </AppBar>
 
-      <Grid container spacing={1}>
-        {/* StartSubmit Form */}
+        <Snackbar
+          open={open}
+          autoHideDuration={3000}
+          resumeHideDuration={3000}
+          action={action}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          onClose={handleClose}
+        >
+          <Alert onClose={handleClose} severity={status} sx={{ width: "100%" }}>
+            {server_alert}
+          </Alert>
+        </Snackbar>
 
-        {/* End Submit form */}
-        {/* Start Table of Post */}
-        <Grid item xs>
-          <Paper sx={{ boxShadow: 0, borderRadius: 1 }}>
-            {prodLoading === true ? (
-              <Grid
-                container
-                spacing={2}
-                sx={{
-                  width: "100%",
-                  height: "100%",
-                  marginTop: 0,
-                  paddingBottom: 4,
-                  paddingTop: 2,
-                  paddingLeft: 2,
-                  paddingRight: 2,
-                }}
-              >
-                <Grid item xs={12}>
-                  <LinearProgress />
-                </Grid>
-              </Grid>
-            ) : (
-              <Item sx={{ boxShadow: 0, borderRadius: 1 }}>
-                <Paper
+        <Grid container spacing={1}>
+          {/* StartSubmit Form */}
+
+          {/* End Submit form */}
+          {/* Start Table of Post */}
+          <Grid item xs>
+            <Paper sx={{ boxShadow: 0, borderRadius: 1 }}>
+              {prodLoading === true ? (
+                <Grid
+                  container
+                  spacing={2}
                   sx={{
                     width: "100%",
-                    mb: 2,
-                    boxShadow: 0,
-                    overflow: "scroll",
+                    height: "100%",
+                    marginTop: 0,
+                    paddingBottom: 4,
+                    paddingTop: 2,
+                    paddingLeft: 2,
+                    paddingRight: 2,
                   }}
                 >
-                  <EnhancedTableToolbar />
-                  <TableContainer>
-                    <Table
-                      sx={{ minWidth: 750 }}
-                      aria-labelledby="tableTitle"
-                      size="small"
-                    >
-                      <EnhancedTableHead />
-                      <TableBody>
-                        {allBankAccount &&
-                          allBankAccount.map((item) => {
-                            return (
-                              <>
-                                <TableRow
-                                  hover
-                                  role="checkbox"
-                                  tabIndex={-1}
-                                  sx={{ color: "#fff" }}
-                                >
-                                  <TableCell padding="checkbox">
-                                    <Checkbox color="primary" />
-                                  </TableCell>
+                  <Grid item xs={12}>
+                    <LinearProgress />
+                  </Grid>
+                </Grid>
+              ) : (
+                <Item sx={{ boxShadow: 0, borderRadius: 1 }}>
+                  <Paper
+                    sx={{
+                      width: "100%",
+                      mb: 2,
+                      boxShadow: 0,
+                      overflow: "scroll",
+                    }}
+                  >
+                    <EnhancedTableToolbar />
+                    <TableContainer>
+                      <Table
+                        sx={{ minWidth: 750 }}
+                        aria-labelledby="tableTitle"
+                        size="small"
+                      >
+                        <EnhancedTableHead />
+                        <TableBody>
+                          {allBankAccount &&
+                            allBankAccount.map((item) => {
+                              return (
+                                <>
+                                  <TableRow
+                                    hover
+                                    role="checkbox"
+                                    tabIndex={-1}
+                                    sx={{ color: "#fff" }}
+                                  >
+                                    <TableCell padding="checkbox">
+                                      <Checkbox color="primary" />
+                                    </TableCell>
 
-                                  <TableCell scope="row" padding="none">
-                                    <Typography
-                                      size="small"
+                                    <TableCell scope="row" padding="none">
+                                      <Typography
+                                        size="small"
+                                        sx={{
+                                          overflow: "hidden",
+                                          whiteSpace: "nowrap",
+                                          maxWidth: "20ch",
+                                          textOverflow: "ellipsis",
+                                          cursor: "pointer",
+                                        }}
+                                      >
+                                        {item.bank_name}
+                                      </Typography>
+                                    </TableCell>
+
+                                    <TableCell
+                                      component="th"
+                                      scope="row"
+                                      padding="none"
                                       sx={{
                                         overflow: "hidden",
                                         whiteSpace: "nowrap",
                                         maxWidth: "20ch",
+                                        minWidth: "15ch",
                                         textOverflow: "ellipsis",
-                                        cursor: "pointer",
                                       }}
                                     >
-                                      {item.bank_name}
-                                    </Typography>
-                                  </TableCell>
-
-                                  <TableCell
-                                    component="th"
-                                    scope="row"
-                                    padding="none"
-                                    sx={{
-                                      overflow: "hidden",
-                                      whiteSpace: "nowrap",
-                                      maxWidth: "20ch",
-                                      minWidth: "15ch",
-                                      textOverflow: "ellipsis",
-                                    }}
-                                  >
-                                    {item.ifsc_code}
-                                  </TableCell>
-                                  <TableCell align="left" sx={{}}>
-                                    {item.address}
-                                  </TableCell>
-                                  <TableCell
-                                    align="left"
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                    }}
-                                  >
-                                    <IconButton
-                                      aria-label="delete"
-                                      size="small"
-                                      onClick={() => deleteBankAccount(item.id)}
+                                      {item.ifsc_code}
+                                    </TableCell>
+                                    <TableCell align="left" sx={{}}>
+                                      {item.address}
+                                    </TableCell>
+                                    <TableCell
+                                      align="left"
+                                    // style={{
+                                    //   display: "flex",
+                                    //   justifyContent: "center",
+                                    //   alignItems: "center",
+                                    // }}
                                     >
-                                      <DeleteIcon />
-                                    </IconButton>
-                                  </TableCell>
-                                </TableRow>
-                              </>
-                            );
-                          })}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={100}
-                    rowsPerPage={5}
-                    page={0}
-                    onPageChange={() => {}}
-                  />
-                  {errorOpen === true ? (
-                    <Snackbar
-                      open={handleDeleteOpen}
-                      autoHideDuration={1000}
-                      position="bottom-right"
-                      variant="filled"
-                      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                      onClose={handleDeleteClose}
-                    >
-                      <Alert
-                        onClose={handleDeleteClose}
-                        severity="success"
+                                      <IconButton
+                                        aria-label="delete"
+                                        size="small"
+                                        onClick={() => deleteBankAccount(item.id)}
+                                      >
+                                        <DeleteIcon />
+                                      </IconButton>
+                                    </TableCell>
+
+                                    <TableCell
+                                      align="left">
+                                      <a href="" onMouseOver={()=>setIshovering(item.id)} onMouseOut={()=>setIshovering("")} style={{position:"relative"}} >
+                                      <QrCodeIcon/>
+                                      </a>
+                                      {ishovering === item.id ? (
+                                        <div style={{ width: "200px", height: "200px", marginTop: "50px", zIndex: "60", position: "absolute"}}>
+                                          <QRCode
+                                            size={256}
+                                            value="hello world"
+                                            style={{ height: "100px", width: "100px"}} />
+                                        </div>
+                                      ) : null}
+                                    </TableCell>
+
+                                
+                                  </TableRow>
+                                  
+                                </>
+                              );
+                            })}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10, 25]}
+                      component="div"
+                      count={100}
+                      rowsPerPage={5}
+                      page={0}
+                      onPageChange={() => { }}
+                    />
+                    {errorOpen === true ? (
+                      <Snackbar
+                        open={handleDeleteOpen}
+                        autoHideDuration={1000}
+                        position="bottom-right"
                         variant="filled"
-                        sx={{ width: "100%" }}
+                        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                        onClose={handleDeleteClose}
                       >
-                        Bank Account Deleted Successfully
-                      </Alert>
-                    </Snackbar>
-                  ) : null}
-                </Paper>
-              </Item>
-            )}
-          </Paper>
-          {/* End Table */}
+                        <Alert
+                          onClose={handleDeleteClose}
+                          severity="success"
+                          variant="filled"
+                          sx={{ width: "100%" }}
+                        >
+                          Bank Account Deleted Successfully
+                        </Alert>
+                      </Snackbar>
+                    ) : null}
+                  </Paper>
+                </Item>
+              )}
+            </Paper>
+            {/* End Table */}
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </>
   );
 }

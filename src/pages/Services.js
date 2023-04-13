@@ -29,6 +29,7 @@ import AppBar from "@mui/material/AppBar";
 import AddIcon from "@mui/icons-material/Add";
 import { Divider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import QRCode from "react-qr-code";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -231,6 +232,7 @@ export default function Services() {
   const [rows, setCategories] = React.useState([]);
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
 
   //Get all categories
